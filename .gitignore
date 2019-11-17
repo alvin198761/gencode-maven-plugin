@@ -61,3 +61,6 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+*.iml
+gencode-maven-plugin/.idea
+test-maven-plugin/.idea
