@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.alvin.test.bill.BillDao" >
+
+	<!--结果集映射-->
+  <resultMap id="BaseResultMap" type="org.alvin.test.bill.Bill" >
+       <id column="id" property="id" jdbcType="BIGINT" />
+	    <id column="bus_id" property="busId" jdbcType="BIGINT" />
+	    <id column="bank" property="bank" jdbcType="VARCHAR" />
+	    <id column="account" property="account" jdbcType="VARCHAR" />
+	    <id column="taxpayer_no" property="taxpayerNo" jdbcType="VARCHAR" />
+	    <id column="remark" property="remark" jdbcType="VARCHAR" />
+	    <id column="bus_type" property="busType" jdbcType="TINYINT" />
+	  </resultMap>
+  
+   <!--保存对象,并生产主键-->
+  <insert id="save" parameterType="org.alvin.test.bill.Bill" useGeneratedKeys="true" keyProperty="id">
+        insert into `bill`
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+         		 				 			<if test="busId != null">
+                 `bus_id`,
+            </if>
+						 			<if test="bank != null">
+                 `bank`,
+            </if>
+						 			<if test="account != null">
+                 `account`,
+            </if>
+						 			<if test="taxpayerNo != null">
+                 `taxpayer_no`,
+            </if>
+						 			<if test="remark != null">
+                 `remark`,
+            </if>
+						 			<if test="busType != null">
+                 `bus_type`,
+            </if>
+				        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+							 						<if test="busId != null">
+                 #{busId,jdbcType=BIGINT},
+            </if>
+					 						<if test="bank != null">
+                 #{bank,jdbcType=VARCHAR},
+            </if>
+					 						<if test="account != null">
+                 #{account,jdbcType=VARCHAR},
+            </if>
+					 						<if test="taxpayerNo != null">
+                 #{taxpayerNo,jdbcType=VARCHAR},
+            </if>
+					 						<if test="remark != null">
+                 #{remark,jdbcType=VARCHAR},
+            </if>
+					 						<if test="busType != null">
+                 #{busType,jdbcType=TINYINT},
+            </if>
+					         </trim>
+    </insert>
+	
+	 <!--保存对象,并生产主键-->
+	<insert id="insertBatch" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="id">
+        insert into `bill`
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            			  		  			  				`bus_id`,    
+			 		  			  				`bank`,    
+			 		  			  				`account`,    
+			 		  			  				`taxpayer_no`,    
+			 		  			  				`remark`,    
+			 		  			  				`bus_type`,    
+			 		          </trim>
+        <trim prefix="values " suffixOverrides=",">
+            <foreach collection="list" item="item" index="index" separator=",">
+                <trim prefix="(" suffix=")" suffixOverrides=",">
+                 									 										 #{item.busId,jdbcType=BIGINT},
+									 										 #{item.bank,jdbcType=VARCHAR},
+									 										 #{item.account,jdbcType=VARCHAR},
+									 										 #{item.taxpayerNo,jdbcType=VARCHAR},
+									 										 #{item.remark,jdbcType=VARCHAR},
+									 										 #{item.busType,jdbcType=TINYINT},
+									                 </trim>
+            </foreach>
+        </trim>
+    </insert>
+  
+  <!--根据id列表删除对象-->
+   <delete id="delete" parameterType="Long[]">
+    delete from `bill`
+    where `id` in 
+	<foreach collection="array" index="index" item="item" open="(" separator="," close=")">
+     #{item}
+    </foreach>
+  </delete>
+   <!--逻辑删除-->
+	  <update id="deleteLogic" parameterType="Long[]">
+			update `bill`
+			<set>
+			 `status` = -1  
+			</set>
+			where `id` in 
+			<foreach collection="array" index="index" item="item" open="(" separator="," close=")">
+					#{item}
+			</foreach>
+		</update>
+  <!--根据id修改数据,不判断空-->
+   <update id="update" parameterType="org.alvin.test.bill.Bill">
+        update `bill`
+        <set>
+		<trim   suffixOverrides=",">
+		 			`id` = #{id,jdbcType=BIGINT},
+					`bus_id` = #{busId,jdbcType=BIGINT},
+					`bank` = #{bank,jdbcType=VARCHAR},
+					`account` = #{account,jdbcType=VARCHAR},
+					`taxpayer_no` = #{taxpayerNo,jdbcType=VARCHAR},
+					`remark` = #{remark,jdbcType=VARCHAR},
+					`bus_type` = #{busType,jdbcType=TINYINT},
+				 </trim>
+        </set>
+        where `id` = #{id,jdbcType=BIGINT} 
+    </update>
+	<!--根据id修改数据,判断空-->
+	<update id="updateNotNull" parameterType="org.alvin.test.bill.Bill">
+        update `bill`
+        <set> 
+		<trim   suffixOverrides=",">
+		 		
+			 <if test="id != null">
+                `id` = #{id,jdbcType=BIGINT},
+            </if>	
+		 		
+			 <if test="busId != null">
+                `bus_id` = #{busId,jdbcType=BIGINT},
+            </if>	
+		 		
+			 <if test="bank != null">
+                `bank` = #{bank,jdbcType=VARCHAR},
+            </if>	
+		 		
+			 <if test="account != null">
+                `account` = #{account,jdbcType=VARCHAR},
+            </if>	
+		 		
+			 <if test="taxpayerNo != null">
+                `taxpayer_no` = #{taxpayerNo,jdbcType=VARCHAR},
+            </if>	
+		 		
+			 <if test="remark != null">
+                `remark` = #{remark,jdbcType=VARCHAR},
+            </if>	
+		 		
+			 <if test="busType != null">
+                `bus_type` = #{busType,jdbcType=TINYINT},
+            </if>	
+		 	 </trim>
+        </set>
+        where `id` = #{id,jdbcType=BIGINT} 
+    </update>
+ 
+<!--基础字段查询-->
+  <sql id="Base_Column_List" >
+     <trim   suffixOverrides=",">
+	 	 t.`id`,
+	 	 t.`bus_id`,
+	 	 t.`bank`,
+	 	 t.`account`,
+	 	 t.`taxpayer_no`,
+	 	 t.`remark`,
+	 	 t.`bus_type`,
+	 	 </trim>
+  </sql>
+	<!--列表查询-->
+	 <select id="queryList" resultMap="BaseResultMap" parameterType="org.alvin.test.bill.BillCond">
+	   select 
+		<include refid="Base_Column_List" />
+		from `bill` as t
+		where 1=1
+		<trim   suffixOverrides=",">
+					<if test="id != null">
+									and t.`id` = #{id,jdbcType=BIGINT},
+							</if>
+		 			<if test="busId != null">
+									and t.`bus_id` = #{busId,jdbcType=BIGINT},
+							</if>
+		 			<if test="bank != null">
+									and t.`bank` like CONCAT('%',#{bank,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="account != null">
+									and t.`account` like CONCAT('%',#{account,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="taxpayerNo != null">
+									and t.`taxpayer_no` like CONCAT('%',#{taxpayerNo,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="remark != null">
+									and t.`remark` like CONCAT('%',#{remark,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="busType != null">
+									and t.`bus_type` = #{busType,jdbcType=TINYINT},
+							</if>
+		 		 </trim>
+		 order by t.`id` desc
+    </select>
+	<!--单个查询-->
+	<select id="findOne" resultMap="BaseResultMap" parameterType="org.alvin.test.bill.BillCond">
+	   select 
+		<include refid="Base_Column_List" />
+		from `bill` as t
+		where 1=1
+		<trim   suffixOverrides=",">
+					<if test="id != null">
+									and t.`id` = #{id,jdbcType=BIGINT},
+							</if>
+		 			<if test="busId != null">
+									and t.`bus_id` = #{busId,jdbcType=BIGINT},
+							</if>
+		 			<if test="bank != null">
+									and t.`bank` like CONCAT('%',#{bank,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="account != null">
+									and t.`account` like CONCAT('%',#{account,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="taxpayerNo != null">
+									and t.`taxpayer_no` like CONCAT('%',#{taxpayerNo,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="remark != null">
+									and t.`remark` like CONCAT('%',#{remark,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="busType != null">
+									and t.`bus_type` = #{busType,jdbcType=TINYINT},
+							</if>
+		 		 </trim>
+		 order by t.`id` desc LIMIT 0,1
+    </select>
+	<!--根据主键查询-->
+	<select id="findById" resultMap="BaseResultMap" parameterType="org.alvin.test.bill.BillCond">
+	   select 
+		<include refid="Base_Column_List" />
+		from `bill` as t
+		where t.`id` =  #{id,jdbcType=BIGINT} 
+    </select>
+	<!--查询返回数量-->
+	<select id="queryCount" resultType="java.lang.Long" parameterType="org.alvin.test.bill.BillCond">
+	   select count(t.`id`)
+		from `bill` as t
+		where 1=1
+		<trim   suffixOverrides=",">
+					<if test="id != null">
+									and t.`id` = #{id,jdbcType=BIGINT},
+							</if>
+		 			<if test="busId != null">
+									and t.`bus_id` = #{busId,jdbcType=BIGINT},
+							</if>
+		 			<if test="bank != null">
+									and t.`bank` like CONCAT('%',#{bank,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="account != null">
+									and t.`account` like CONCAT('%',#{account,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="taxpayerNo != null">
+									and t.`taxpayer_no` like CONCAT('%',#{taxpayerNo,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="remark != null">
+									and t.`remark` like CONCAT('%',#{remark,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="busType != null">
+									and t.`bus_type` = #{busType,jdbcType=TINYINT},
+							</if>
+		 		 </trim>
+    </select>
+ </mapper>

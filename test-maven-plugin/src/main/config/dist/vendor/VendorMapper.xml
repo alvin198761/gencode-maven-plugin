@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.alvin.test.vendor.VendorDao" >
+
+	<!--结果集映射-->
+  <resultMap id="BaseResultMap" type="org.alvin.test.vendor.Vendor" >
+       <id column="id" property="id" jdbcType="BIGINT" />
+	    <id column="vendor_no" property="vendorNo" jdbcType="VARCHAR" />
+	    <id column="vendor_name" property="vendorName" jdbcType="VARCHAR" />
+	    <id column="address" property="address" jdbcType="VARCHAR" />
+	    <id column="level" property="level" jdbcType="TINYINT" />
+	    <id column="remark" property="remark" jdbcType="VARCHAR" />
+	  </resultMap>
+  
+   <!--保存对象,并生产主键-->
+  <insert id="save" parameterType="org.alvin.test.vendor.Vendor" useGeneratedKeys="true" keyProperty="id">
+        insert into `vendor`
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+         		 				 			<if test="vendorNo != null">
+                 `vendor_no`,
+            </if>
+						 			<if test="vendorName != null">
+                 `vendor_name`,
+            </if>
+						 			<if test="address != null">
+                 `address`,
+            </if>
+						 			<if test="level != null">
+                 `level`,
+            </if>
+						 			<if test="remark != null">
+                 `remark`,
+            </if>
+				        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+							 						<if test="vendorNo != null">
+                 #{vendorNo,jdbcType=VARCHAR},
+            </if>
+					 						<if test="vendorName != null">
+                 #{vendorName,jdbcType=VARCHAR},
+            </if>
+					 						<if test="address != null">
+                 #{address,jdbcType=VARCHAR},
+            </if>
+					 						<if test="level != null">
+                 #{level,jdbcType=TINYINT},
+            </if>
+					 						<if test="remark != null">
+                 #{remark,jdbcType=VARCHAR},
+            </if>
+					         </trim>
+    </insert>
+	
+	 <!--保存对象,并生产主键-->
+	<insert id="insertBatch" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="id">
+        insert into `vendor`
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            			  		  			  				`vendor_no`,    
+			 		  			  				`vendor_name`,    
+			 		  			  				`address`,    
+			 		  			  				`level`,    
+			 		  			  				`remark`,    
+			 		          </trim>
+        <trim prefix="values " suffixOverrides=",">
+            <foreach collection="list" item="item" index="index" separator=",">
+                <trim prefix="(" suffix=")" suffixOverrides=",">
+                 									 										 #{item.vendorNo,jdbcType=VARCHAR},
+									 										 #{item.vendorName,jdbcType=VARCHAR},
+									 										 #{item.address,jdbcType=VARCHAR},
+									 										 #{item.level,jdbcType=TINYINT},
+									 										 #{item.remark,jdbcType=VARCHAR},
+									                 </trim>
+            </foreach>
+        </trim>
+    </insert>
+  
+  <!--根据id列表删除对象-->
+   <delete id="delete" parameterType="Long[]">
+    delete from `vendor`
+    where `id` in 
+	<foreach collection="array" index="index" item="item" open="(" separator="," close=")">
+     #{item}
+    </foreach>
+  </delete>
+   <!--逻辑删除-->
+	  <update id="deleteLogic" parameterType="Long[]">
+			update `vendor`
+			<set>
+			 `status` = -1  
+			</set>
+			where `id` in 
+			<foreach collection="array" index="index" item="item" open="(" separator="," close=")">
+					#{item}
+			</foreach>
+		</update>
+  <!--根据id修改数据,不判断空-->
+   <update id="update" parameterType="org.alvin.test.vendor.Vendor">
+        update `vendor`
+        <set>
+		<trim   suffixOverrides=",">
+		 			`id` = #{id,jdbcType=BIGINT},
+					`vendor_no` = #{vendorNo,jdbcType=VARCHAR},
+					`vendor_name` = #{vendorName,jdbcType=VARCHAR},
+					`address` = #{address,jdbcType=VARCHAR},
+					`level` = #{level,jdbcType=TINYINT},
+					`remark` = #{remark,jdbcType=VARCHAR},
+				 </trim>
+        </set>
+        where `id` = #{id,jdbcType=BIGINT} 
+    </update>
+	<!--根据id修改数据,判断空-->
+	<update id="updateNotNull" parameterType="org.alvin.test.vendor.Vendor">
+        update `vendor`
+        <set> 
+		<trim   suffixOverrides=",">
+		 		
+			 <if test="id != null">
+                `id` = #{id,jdbcType=BIGINT},
+            </if>	
+		 		
+			 <if test="vendorNo != null">
+                `vendor_no` = #{vendorNo,jdbcType=VARCHAR},
+            </if>	
+		 		
+			 <if test="vendorName != null">
+                `vendor_name` = #{vendorName,jdbcType=VARCHAR},
+            </if>	
+		 		
+			 <if test="address != null">
+                `address` = #{address,jdbcType=VARCHAR},
+            </if>	
+		 		
+			 <if test="level != null">
+                `level` = #{level,jdbcType=TINYINT},
+            </if>	
+		 		
+			 <if test="remark != null">
+                `remark` = #{remark,jdbcType=VARCHAR},
+            </if>	
+		 	 </trim>
+        </set>
+        where `id` = #{id,jdbcType=BIGINT} 
+    </update>
+ 
+<!--基础字段查询-->
+  <sql id="Base_Column_List" >
+     <trim   suffixOverrides=",">
+	 	 t.`id`,
+	 	 t.`vendor_no`,
+	 	 t.`vendor_name`,
+	 	 t.`address`,
+	 	 t.`level`,
+	 	 t.`remark`,
+	 	 </trim>
+  </sql>
+	<!--列表查询-->
+	 <select id="queryList" resultMap="BaseResultMap" parameterType="org.alvin.test.vendor.VendorCond">
+	   select 
+		<include refid="Base_Column_List" />
+		from `vendor` as t
+		where 1=1
+		<trim   suffixOverrides=",">
+					<if test="id != null">
+									and t.`id` = #{id,jdbcType=BIGINT},
+							</if>
+		 			<if test="vendorNo != null">
+									and t.`vendor_no` like CONCAT('%',#{vendorNo,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="vendorName != null">
+									and t.`vendor_name` like CONCAT('%',#{vendorName,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="address != null">
+									and t.`address` like CONCAT('%',#{address,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="level != null">
+									and t.`level` = #{level,jdbcType=TINYINT},
+							</if>
+		 			<if test="remark != null">
+									and t.`remark` like CONCAT('%',#{remark,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 		 </trim>
+		 order by t.`id` desc
+    </select>
+	<!--单个查询-->
+	<select id="findOne" resultMap="BaseResultMap" parameterType="org.alvin.test.vendor.VendorCond">
+	   select 
+		<include refid="Base_Column_List" />
+		from `vendor` as t
+		where 1=1
+		<trim   suffixOverrides=",">
+					<if test="id != null">
+									and t.`id` = #{id,jdbcType=BIGINT},
+							</if>
+		 			<if test="vendorNo != null">
+									and t.`vendor_no` like CONCAT('%',#{vendorNo,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="vendorName != null">
+									and t.`vendor_name` like CONCAT('%',#{vendorName,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="address != null">
+									and t.`address` like CONCAT('%',#{address,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="level != null">
+									and t.`level` = #{level,jdbcType=TINYINT},
+							</if>
+		 			<if test="remark != null">
+									and t.`remark` like CONCAT('%',#{remark,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 		 </trim>
+		 order by t.`id` desc LIMIT 0,1
+    </select>
+	<!--根据主键查询-->
+	<select id="findById" resultMap="BaseResultMap" parameterType="org.alvin.test.vendor.VendorCond">
+	   select 
+		<include refid="Base_Column_List" />
+		from `vendor` as t
+		where t.`id` =  #{id,jdbcType=BIGINT} 
+    </select>
+	<!--查询返回数量-->
+	<select id="queryCount" resultType="java.lang.Long" parameterType="org.alvin.test.vendor.VendorCond">
+	   select count(t.`id`)
+		from `vendor` as t
+		where 1=1
+		<trim   suffixOverrides=",">
+					<if test="id != null">
+									and t.`id` = #{id,jdbcType=BIGINT},
+							</if>
+		 			<if test="vendorNo != null">
+									and t.`vendor_no` like CONCAT('%',#{vendorNo,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="vendorName != null">
+									and t.`vendor_name` like CONCAT('%',#{vendorName,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="address != null">
+									and t.`address` like CONCAT('%',#{address,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="level != null">
+									and t.`level` = #{level,jdbcType=TINYINT},
+							</if>
+		 			<if test="remark != null">
+									and t.`remark` like CONCAT('%',#{remark,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 		 </trim>
+    </select>
+ </mapper>

@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.alvin.test.customer.CustomerDao" >
+
+	<!--结果集映射-->
+  <resultMap id="BaseResultMap" type="org.alvin.test.customer.Customer" >
+       <id column="id" property="id" jdbcType="BIGINT" />
+	    <id column="cus_no" property="cusNo" jdbcType="VARCHAR" />
+	    <id column="cus_name" property="cusName" jdbcType="VARCHAR" />
+	    <id column="address" property="address" jdbcType="VARCHAR" />
+	    <id column="cus_type" property="cusType" jdbcType="TINYINT" />
+	    <id column="remark" property="remark" jdbcType="VARCHAR" />
+	  </resultMap>
+  
+   <!--保存对象,并生产主键-->
+  <insert id="save" parameterType="org.alvin.test.customer.Customer" useGeneratedKeys="true" keyProperty="id">
+        insert into `customer`
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+         		 				 			<if test="cusNo != null">
+                 `cus_no`,
+            </if>
+						 			<if test="cusName != null">
+                 `cus_name`,
+            </if>
+						 			<if test="address != null">
+                 `address`,
+            </if>
+						 			<if test="cusType != null">
+                 `cus_type`,
+            </if>
+						 			<if test="remark != null">
+                 `remark`,
+            </if>
+				        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+							 						<if test="cusNo != null">
+                 #{cusNo,jdbcType=VARCHAR},
+            </if>
+					 						<if test="cusName != null">
+                 #{cusName,jdbcType=VARCHAR},
+            </if>
+					 						<if test="address != null">
+                 #{address,jdbcType=VARCHAR},
+            </if>
+					 						<if test="cusType != null">
+                 #{cusType,jdbcType=TINYINT},
+            </if>
+					 						<if test="remark != null">
+                 #{remark,jdbcType=VARCHAR},
+            </if>
+					         </trim>
+    </insert>
+	
+	 <!--保存对象,并生产主键-->
+	<insert id="insertBatch" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="id">
+        insert into `customer`
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            			  		  			  				`cus_no`,    
+			 		  			  				`cus_name`,    
+			 		  			  				`address`,    
+			 		  			  				`cus_type`,    
+			 		  			  				`remark`,    
+			 		          </trim>
+        <trim prefix="values " suffixOverrides=",">
+            <foreach collection="list" item="item" index="index" separator=",">
+                <trim prefix="(" suffix=")" suffixOverrides=",">
+                 									 										 #{item.cusNo,jdbcType=VARCHAR},
+									 										 #{item.cusName,jdbcType=VARCHAR},
+									 										 #{item.address,jdbcType=VARCHAR},
+									 										 #{item.cusType,jdbcType=TINYINT},
+									 										 #{item.remark,jdbcType=VARCHAR},
+									                 </trim>
+            </foreach>
+        </trim>
+    </insert>
+  
+  <!--根据id列表删除对象-->
+   <delete id="delete" parameterType="Long[]">
+    delete from `customer`
+    where `id` in 
+	<foreach collection="array" index="index" item="item" open="(" separator="," close=")">
+     #{item}
+    </foreach>
+  </delete>
+   <!--逻辑删除-->
+	  <update id="deleteLogic" parameterType="Long[]">
+			update `customer`
+			<set>
+			 `status` = -1  
+			</set>
+			where `id` in 
+			<foreach collection="array" index="index" item="item" open="(" separator="," close=")">
+					#{item}
+			</foreach>
+		</update>
+  <!--根据id修改数据,不判断空-->
+   <update id="update" parameterType="org.alvin.test.customer.Customer">
+        update `customer`
+        <set>
+		<trim   suffixOverrides=",">
+		 			`id` = #{id,jdbcType=BIGINT},
+					`cus_no` = #{cusNo,jdbcType=VARCHAR},
+					`cus_name` = #{cusName,jdbcType=VARCHAR},
+					`address` = #{address,jdbcType=VARCHAR},
+					`cus_type` = #{cusType,jdbcType=TINYINT},
+					`remark` = #{remark,jdbcType=VARCHAR},
+				 </trim>
+        </set>
+        where `id` = #{id,jdbcType=BIGINT} 
+    </update>
+	<!--根据id修改数据,判断空-->
+	<update id="updateNotNull" parameterType="org.alvin.test.customer.Customer">
+        update `customer`
+        <set> 
+		<trim   suffixOverrides=",">
+		 		
+			 <if test="id != null">
+                `id` = #{id,jdbcType=BIGINT},
+            </if>	
+		 		
+			 <if test="cusNo != null">
+                `cus_no` = #{cusNo,jdbcType=VARCHAR},
+            </if>	
+		 		
+			 <if test="cusName != null">
+                `cus_name` = #{cusName,jdbcType=VARCHAR},
+            </if>	
+		 		
+			 <if test="address != null">
+                `address` = #{address,jdbcType=VARCHAR},
+            </if>	
+		 		
+			 <if test="cusType != null">
+                `cus_type` = #{cusType,jdbcType=TINYINT},
+            </if>	
+		 		
+			 <if test="remark != null">
+                `remark` = #{remark,jdbcType=VARCHAR},
+            </if>	
+		 	 </trim>
+        </set>
+        where `id` = #{id,jdbcType=BIGINT} 
+    </update>
+ 
+<!--基础字段查询-->
+  <sql id="Base_Column_List" >
+     <trim   suffixOverrides=",">
+	 	 t.`id`,
+	 	 t.`cus_no`,
+	 	 t.`cus_name`,
+	 	 t.`address`,
+	 	 t.`cus_type`,
+	 	 t.`remark`,
+	 	 </trim>
+  </sql>
+	<!--列表查询-->
+	 <select id="queryList" resultMap="BaseResultMap" parameterType="org.alvin.test.customer.CustomerCond">
+	   select 
+		<include refid="Base_Column_List" />
+		from `customer` as t
+		where 1=1
+		<trim   suffixOverrides=",">
+					<if test="id != null">
+									and t.`id` = #{id,jdbcType=BIGINT},
+							</if>
+		 			<if test="cusNo != null">
+									and t.`cus_no` like CONCAT('%',#{cusNo,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="cusName != null">
+									and t.`cus_name` like CONCAT('%',#{cusName,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="address != null">
+									and t.`address` like CONCAT('%',#{address,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="cusType != null">
+									and t.`cus_type` = #{cusType,jdbcType=TINYINT},
+							</if>
+		 			<if test="remark != null">
+									and t.`remark` like CONCAT('%',#{remark,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 		 </trim>
+		 order by t.`id` desc
+    </select>
+	<!--单个查询-->
+	<select id="findOne" resultMap="BaseResultMap" parameterType="org.alvin.test.customer.CustomerCond">
+	   select 
+		<include refid="Base_Column_List" />
+		from `customer` as t
+		where 1=1
+		<trim   suffixOverrides=",">
+					<if test="id != null">
+									and t.`id` = #{id,jdbcType=BIGINT},
+							</if>
+		 			<if test="cusNo != null">
+									and t.`cus_no` like CONCAT('%',#{cusNo,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="cusName != null">
+									and t.`cus_name` like CONCAT('%',#{cusName,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="address != null">
+									and t.`address` like CONCAT('%',#{address,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="cusType != null">
+									and t.`cus_type` = #{cusType,jdbcType=TINYINT},
+							</if>
+		 			<if test="remark != null">
+									and t.`remark` like CONCAT('%',#{remark,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 		 </trim>
+		 order by t.`id` desc LIMIT 0,1
+    </select>
+	<!--根据主键查询-->
+	<select id="findById" resultMap="BaseResultMap" parameterType="org.alvin.test.customer.CustomerCond">
+	   select 
+		<include refid="Base_Column_List" />
+		from `customer` as t
+		where t.`id` =  #{id,jdbcType=BIGINT} 
+    </select>
+	<!--查询返回数量-->
+	<select id="queryCount" resultType="java.lang.Long" parameterType="org.alvin.test.customer.CustomerCond">
+	   select count(t.`id`)
+		from `customer` as t
+		where 1=1
+		<trim   suffixOverrides=",">
+					<if test="id != null">
+									and t.`id` = #{id,jdbcType=BIGINT},
+							</if>
+		 			<if test="cusNo != null">
+									and t.`cus_no` like CONCAT('%',#{cusNo,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="cusName != null">
+									and t.`cus_name` like CONCAT('%',#{cusName,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="address != null">
+									and t.`address` like CONCAT('%',#{address,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="cusType != null">
+									and t.`cus_type` = #{cusType,jdbcType=TINYINT},
+							</if>
+		 			<if test="remark != null">
+									and t.`remark` like CONCAT('%',#{remark,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 		 </trim>
+    </select>
+ </mapper>

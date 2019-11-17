@@ -1,0 +1,509 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.alvin.test.product.ProductDao" >
+
+	<!--结果集映射-->
+  <resultMap id="BaseResultMap" type="org.alvin.test.product.Product" >
+       <id column="id" property="id" jdbcType="BIGINT" />
+	    <id column="prod_no" property="prodNo" jdbcType="VARCHAR" />
+	    <id column="tax_type" property="taxType" jdbcType="VARCHAR" />
+	    <id column="prod_name" property="prodName" jdbcType="VARCHAR" />
+	    <id column="spec_no" property="specNo" jdbcType="VARCHAR" />
+	    <id column="note" property="note" jdbcType="VARCHAR" />
+	    <id column="unit" property="unit" jdbcType="VARCHAR" />
+	    <id column="price" property="price" jdbcType="FLOAT" />
+	    <id column="sell_price" property="sellPrice" jdbcType="FLOAT" />
+	    <id column="mark_price" property="markPrice" jdbcType="FLOAT" />
+	    <id column="has_tax" property="hasTax" jdbcType="VARCHAR" />
+	    <id column="price_mode" property="priceMode" jdbcType="VARCHAR" />
+	    <id column="vendor_id" property="vendorId" jdbcType="BIGINT" />
+	    <id column="pic1" property="pic1" jdbcType="VARCHAR" />
+	    <id column="pic2" property="pic2" jdbcType="VARCHAR" />
+	    <id column="pic3" property="pic3" jdbcType="VARCHAR" />
+	    <id column="remark" property="remark" jdbcType="VARCHAR" />
+	  </resultMap>
+  
+   <!--保存对象,并生产主键-->
+  <insert id="save" parameterType="org.alvin.test.product.Product" useGeneratedKeys="true" keyProperty="id">
+        insert into `product`
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+         		 				 			<if test="prodNo != null">
+                 `prod_no`,
+            </if>
+						 			<if test="taxType != null">
+                 `tax_type`,
+            </if>
+						 			<if test="prodName != null">
+                 `prod_name`,
+            </if>
+						 			<if test="specNo != null">
+                 `spec_no`,
+            </if>
+						 			<if test="note != null">
+                 `note`,
+            </if>
+						 			<if test="unit != null">
+                 `unit`,
+            </if>
+						 			<if test="price != null">
+                 `price`,
+            </if>
+						 			<if test="sellPrice != null">
+                 `sell_price`,
+            </if>
+						 			<if test="markPrice != null">
+                 `mark_price`,
+            </if>
+						 			<if test="hasTax != null">
+                 `has_tax`,
+            </if>
+						 			<if test="priceMode != null">
+                 `price_mode`,
+            </if>
+						 			<if test="vendorId != null">
+                 `vendor_id`,
+            </if>
+						 			<if test="pic1 != null">
+                 `pic1`,
+            </if>
+						 			<if test="pic2 != null">
+                 `pic2`,
+            </if>
+						 			<if test="pic3 != null">
+                 `pic3`,
+            </if>
+						 			<if test="remark != null">
+                 `remark`,
+            </if>
+				        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+							 						<if test="prodNo != null">
+                 #{prodNo,jdbcType=VARCHAR},
+            </if>
+					 						<if test="taxType != null">
+                 #{taxType,jdbcType=VARCHAR},
+            </if>
+					 						<if test="prodName != null">
+                 #{prodName,jdbcType=VARCHAR},
+            </if>
+					 						<if test="specNo != null">
+                 #{specNo,jdbcType=VARCHAR},
+            </if>
+					 						<if test="note != null">
+                 #{note,jdbcType=VARCHAR},
+            </if>
+					 						<if test="unit != null">
+                 #{unit,jdbcType=VARCHAR},
+            </if>
+					 						<if test="price != null">
+                 #{price,jdbcType=FLOAT},
+            </if>
+					 						<if test="sellPrice != null">
+                 #{sellPrice,jdbcType=FLOAT},
+            </if>
+					 						<if test="markPrice != null">
+                 #{markPrice,jdbcType=FLOAT},
+            </if>
+					 						<if test="hasTax != null">
+                 #{hasTax,jdbcType=VARCHAR},
+            </if>
+					 						<if test="priceMode != null">
+                 #{priceMode,jdbcType=VARCHAR},
+            </if>
+					 						<if test="vendorId != null">
+                 #{vendorId,jdbcType=BIGINT},
+            </if>
+					 						<if test="pic1 != null">
+                 #{pic1,jdbcType=VARCHAR},
+            </if>
+					 						<if test="pic2 != null">
+                 #{pic2,jdbcType=VARCHAR},
+            </if>
+					 						<if test="pic3 != null">
+                 #{pic3,jdbcType=VARCHAR},
+            </if>
+					 						<if test="remark != null">
+                 #{remark,jdbcType=VARCHAR},
+            </if>
+					         </trim>
+    </insert>
+	
+	 <!--保存对象,并生产主键-->
+	<insert id="insertBatch" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="id">
+        insert into `product`
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            			  		  			  				`prod_no`,    
+			 		  			  				`tax_type`,    
+			 		  			  				`prod_name`,    
+			 		  			  				`spec_no`,    
+			 		  			  				`note`,    
+			 		  			  				`unit`,    
+			 		  			  				`price`,    
+			 		  			  				`sell_price`,    
+			 		  			  				`mark_price`,    
+			 		  			  				`has_tax`,    
+			 		  			  				`price_mode`,    
+			 		  			  				`vendor_id`,    
+			 		  			  				`pic1`,    
+			 		  			  				`pic2`,    
+			 		  			  				`pic3`,    
+			 		  			  				`remark`,    
+			 		          </trim>
+        <trim prefix="values " suffixOverrides=",">
+            <foreach collection="list" item="item" index="index" separator=",">
+                <trim prefix="(" suffix=")" suffixOverrides=",">
+                 									 										 #{item.prodNo,jdbcType=VARCHAR},
+									 										 #{item.taxType,jdbcType=VARCHAR},
+									 										 #{item.prodName,jdbcType=VARCHAR},
+									 										 #{item.specNo,jdbcType=VARCHAR},
+									 										 #{item.note,jdbcType=VARCHAR},
+									 										 #{item.unit,jdbcType=VARCHAR},
+									 										 #{item.price,jdbcType=FLOAT},
+									 										 #{item.sellPrice,jdbcType=FLOAT},
+									 										 #{item.markPrice,jdbcType=FLOAT},
+									 										 #{item.hasTax,jdbcType=VARCHAR},
+									 										 #{item.priceMode,jdbcType=VARCHAR},
+									 										 #{item.vendorId,jdbcType=BIGINT},
+									 										 #{item.pic1,jdbcType=VARCHAR},
+									 										 #{item.pic2,jdbcType=VARCHAR},
+									 										 #{item.pic3,jdbcType=VARCHAR},
+									 										 #{item.remark,jdbcType=VARCHAR},
+									                 </trim>
+            </foreach>
+        </trim>
+    </insert>
+  
+  <!--根据id列表删除对象-->
+   <delete id="delete" parameterType="Long[]">
+    delete from `product`
+    where `id` in 
+	<foreach collection="array" index="index" item="item" open="(" separator="," close=")">
+     #{item}
+    </foreach>
+  </delete>
+   <!--逻辑删除-->
+	  <update id="deleteLogic" parameterType="Long[]">
+			update `product`
+			<set>
+			 `status` = -1  
+			</set>
+			where `id` in 
+			<foreach collection="array" index="index" item="item" open="(" separator="," close=")">
+					#{item}
+			</foreach>
+		</update>
+  <!--根据id修改数据,不判断空-->
+   <update id="update" parameterType="org.alvin.test.product.Product">
+        update `product`
+        <set>
+		<trim   suffixOverrides=",">
+		 			`id` = #{id,jdbcType=BIGINT},
+					`prod_no` = #{prodNo,jdbcType=VARCHAR},
+					`tax_type` = #{taxType,jdbcType=VARCHAR},
+					`prod_name` = #{prodName,jdbcType=VARCHAR},
+					`spec_no` = #{specNo,jdbcType=VARCHAR},
+					`note` = #{note,jdbcType=VARCHAR},
+					`unit` = #{unit,jdbcType=VARCHAR},
+					`price` = #{price,jdbcType=FLOAT},
+					`sell_price` = #{sellPrice,jdbcType=FLOAT},
+					`mark_price` = #{markPrice,jdbcType=FLOAT},
+					`has_tax` = #{hasTax,jdbcType=VARCHAR},
+					`price_mode` = #{priceMode,jdbcType=VARCHAR},
+					`vendor_id` = #{vendorId,jdbcType=BIGINT},
+					`pic1` = #{pic1,jdbcType=VARCHAR},
+					`pic2` = #{pic2,jdbcType=VARCHAR},
+					`pic3` = #{pic3,jdbcType=VARCHAR},
+					`remark` = #{remark,jdbcType=VARCHAR},
+				 </trim>
+        </set>
+        where `id` = #{id,jdbcType=BIGINT} 
+    </update>
+	<!--根据id修改数据,判断空-->
+	<update id="updateNotNull" parameterType="org.alvin.test.product.Product">
+        update `product`
+        <set> 
+		<trim   suffixOverrides=",">
+		 		
+			 <if test="id != null">
+                `id` = #{id,jdbcType=BIGINT},
+            </if>	
+		 		
+			 <if test="prodNo != null">
+                `prod_no` = #{prodNo,jdbcType=VARCHAR},
+            </if>	
+		 		
+			 <if test="taxType != null">
+                `tax_type` = #{taxType,jdbcType=VARCHAR},
+            </if>	
+		 		
+			 <if test="prodName != null">
+                `prod_name` = #{prodName,jdbcType=VARCHAR},
+            </if>	
+		 		
+			 <if test="specNo != null">
+                `spec_no` = #{specNo,jdbcType=VARCHAR},
+            </if>	
+		 		
+			 <if test="note != null">
+                `note` = #{note,jdbcType=VARCHAR},
+            </if>	
+		 		
+			 <if test="unit != null">
+                `unit` = #{unit,jdbcType=VARCHAR},
+            </if>	
+		 		
+			 <if test="price != null">
+                `price` = #{price,jdbcType=FLOAT},
+            </if>	
+		 		
+			 <if test="sellPrice != null">
+                `sell_price` = #{sellPrice,jdbcType=FLOAT},
+            </if>	
+		 		
+			 <if test="markPrice != null">
+                `mark_price` = #{markPrice,jdbcType=FLOAT},
+            </if>	
+		 		
+			 <if test="hasTax != null">
+                `has_tax` = #{hasTax,jdbcType=VARCHAR},
+            </if>	
+		 		
+			 <if test="priceMode != null">
+                `price_mode` = #{priceMode,jdbcType=VARCHAR},
+            </if>	
+		 		
+			 <if test="vendorId != null">
+                `vendor_id` = #{vendorId,jdbcType=BIGINT},
+            </if>	
+		 		
+			 <if test="pic1 != null">
+                `pic1` = #{pic1,jdbcType=VARCHAR},
+            </if>	
+		 		
+			 <if test="pic2 != null">
+                `pic2` = #{pic2,jdbcType=VARCHAR},
+            </if>	
+		 		
+			 <if test="pic3 != null">
+                `pic3` = #{pic3,jdbcType=VARCHAR},
+            </if>	
+		 		
+			 <if test="remark != null">
+                `remark` = #{remark,jdbcType=VARCHAR},
+            </if>	
+		 	 </trim>
+        </set>
+        where `id` = #{id,jdbcType=BIGINT} 
+    </update>
+ 
+<!--基础字段查询-->
+  <sql id="Base_Column_List" >
+     <trim   suffixOverrides=",">
+	 	 t.`id`,
+	 	 t.`prod_no`,
+	 	 t.`tax_type`,
+	 	 t.`prod_name`,
+	 	 t.`spec_no`,
+	 	 t.`note`,
+	 	 t.`unit`,
+	 	 t.`price`,
+	 	 t.`sell_price`,
+	 	 t.`mark_price`,
+	 	 t.`has_tax`,
+	 	 t.`price_mode`,
+	 	 t.`vendor_id`,
+	 	 t.`pic1`,
+	 	 t.`pic2`,
+	 	 t.`pic3`,
+	 	 t.`remark`,
+	 	 </trim>
+  </sql>
+	<!--列表查询-->
+	 <select id="queryList" resultMap="BaseResultMap" parameterType="org.alvin.test.product.ProductCond">
+	   select 
+		<include refid="Base_Column_List" />
+		from `product` as t
+		where 1=1
+		<trim   suffixOverrides=",">
+					<if test="id != null">
+									and t.`id` = #{id,jdbcType=BIGINT},
+							</if>
+		 			<if test="prodNo != null">
+									and t.`prod_no` like CONCAT('%',#{prodNo,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="taxType != null">
+									and t.`tax_type` like CONCAT('%',#{taxType,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="prodName != null">
+									and t.`prod_name` like CONCAT('%',#{prodName,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="specNo != null">
+									and t.`spec_no` like CONCAT('%',#{specNo,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="note != null">
+									and t.`note` like CONCAT('%',#{note,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="unit != null">
+									and t.`unit` like CONCAT('%',#{unit,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="price != null">
+									and t.`price` = #{price,jdbcType=FLOAT},
+							</if>
+		 			<if test="sellPrice != null">
+									and t.`sell_price` = #{sellPrice,jdbcType=FLOAT},
+							</if>
+		 			<if test="markPrice != null">
+									and t.`mark_price` = #{markPrice,jdbcType=FLOAT},
+							</if>
+		 			<if test="hasTax != null">
+									and t.`has_tax` like CONCAT('%',#{hasTax,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="priceMode != null">
+									and t.`price_mode` like CONCAT('%',#{priceMode,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="vendorId != null">
+									and t.`vendor_id` = #{vendorId,jdbcType=BIGINT},
+							</if>
+		 			<if test="pic1 != null">
+									and t.`pic1` like CONCAT('%',#{pic1,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="pic2 != null">
+									and t.`pic2` like CONCAT('%',#{pic2,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="pic3 != null">
+									and t.`pic3` like CONCAT('%',#{pic3,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="remark != null">
+									and t.`remark` like CONCAT('%',#{remark,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 		 </trim>
+		 order by t.`id` desc
+    </select>
+	<!--单个查询-->
+	<select id="findOne" resultMap="BaseResultMap" parameterType="org.alvin.test.product.ProductCond">
+	   select 
+		<include refid="Base_Column_List" />
+		from `product` as t
+		where 1=1
+		<trim   suffixOverrides=",">
+					<if test="id != null">
+									and t.`id` = #{id,jdbcType=BIGINT},
+							</if>
+		 			<if test="prodNo != null">
+									and t.`prod_no` like CONCAT('%',#{prodNo,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="taxType != null">
+									and t.`tax_type` like CONCAT('%',#{taxType,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="prodName != null">
+									and t.`prod_name` like CONCAT('%',#{prodName,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="specNo != null">
+									and t.`spec_no` like CONCAT('%',#{specNo,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="note != null">
+									and t.`note` like CONCAT('%',#{note,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="unit != null">
+									and t.`unit` like CONCAT('%',#{unit,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="price != null">
+									and t.`price` = #{price,jdbcType=FLOAT},
+							</if>
+		 			<if test="sellPrice != null">
+									and t.`sell_price` = #{sellPrice,jdbcType=FLOAT},
+							</if>
+		 			<if test="markPrice != null">
+									and t.`mark_price` = #{markPrice,jdbcType=FLOAT},
+							</if>
+		 			<if test="hasTax != null">
+									and t.`has_tax` like CONCAT('%',#{hasTax,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="priceMode != null">
+									and t.`price_mode` like CONCAT('%',#{priceMode,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="vendorId != null">
+									and t.`vendor_id` = #{vendorId,jdbcType=BIGINT},
+							</if>
+		 			<if test="pic1 != null">
+									and t.`pic1` like CONCAT('%',#{pic1,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="pic2 != null">
+									and t.`pic2` like CONCAT('%',#{pic2,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="pic3 != null">
+									and t.`pic3` like CONCAT('%',#{pic3,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="remark != null">
+									and t.`remark` like CONCAT('%',#{remark,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 		 </trim>
+		 order by t.`id` desc LIMIT 0,1
+    </select>
+	<!--根据主键查询-->
+	<select id="findById" resultMap="BaseResultMap" parameterType="org.alvin.test.product.ProductCond">
+	   select 
+		<include refid="Base_Column_List" />
+		from `product` as t
+		where t.`id` =  #{id,jdbcType=BIGINT} 
+    </select>
+	<!--查询返回数量-->
+	<select id="queryCount" resultType="java.lang.Long" parameterType="org.alvin.test.product.ProductCond">
+	   select count(t.`id`)
+		from `product` as t
+		where 1=1
+		<trim   suffixOverrides=",">
+					<if test="id != null">
+									and t.`id` = #{id,jdbcType=BIGINT},
+							</if>
+		 			<if test="prodNo != null">
+									and t.`prod_no` like CONCAT('%',#{prodNo,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="taxType != null">
+									and t.`tax_type` like CONCAT('%',#{taxType,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="prodName != null">
+									and t.`prod_name` like CONCAT('%',#{prodName,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="specNo != null">
+									and t.`spec_no` like CONCAT('%',#{specNo,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="note != null">
+									and t.`note` like CONCAT('%',#{note,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="unit != null">
+									and t.`unit` like CONCAT('%',#{unit,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="price != null">
+									and t.`price` = #{price,jdbcType=FLOAT},
+							</if>
+		 			<if test="sellPrice != null">
+									and t.`sell_price` = #{sellPrice,jdbcType=FLOAT},
+							</if>
+		 			<if test="markPrice != null">
+									and t.`mark_price` = #{markPrice,jdbcType=FLOAT},
+							</if>
+		 			<if test="hasTax != null">
+									and t.`has_tax` like CONCAT('%',#{hasTax,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="priceMode != null">
+									and t.`price_mode` like CONCAT('%',#{priceMode,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="vendorId != null">
+									and t.`vendor_id` = #{vendorId,jdbcType=BIGINT},
+							</if>
+		 			<if test="pic1 != null">
+									and t.`pic1` like CONCAT('%',#{pic1,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="pic2 != null">
+									and t.`pic2` like CONCAT('%',#{pic2,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="pic3 != null">
+									and t.`pic3` like CONCAT('%',#{pic3,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="remark != null">
+									and t.`remark` like CONCAT('%',#{remark,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 		 </trim>
+    </select>
+ </mapper>

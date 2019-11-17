@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.alvin.test.record.RecordDao" >
+
+	<!--结果集映射-->
+  <resultMap id="BaseResultMap" type="org.alvin.test.record.Record" >
+       <id column="id" property="id" jdbcType="BIGINT" />
+	    <id column="prod_id" property="prodId" jdbcType="TINYINT" />
+	    <id column="total" property="total" jdbcType="FLOAT" />
+	    <id column="priice" property="priice" jdbcType="FLOAT" />
+	    <id column="num" property="num" jdbcType="FLOAT" />
+	    <id column="bus_id" property="busId" jdbcType="BIGINT" />
+	    <id column="bus_type" property="busType" jdbcType="TINYINT" />
+	  </resultMap>
+  
+   <!--保存对象,并生产主键-->
+  <insert id="save" parameterType="org.alvin.test.record.Record" useGeneratedKeys="true" keyProperty="id">
+        insert into `prod_record`
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+         		 				 			<if test="prodId != null">
+                 `prod_id`,
+            </if>
+						 			<if test="total != null">
+                 `total`,
+            </if>
+						 			<if test="priice != null">
+                 `priice`,
+            </if>
+						 			<if test="num != null">
+                 `num`,
+            </if>
+						 			<if test="busId != null">
+                 `bus_id`,
+            </if>
+						 			<if test="busType != null">
+                 `bus_type`,
+            </if>
+				        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+							 						<if test="prodId != null">
+                 #{prodId,jdbcType=TINYINT},
+            </if>
+					 						<if test="total != null">
+                 #{total,jdbcType=FLOAT},
+            </if>
+					 						<if test="priice != null">
+                 #{priice,jdbcType=FLOAT},
+            </if>
+					 						<if test="num != null">
+                 #{num,jdbcType=FLOAT},
+            </if>
+					 						<if test="busId != null">
+                 #{busId,jdbcType=BIGINT},
+            </if>
+					 						<if test="busType != null">
+                 #{busType,jdbcType=TINYINT},
+            </if>
+					         </trim>
+    </insert>
+	
+	 <!--保存对象,并生产主键-->
+	<insert id="insertBatch" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="id">
+        insert into `prod_record`
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            			  		  			  				`prod_id`,    
+			 		  			  				`total`,    
+			 		  			  				`priice`,    
+			 		  			  				`num`,    
+			 		  			  				`bus_id`,    
+			 		  			  				`bus_type`,    
+			 		          </trim>
+        <trim prefix="values " suffixOverrides=",">
+            <foreach collection="list" item="item" index="index" separator=",">
+                <trim prefix="(" suffix=")" suffixOverrides=",">
+                 									 										 #{item.prodId,jdbcType=TINYINT},
+									 										 #{item.total,jdbcType=FLOAT},
+									 										 #{item.priice,jdbcType=FLOAT},
+									 										 #{item.num,jdbcType=FLOAT},
+									 										 #{item.busId,jdbcType=BIGINT},
+									 										 #{item.busType,jdbcType=TINYINT},
+									                 </trim>
+            </foreach>
+        </trim>
+    </insert>
+  
+  <!--根据id列表删除对象-->
+   <delete id="delete" parameterType="Long[]">
+    delete from `prod_record`
+    where `id` in 
+	<foreach collection="array" index="index" item="item" open="(" separator="," close=")">
+     #{item}
+    </foreach>
+  </delete>
+   <!--逻辑删除-->
+	  <update id="deleteLogic" parameterType="Long[]">
+			update `prod_record`
+			<set>
+			 `status` = -1  
+			</set>
+			where `id` in 
+			<foreach collection="array" index="index" item="item" open="(" separator="," close=")">
+					#{item}
+			</foreach>
+		</update>
+  <!--根据id修改数据,不判断空-->
+   <update id="update" parameterType="org.alvin.test.record.Record">
+        update `prod_record`
+        <set>
+		<trim   suffixOverrides=",">
+		 			`id` = #{id,jdbcType=BIGINT},
+					`prod_id` = #{prodId,jdbcType=TINYINT},
+					`total` = #{total,jdbcType=FLOAT},
+					`priice` = #{priice,jdbcType=FLOAT},
+					`num` = #{num,jdbcType=FLOAT},
+					`bus_id` = #{busId,jdbcType=BIGINT},
+					`bus_type` = #{busType,jdbcType=TINYINT},
+				 </trim>
+        </set>
+        where `id` = #{id,jdbcType=BIGINT} 
+    </update>
+	<!--根据id修改数据,判断空-->
+	<update id="updateNotNull" parameterType="org.alvin.test.record.Record">
+        update `prod_record`
+        <set> 
+		<trim   suffixOverrides=",">
+		 		
+			 <if test="id != null">
+                `id` = #{id,jdbcType=BIGINT},
+            </if>	
+		 		
+			 <if test="prodId != null">
+                `prod_id` = #{prodId,jdbcType=TINYINT},
+            </if>	
+		 		
+			 <if test="total != null">
+                `total` = #{total,jdbcType=FLOAT},
+            </if>	
+		 		
+			 <if test="priice != null">
+                `priice` = #{priice,jdbcType=FLOAT},
+            </if>	
+		 		
+			 <if test="num != null">
+                `num` = #{num,jdbcType=FLOAT},
+            </if>	
+		 		
+			 <if test="busId != null">
+                `bus_id` = #{busId,jdbcType=BIGINT},
+            </if>	
+		 		
+			 <if test="busType != null">
+                `bus_type` = #{busType,jdbcType=TINYINT},
+            </if>	
+		 	 </trim>
+        </set>
+        where `id` = #{id,jdbcType=BIGINT} 
+    </update>
+ 
+<!--基础字段查询-->
+  <sql id="Base_Column_List" >
+     <trim   suffixOverrides=",">
+	 	 t.`id`,
+	 	 t.`prod_id`,
+	 	 t.`total`,
+	 	 t.`priice`,
+	 	 t.`num`,
+	 	 t.`bus_id`,
+	 	 t.`bus_type`,
+	 	 </trim>
+  </sql>
+	<!--列表查询-->
+	 <select id="queryList" resultMap="BaseResultMap" parameterType="org.alvin.test.record.RecordCond">
+	   select 
+		<include refid="Base_Column_List" />
+		from `prod_record` as t
+		where 1=1
+		<trim   suffixOverrides=",">
+					<if test="id != null">
+									and t.`id` = #{id,jdbcType=BIGINT},
+							</if>
+		 			<if test="prodId != null">
+									and t.`prod_id` = #{prodId,jdbcType=TINYINT},
+							</if>
+		 			<if test="total != null">
+									and t.`total` = #{total,jdbcType=FLOAT},
+							</if>
+		 			<if test="priice != null">
+									and t.`priice` = #{priice,jdbcType=FLOAT},
+							</if>
+		 			<if test="num != null">
+									and t.`num` = #{num,jdbcType=FLOAT},
+							</if>
+		 			<if test="busId != null">
+									and t.`bus_id` = #{busId,jdbcType=BIGINT},
+							</if>
+		 			<if test="busType != null">
+									and t.`bus_type` = #{busType,jdbcType=TINYINT},
+							</if>
+		 		 </trim>
+		 order by t.`id` desc
+    </select>
+	<!--单个查询-->
+	<select id="findOne" resultMap="BaseResultMap" parameterType="org.alvin.test.record.RecordCond">
+	   select 
+		<include refid="Base_Column_List" />
+		from `prod_record` as t
+		where 1=1
+		<trim   suffixOverrides=",">
+					<if test="id != null">
+									and t.`id` = #{id,jdbcType=BIGINT},
+							</if>
+		 			<if test="prodId != null">
+									and t.`prod_id` = #{prodId,jdbcType=TINYINT},
+							</if>
+		 			<if test="total != null">
+									and t.`total` = #{total,jdbcType=FLOAT},
+							</if>
+		 			<if test="priice != null">
+									and t.`priice` = #{priice,jdbcType=FLOAT},
+							</if>
+		 			<if test="num != null">
+									and t.`num` = #{num,jdbcType=FLOAT},
+							</if>
+		 			<if test="busId != null">
+									and t.`bus_id` = #{busId,jdbcType=BIGINT},
+							</if>
+		 			<if test="busType != null">
+									and t.`bus_type` = #{busType,jdbcType=TINYINT},
+							</if>
+		 		 </trim>
+		 order by t.`id` desc LIMIT 0,1
+    </select>
+	<!--根据主键查询-->
+	<select id="findById" resultMap="BaseResultMap" parameterType="org.alvin.test.record.RecordCond">
+	   select 
+		<include refid="Base_Column_List" />
+		from `prod_record` as t
+		where t.`id` =  #{id,jdbcType=BIGINT} 
+    </select>
+	<!--查询返回数量-->
+	<select id="queryCount" resultType="java.lang.Long" parameterType="org.alvin.test.record.RecordCond">
+	   select count(t.`id`)
+		from `prod_record` as t
+		where 1=1
+		<trim   suffixOverrides=",">
+					<if test="id != null">
+									and t.`id` = #{id,jdbcType=BIGINT},
+							</if>
+		 			<if test="prodId != null">
+									and t.`prod_id` = #{prodId,jdbcType=TINYINT},
+							</if>
+		 			<if test="total != null">
+									and t.`total` = #{total,jdbcType=FLOAT},
+							</if>
+		 			<if test="priice != null">
+									and t.`priice` = #{priice,jdbcType=FLOAT},
+							</if>
+		 			<if test="num != null">
+									and t.`num` = #{num,jdbcType=FLOAT},
+							</if>
+		 			<if test="busId != null">
+									and t.`bus_id` = #{busId,jdbcType=BIGINT},
+							</if>
+		 			<if test="busType != null">
+									and t.`bus_type` = #{busType,jdbcType=TINYINT},
+							</if>
+		 		 </trim>
+    </select>
+ </mapper>

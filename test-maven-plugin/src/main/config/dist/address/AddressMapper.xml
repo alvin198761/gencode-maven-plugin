@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.alvin.test.address.AddressDao" >
+
+	<!--结果集映射-->
+  <resultMap id="BaseResultMap" type="org.alvin.test.address.Address" >
+       <id column="id" property="id" jdbcType="BIGINT" />
+	    <id column="type" property="type" jdbcType="TINYINT" />
+	    <id column="target_phone" property="targetPhone" jdbcType="VARCHAR" />
+	    <id column="target_addr" property="targetAddr" jdbcType="VARCHAR" />
+	    <id column="target_name" property="targetName" jdbcType="VARCHAR" />
+	    <id column="target_id" property="targetId" jdbcType="BIGINT" />
+	    <id column="remark" property="remark" jdbcType="VARCHAR" />
+	  </resultMap>
+  
+   <!--保存对象,并生产主键-->
+  <insert id="save" parameterType="org.alvin.test.address.Address" useGeneratedKeys="true" keyProperty="id">
+        insert into `address`
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+         		 				 			<if test="type != null">
+                 `type`,
+            </if>
+						 			<if test="targetPhone != null">
+                 `target_phone`,
+            </if>
+						 			<if test="targetAddr != null">
+                 `target_addr`,
+            </if>
+						 			<if test="targetName != null">
+                 `target_name`,
+            </if>
+						 			<if test="targetId != null">
+                 `target_id`,
+            </if>
+						 			<if test="remark != null">
+                 `remark`,
+            </if>
+				        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+							 						<if test="type != null">
+                 #{type,jdbcType=TINYINT},
+            </if>
+					 						<if test="targetPhone != null">
+                 #{targetPhone,jdbcType=VARCHAR},
+            </if>
+					 						<if test="targetAddr != null">
+                 #{targetAddr,jdbcType=VARCHAR},
+            </if>
+					 						<if test="targetName != null">
+                 #{targetName,jdbcType=VARCHAR},
+            </if>
+					 						<if test="targetId != null">
+                 #{targetId,jdbcType=BIGINT},
+            </if>
+					 						<if test="remark != null">
+                 #{remark,jdbcType=VARCHAR},
+            </if>
+					         </trim>
+    </insert>
+	
+	 <!--保存对象,并生产主键-->
+	<insert id="insertBatch" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="id">
+        insert into `address`
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            			  		  			  				`type`,    
+			 		  			  				`target_phone`,    
+			 		  			  				`target_addr`,    
+			 		  			  				`target_name`,    
+			 		  			  				`target_id`,    
+			 		  			  				`remark`,    
+			 		          </trim>
+        <trim prefix="values " suffixOverrides=",">
+            <foreach collection="list" item="item" index="index" separator=",">
+                <trim prefix="(" suffix=")" suffixOverrides=",">
+                 									 										 #{item.type,jdbcType=TINYINT},
+									 										 #{item.targetPhone,jdbcType=VARCHAR},
+									 										 #{item.targetAddr,jdbcType=VARCHAR},
+									 										 #{item.targetName,jdbcType=VARCHAR},
+									 										 #{item.targetId,jdbcType=BIGINT},
+									 										 #{item.remark,jdbcType=VARCHAR},
+									                 </trim>
+            </foreach>
+        </trim>
+    </insert>
+  
+  <!--根据id列表删除对象-->
+   <delete id="delete" parameterType="Long[]">
+    delete from `address`
+    where `id` in 
+	<foreach collection="array" index="index" item="item" open="(" separator="," close=")">
+     #{item}
+    </foreach>
+  </delete>
+   <!--逻辑删除-->
+	  <update id="deleteLogic" parameterType="Long[]">
+			update `address`
+			<set>
+			 `status` = -1  
+			</set>
+			where `id` in 
+			<foreach collection="array" index="index" item="item" open="(" separator="," close=")">
+					#{item}
+			</foreach>
+		</update>
+  <!--根据id修改数据,不判断空-->
+   <update id="update" parameterType="org.alvin.test.address.Address">
+        update `address`
+        <set>
+		<trim   suffixOverrides=",">
+		 			`id` = #{id,jdbcType=BIGINT},
+					`type` = #{type,jdbcType=TINYINT},
+					`target_phone` = #{targetPhone,jdbcType=VARCHAR},
+					`target_addr` = #{targetAddr,jdbcType=VARCHAR},
+					`target_name` = #{targetName,jdbcType=VARCHAR},
+					`target_id` = #{targetId,jdbcType=BIGINT},
+					`remark` = #{remark,jdbcType=VARCHAR},
+				 </trim>
+        </set>
+        where `id` = #{id,jdbcType=BIGINT} 
+    </update>
+	<!--根据id修改数据,判断空-->
+	<update id="updateNotNull" parameterType="org.alvin.test.address.Address">
+        update `address`
+        <set> 
+		<trim   suffixOverrides=",">
+		 		
+			 <if test="id != null">
+                `id` = #{id,jdbcType=BIGINT},
+            </if>	
+		 		
+			 <if test="type != null">
+                `type` = #{type,jdbcType=TINYINT},
+            </if>	
+		 		
+			 <if test="targetPhone != null">
+                `target_phone` = #{targetPhone,jdbcType=VARCHAR},
+            </if>	
+		 		
+			 <if test="targetAddr != null">
+                `target_addr` = #{targetAddr,jdbcType=VARCHAR},
+            </if>	
+		 		
+			 <if test="targetName != null">
+                `target_name` = #{targetName,jdbcType=VARCHAR},
+            </if>	
+		 		
+			 <if test="targetId != null">
+                `target_id` = #{targetId,jdbcType=BIGINT},
+            </if>	
+		 		
+			 <if test="remark != null">
+                `remark` = #{remark,jdbcType=VARCHAR},
+            </if>	
+		 	 </trim>
+        </set>
+        where `id` = #{id,jdbcType=BIGINT} 
+    </update>
+ 
+<!--基础字段查询-->
+  <sql id="Base_Column_List" >
+     <trim   suffixOverrides=",">
+	 	 t.`id`,
+	 	 t.`type`,
+	 	 t.`target_phone`,
+	 	 t.`target_addr`,
+	 	 t.`target_name`,
+	 	 t.`target_id`,
+	 	 t.`remark`,
+	 	 </trim>
+  </sql>
+	<!--列表查询-->
+	 <select id="queryList" resultMap="BaseResultMap" parameterType="org.alvin.test.address.AddressCond">
+	   select 
+		<include refid="Base_Column_List" />
+		from `address` as t
+		where 1=1
+		<trim   suffixOverrides=",">
+					<if test="id != null">
+									and t.`id` = #{id,jdbcType=BIGINT},
+							</if>
+		 			<if test="type != null">
+									and t.`type` = #{type,jdbcType=TINYINT},
+							</if>
+		 			<if test="targetPhone != null">
+									and t.`target_phone` like CONCAT('%',#{targetPhone,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="targetAddr != null">
+									and t.`target_addr` like CONCAT('%',#{targetAddr,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="targetName != null">
+									and t.`target_name` like CONCAT('%',#{targetName,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="targetId != null">
+									and t.`target_id` = #{targetId,jdbcType=BIGINT},
+							</if>
+		 			<if test="remark != null">
+									and t.`remark` like CONCAT('%',#{remark,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 		 </trim>
+		 order by t.`id` desc
+    </select>
+	<!--单个查询-->
+	<select id="findOne" resultMap="BaseResultMap" parameterType="org.alvin.test.address.AddressCond">
+	   select 
+		<include refid="Base_Column_List" />
+		from `address` as t
+		where 1=1
+		<trim   suffixOverrides=",">
+					<if test="id != null">
+									and t.`id` = #{id,jdbcType=BIGINT},
+							</if>
+		 			<if test="type != null">
+									and t.`type` = #{type,jdbcType=TINYINT},
+							</if>
+		 			<if test="targetPhone != null">
+									and t.`target_phone` like CONCAT('%',#{targetPhone,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="targetAddr != null">
+									and t.`target_addr` like CONCAT('%',#{targetAddr,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="targetName != null">
+									and t.`target_name` like CONCAT('%',#{targetName,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="targetId != null">
+									and t.`target_id` = #{targetId,jdbcType=BIGINT},
+							</if>
+		 			<if test="remark != null">
+									and t.`remark` like CONCAT('%',#{remark,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 		 </trim>
+		 order by t.`id` desc LIMIT 0,1
+    </select>
+	<!--根据主键查询-->
+	<select id="findById" resultMap="BaseResultMap" parameterType="org.alvin.test.address.AddressCond">
+	   select 
+		<include refid="Base_Column_List" />
+		from `address` as t
+		where t.`id` =  #{id,jdbcType=BIGINT} 
+    </select>
+	<!--查询返回数量-->
+	<select id="queryCount" resultType="java.lang.Long" parameterType="org.alvin.test.address.AddressCond">
+	   select count(t.`id`)
+		from `address` as t
+		where 1=1
+		<trim   suffixOverrides=",">
+					<if test="id != null">
+									and t.`id` = #{id,jdbcType=BIGINT},
+							</if>
+		 			<if test="type != null">
+									and t.`type` = #{type,jdbcType=TINYINT},
+							</if>
+		 			<if test="targetPhone != null">
+									and t.`target_phone` like CONCAT('%',#{targetPhone,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="targetAddr != null">
+									and t.`target_addr` like CONCAT('%',#{targetAddr,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="targetName != null">
+									and t.`target_name` like CONCAT('%',#{targetName,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="targetId != null">
+									and t.`target_id` = #{targetId,jdbcType=BIGINT},
+							</if>
+		 			<if test="remark != null">
+									and t.`remark` like CONCAT('%',#{remark,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 		 </trim>
+    </select>
+ </mapper>

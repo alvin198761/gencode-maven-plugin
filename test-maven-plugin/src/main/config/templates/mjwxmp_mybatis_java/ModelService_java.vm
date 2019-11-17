@@ -1,0 +1,100 @@
+package ${pName};
+import java.util.List;
+import org.alvin.code.gen.utils.Page;
+import com.github.pagehelper.PageHelper;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+/**
+* @类说明: ${cName}--数据逻辑层
+* @author: ${auth}
+* @date : ${time}
+**/
+@Slf4j
+@Service
+public class ${clsUpp}Service {
+
+	 
+	@Autowired
+	private ${clsUpp}Dao dao; //注入${cName}数据访问层
+
+	/**
+	* @方法说明：  新增[${cName}]记录
+	*/
+	@Transactional
+	public int save(${clsUpp} ${lowUpp}) {
+		return dao.save(${lowUpp});
+	}
+
+	/**
+	* @方法说明：  删除${cName}记录(多条)
+	*/
+	@Transactional
+	public int delete(${idType} ids[]) {
+		//return dao.deleteLogic(ids);//逻辑删除
+		return dao.delete(ids);//物理删除
+	}
+
+	/**
+	* @方法说明：  更新${cName}记录
+	*/
+	@Transactional
+	public int update(${clsUpp} ${lowUpp}) {
+		return dao.update(${lowUpp}); 
+	}
+
+	 /**
+    * @方法说明：更新${cName}记录,不为空的都更新掉
+    */
+    @Transactional
+    public int updateNotNull(${clsUpp} ${lowUpp}) {
+		return dao.updateNotNull(${lowUpp}); 
+    }
+
+	/**
+	* @方法说明： 按条件查询分页${cName}列表
+	*/
+	public Page<${clsUpp}> queryPage(${clsUpp}Cond cond) {
+		com.github.pagehelper.Page page = PageHelper.startPage(cond.getPage(), cond.getSize(), true);
+		dao.queryList(cond);
+		return new Page(page.getPageNum() ,page.getPageSize() ,page.getTotal() ,page.getResult());
+	}
+
+	/**
+	* @方法说明： 按条件查询不分页${cName}列表(使用范型)
+	*/
+	public List<${clsUpp}> queryList(${clsUpp}Cond cond) {
+		return dao.queryList(cond);
+	}
+	
+	/**
+	* @方法说明： 按条件查询一个 ${cName} 对象
+	*/
+	public ${clsUpp} findOne(${clsUpp}Cond cond) {
+		return dao.findOne(cond);
+	}
+
+	/**
+	* @方法说明： 按ID查找单个${cName}记录
+	*/
+	public ${clsUpp} findById(${idType} id) {
+		return dao.findById(id);
+	}
+
+	/**
+	* @方法说明： 按条件查询${cName}记录个数
+	*/
+	public long queryCount(${clsUpp}Cond cond) {
+		return dao.queryCount(cond);
+	}
+	
+	/**
+	* @方法说明： 批量添加 ${cName}
+	*/
+	@Transactional
+	public int insertBatch(List<${clsUpp}> list){
+		return dao.insertBatch(list);
+	}
+}

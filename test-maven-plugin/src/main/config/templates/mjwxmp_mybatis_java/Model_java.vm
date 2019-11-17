@@ -1,0 +1,44 @@
+package $pName ;
+
+#foreach($importItem in $importList)
+    $importItem
+#end
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+/**
+* @类说明: ${cName}--实体类
+* @author: ${auth}
+* @date : ${time}
+**/
+@ApiModel(value = "${upp}", description = "${cName}实体")
+public class ${upp} {
+
+    //数据库中的字段
+    #foreach ($fi in $fList)
+        #if ($fi.type == "java.util.Date")
+        // @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+        #end
+    @ApiModelProperty(value = "${fi.comment}", dataType = "${fi.type}")
+    private ${fi.type} ${fi.lower_camel} ;//  ${fi.comment}
+    #end
+
+    //此处可添加查询显示辅助字段
+
+    //getters and setters
+    #foreach ($fi in $fList)
+        /**
+        * @return ${fi.comment}
+        */
+        public ${fi.type} get${fi.upper_camel}(){
+            return this.${fi.lower_camel} ;
+        }
+
+        /**
+        * @param ${fi.comment}
+        */
+        public void set${fi.upper_camel}(${fi.type} ${fi.lower_camel}){
+            this.${fi.lower_camel} = ${fi.lower_camel};
+        }
+
+    #end
+}

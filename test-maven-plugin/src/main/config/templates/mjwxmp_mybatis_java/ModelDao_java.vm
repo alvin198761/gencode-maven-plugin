@@ -1,0 +1,61 @@
+package ${pName};
+import java.util.List;
+
+/**
+* @类说明: ${cName}--数据访问层
+* @author: ${auth}
+* @date : ${time}
+**/
+public interface ${clsUpp}Dao {
+
+	/**
+    * @方法说明：物理删除${cName}记录(多条)
+    */
+    int delete(${idType} ids[]) ;
+	
+	/**
+    * @方法说明：更新${cName}记录
+    */
+    int update(${clsUpp} vo) ;
+	
+	/**
+    * @方法说明：更新${cName}记录,不为空的都更新掉
+    */
+    int updateNotNull(${clsUpp} vo);
+	
+	/**
+    * @方法说明：新增${cName}记录
+    */
+    int save(${clsUpp} vo);
+
+	/**
+    * @方法说明：按条件查询不分页${cName}列表
+    */
+    List<${clsUpp}> queryList(${clsUpp}Cond cond) ;
+	
+	/**
+    * @方法说明：按条件查询一个 ${cName} 对象
+    */
+    ${clsUpp} findOne(${clsUpp}Cond cond) ;
+	
+	/**
+    * @方法说明：按ID查找单个${cName}实体
+    */
+    ${clsUpp} findById(${idType} id);
+	
+	
+	/**
+    * @方法说明：按条件查询${cName}记录个数
+    */
+    long queryCount(${clsUpp}Cond cond);
+	
+	/**
+    * @方法说明：按条件查询${cName}记录个数
+    */
+    int deleteLogic(${idType} ids[]);
+	
+	/**
+    * @方法说明： 批量添加 ${cName}
+    */
+	int insertBatch(List<${clsUpp}> list);
+}

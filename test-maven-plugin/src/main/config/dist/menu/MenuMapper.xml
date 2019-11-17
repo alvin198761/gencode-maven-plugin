@@ -1,0 +1,381 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.alvin.test.menu.MenuDao" >
+
+	<!--结果集映射-->
+  <resultMap id="BaseResultMap" type="org.alvin.test.menu.Menu" >
+       <id column="id" property="id" jdbcType="BIGINT" />
+	    <id column="id" property="id" jdbcType="BIGINT" />
+	    <id column="icon" property="icon" jdbcType="VARCHAR" />
+	    <id column="icon" property="icon" jdbcType="VARCHAR" />
+	    <id column="parent_id" property="parentId" jdbcType="BIGINT" />
+	    <id column="parent_id" property="parentId" jdbcType="BIGINT" />
+	    <id column="tip" property="tip" jdbcType="VARCHAR" />
+	    <id column="tip" property="tip" jdbcType="VARCHAR" />
+	    <id column="title" property="title" jdbcType="VARCHAR" />
+	    <id column="title" property="title" jdbcType="VARCHAR" />
+	    <id column="url" property="url" jdbcType="VARCHAR" />
+	    <id column="url" property="url" jdbcType="VARCHAR" />
+	  </resultMap>
+  
+   <!--保存对象,并生产主键-->
+  <insert id="save" parameterType="org.alvin.test.menu.Menu" useGeneratedKeys="true" keyProperty="id">
+        insert into `admin_menu`
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+         		 				 				 			<if test="icon != null">
+                 `icon`,
+            </if>
+						 			<if test="icon != null">
+                 `icon`,
+            </if>
+						 			<if test="parentId != null">
+                 `parent_id`,
+            </if>
+						 			<if test="parentId != null">
+                 `parent_id`,
+            </if>
+						 			<if test="tip != null">
+                 `tip`,
+            </if>
+						 			<if test="tip != null">
+                 `tip`,
+            </if>
+						 			<if test="title != null">
+                 `title`,
+            </if>
+						 			<if test="title != null">
+                 `title`,
+            </if>
+						 			<if test="url != null">
+                 `url`,
+            </if>
+						 			<if test="url != null">
+                 `url`,
+            </if>
+				        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+							 					 						<if test="icon != null">
+                 #{icon,jdbcType=VARCHAR},
+            </if>
+					 						<if test="icon != null">
+                 #{icon,jdbcType=VARCHAR},
+            </if>
+					 						<if test="parentId != null">
+                 #{parentId,jdbcType=BIGINT},
+            </if>
+					 						<if test="parentId != null">
+                 #{parentId,jdbcType=BIGINT},
+            </if>
+					 						<if test="tip != null">
+                 #{tip,jdbcType=VARCHAR},
+            </if>
+					 						<if test="tip != null">
+                 #{tip,jdbcType=VARCHAR},
+            </if>
+					 						<if test="title != null">
+                 #{title,jdbcType=VARCHAR},
+            </if>
+					 						<if test="title != null">
+                 #{title,jdbcType=VARCHAR},
+            </if>
+					 						<if test="url != null">
+                 #{url,jdbcType=VARCHAR},
+            </if>
+					 						<if test="url != null">
+                 #{url,jdbcType=VARCHAR},
+            </if>
+					         </trim>
+    </insert>
+	
+	 <!--保存对象,并生产主键-->
+	<insert id="insertBatch" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="id">
+        insert into `admin_menu`
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            			  		  			  		  			  				`icon`,    
+			 		  			  				`icon`,    
+			 		  			  				`parent_id`,    
+			 		  			  				`parent_id`,    
+			 		  			  				`tip`,    
+			 		  			  				`tip`,    
+			 		  			  				`title`,    
+			 		  			  				`title`,    
+			 		  			  				`url`,    
+			 		  			  				`url`,    
+			 		          </trim>
+        <trim prefix="values " suffixOverrides=",">
+            <foreach collection="list" item="item" index="index" separator=",">
+                <trim prefix="(" suffix=")" suffixOverrides=",">
+                 									 									 										 #{item.icon,jdbcType=VARCHAR},
+									 										 #{item.icon,jdbcType=VARCHAR},
+									 										 #{item.parentId,jdbcType=BIGINT},
+									 										 #{item.parentId,jdbcType=BIGINT},
+									 										 #{item.tip,jdbcType=VARCHAR},
+									 										 #{item.tip,jdbcType=VARCHAR},
+									 										 #{item.title,jdbcType=VARCHAR},
+									 										 #{item.title,jdbcType=VARCHAR},
+									 										 #{item.url,jdbcType=VARCHAR},
+									 										 #{item.url,jdbcType=VARCHAR},
+									                 </trim>
+            </foreach>
+        </trim>
+    </insert>
+  
+  <!--根据id列表删除对象-->
+   <delete id="delete" parameterType="Long[]">
+    delete from `admin_menu`
+    where `id` in 
+	<foreach collection="array" index="index" item="item" open="(" separator="," close=")">
+     #{item}
+    </foreach>
+  </delete>
+   <!--逻辑删除-->
+	  <update id="deleteLogic" parameterType="Long[]">
+			update `admin_menu`
+			<set>
+			 `status` = -1  
+			</set>
+			where `id` in 
+			<foreach collection="array" index="index" item="item" open="(" separator="," close=")">
+					#{item}
+			</foreach>
+		</update>
+  <!--根据id修改数据,不判断空-->
+   <update id="update" parameterType="org.alvin.test.menu.Menu">
+        update `admin_menu`
+        <set>
+		<trim   suffixOverrides=",">
+		 			`id` = #{id,jdbcType=BIGINT},
+					`id` = #{id,jdbcType=BIGINT},
+					`icon` = #{icon,jdbcType=VARCHAR},
+					`icon` = #{icon,jdbcType=VARCHAR},
+					`parent_id` = #{parentId,jdbcType=BIGINT},
+					`parent_id` = #{parentId,jdbcType=BIGINT},
+					`tip` = #{tip,jdbcType=VARCHAR},
+					`tip` = #{tip,jdbcType=VARCHAR},
+					`title` = #{title,jdbcType=VARCHAR},
+					`title` = #{title,jdbcType=VARCHAR},
+					`url` = #{url,jdbcType=VARCHAR},
+					`url` = #{url,jdbcType=VARCHAR},
+				 </trim>
+        </set>
+        where `id` = #{id,jdbcType=BIGINT} 
+    </update>
+	<!--根据id修改数据,判断空-->
+	<update id="updateNotNull" parameterType="org.alvin.test.menu.Menu">
+        update `admin_menu`
+        <set> 
+		<trim   suffixOverrides=",">
+		 		
+			 <if test="id != null">
+                `id` = #{id,jdbcType=BIGINT},
+            </if>	
+		 		
+			 <if test="id != null">
+                `id` = #{id,jdbcType=BIGINT},
+            </if>	
+		 		
+			 <if test="icon != null">
+                `icon` = #{icon,jdbcType=VARCHAR},
+            </if>	
+		 		
+			 <if test="icon != null">
+                `icon` = #{icon,jdbcType=VARCHAR},
+            </if>	
+		 		
+			 <if test="parentId != null">
+                `parent_id` = #{parentId,jdbcType=BIGINT},
+            </if>	
+		 		
+			 <if test="parentId != null">
+                `parent_id` = #{parentId,jdbcType=BIGINT},
+            </if>	
+		 		
+			 <if test="tip != null">
+                `tip` = #{tip,jdbcType=VARCHAR},
+            </if>	
+		 		
+			 <if test="tip != null">
+                `tip` = #{tip,jdbcType=VARCHAR},
+            </if>	
+		 		
+			 <if test="title != null">
+                `title` = #{title,jdbcType=VARCHAR},
+            </if>	
+		 		
+			 <if test="title != null">
+                `title` = #{title,jdbcType=VARCHAR},
+            </if>	
+		 		
+			 <if test="url != null">
+                `url` = #{url,jdbcType=VARCHAR},
+            </if>	
+		 		
+			 <if test="url != null">
+                `url` = #{url,jdbcType=VARCHAR},
+            </if>	
+		 	 </trim>
+        </set>
+        where `id` = #{id,jdbcType=BIGINT} 
+    </update>
+ 
+<!--基础字段查询-->
+  <sql id="Base_Column_List" >
+     <trim   suffixOverrides=",">
+	 	 t.`id`,
+	 	 t.`id`,
+	 	 t.`icon`,
+	 	 t.`icon`,
+	 	 t.`parent_id`,
+	 	 t.`parent_id`,
+	 	 t.`tip`,
+	 	 t.`tip`,
+	 	 t.`title`,
+	 	 t.`title`,
+	 	 t.`url`,
+	 	 t.`url`,
+	 	 </trim>
+  </sql>
+	<!--列表查询-->
+	 <select id="queryList" resultMap="BaseResultMap" parameterType="org.alvin.test.menu.MenuCond">
+	   select 
+		<include refid="Base_Column_List" />
+		from `admin_menu` as t
+		where 1=1
+		<trim   suffixOverrides=",">
+					<if test="id != null">
+									and t.`id` = #{id,jdbcType=BIGINT},
+							</if>
+		 			<if test="id != null">
+									and t.`id` = #{id,jdbcType=BIGINT},
+							</if>
+		 			<if test="icon != null">
+									and t.`icon` like CONCAT('%',#{icon,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="icon != null">
+									and t.`icon` like CONCAT('%',#{icon,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="parentId != null">
+									and t.`parent_id` = #{parentId,jdbcType=BIGINT},
+							</if>
+		 			<if test="parentId != null">
+									and t.`parent_id` = #{parentId,jdbcType=BIGINT},
+							</if>
+		 			<if test="tip != null">
+									and t.`tip` like CONCAT('%',#{tip,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="tip != null">
+									and t.`tip` like CONCAT('%',#{tip,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="title != null">
+									and t.`title` like CONCAT('%',#{title,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="title != null">
+									and t.`title` like CONCAT('%',#{title,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="url != null">
+									and t.`url` like CONCAT('%',#{url,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="url != null">
+									and t.`url` like CONCAT('%',#{url,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 		 </trim>
+		 order by t.`id` desc
+    </select>
+	<!--单个查询-->
+	<select id="findOne" resultMap="BaseResultMap" parameterType="org.alvin.test.menu.MenuCond">
+	   select 
+		<include refid="Base_Column_List" />
+		from `admin_menu` as t
+		where 1=1
+		<trim   suffixOverrides=",">
+					<if test="id != null">
+									and t.`id` = #{id,jdbcType=BIGINT},
+							</if>
+		 			<if test="id != null">
+									and t.`id` = #{id,jdbcType=BIGINT},
+							</if>
+		 			<if test="icon != null">
+									and t.`icon` like CONCAT('%',#{icon,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="icon != null">
+									and t.`icon` like CONCAT('%',#{icon,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="parentId != null">
+									and t.`parent_id` = #{parentId,jdbcType=BIGINT},
+							</if>
+		 			<if test="parentId != null">
+									and t.`parent_id` = #{parentId,jdbcType=BIGINT},
+							</if>
+		 			<if test="tip != null">
+									and t.`tip` like CONCAT('%',#{tip,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="tip != null">
+									and t.`tip` like CONCAT('%',#{tip,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="title != null">
+									and t.`title` like CONCAT('%',#{title,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="title != null">
+									and t.`title` like CONCAT('%',#{title,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="url != null">
+									and t.`url` like CONCAT('%',#{url,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="url != null">
+									and t.`url` like CONCAT('%',#{url,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 		 </trim>
+		 order by t.`id` desc LIMIT 0,1
+    </select>
+	<!--根据主键查询-->
+	<select id="findById" resultMap="BaseResultMap" parameterType="org.alvin.test.menu.MenuCond">
+	   select 
+		<include refid="Base_Column_List" />
+		from `admin_menu` as t
+		where t.`id` =  #{id,jdbcType=BIGINT} 
+    </select>
+	<!--查询返回数量-->
+	<select id="queryCount" resultType="java.lang.Long" parameterType="org.alvin.test.menu.MenuCond">
+	   select count(t.`id`)
+		from `admin_menu` as t
+		where 1=1
+		<trim   suffixOverrides=",">
+					<if test="id != null">
+									and t.`id` = #{id,jdbcType=BIGINT},
+							</if>
+		 			<if test="id != null">
+									and t.`id` = #{id,jdbcType=BIGINT},
+							</if>
+		 			<if test="icon != null">
+									and t.`icon` like CONCAT('%',#{icon,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="icon != null">
+									and t.`icon` like CONCAT('%',#{icon,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="parentId != null">
+									and t.`parent_id` = #{parentId,jdbcType=BIGINT},
+							</if>
+		 			<if test="parentId != null">
+									and t.`parent_id` = #{parentId,jdbcType=BIGINT},
+							</if>
+		 			<if test="tip != null">
+									and t.`tip` like CONCAT('%',#{tip,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="tip != null">
+									and t.`tip` like CONCAT('%',#{tip,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="title != null">
+									and t.`title` like CONCAT('%',#{title,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="title != null">
+									and t.`title` like CONCAT('%',#{title,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="url != null">
+									and t.`url` like CONCAT('%',#{url,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="url != null">
+									and t.`url` like CONCAT('%',#{url,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 		 </trim>
+    </select>
+ </mapper>

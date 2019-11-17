@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="${pName}.${clsUpp}Dao" >
+
+	<!--结果集映射-->
+  <resultMap id="BaseResultMap" type="${pName}.${clsUpp}" >
+   #foreach ($fi in $fList)
+    <id column="${fi.name}" property="${fi.lower_camel}" jdbcType="${fi.mb_db_type}" />
+	#end
+  </resultMap>
+  
+   <!--保存对象,并生产主键-->
+  <insert id="save" parameterType="${pName}.${clsUpp}" useGeneratedKeys="true" keyProperty="${id.lower_camel}">
+        insert into `${tName}`
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+         #foreach ($fi in $fList)
+		 #if($fi.name != $id.name)
+			<if test="${fi.lower_camel} != null">
+                 `${fi.name}`,
+            </if>
+		#end
+		#end   
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+		#foreach ($fi in $fList)
+			#if ($fi.name != $id.name)
+			<if test="${fi.lower_camel} != null">
+                 ${sharp}{${fi.lower_camel},jdbcType=${fi.mb_db_type}},
+            </if>
+			#end
+		 #end   
+        </trim>
+    </insert>
+	
+	 <!--保存对象,并生产主键-->
+	<insert id="insertBatch" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="${id.lower_camel}">
+        insert into `${tName}`
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            #foreach ($fi in $fList)
+			  #if($fi.name != $id.name)
+				`${fi.name}`,    
+			 #end   
+		  #end   
+        </trim>
+        <trim prefix="values " suffixOverrides=",">
+            <foreach collection="list" item="item" index="index" separator=",">
+                <trim prefix="(" suffix=")" suffixOverrides=",">
+                 #foreach ($fi in $fList)
+					#if ($fi.name != $id.name)
+					 ${sharp}{item.${fi.lower_camel},jdbcType=${fi.mb_db_type}},
+					#end
+				 #end   
+                </trim>
+            </foreach>
+        </trim>
+    </insert>
+  
+  <!--根据id列表删除对象-->
+   <delete id="delete" parameterType="${id.type}[]">
+    delete from `${tName}`
+    where `${id.name}` in 
+	<foreach collection="array" index="index" item="item" open="(" separator="," close=")">
+     ${sharp}{item}
+    </foreach>
+  </delete>
+   <!--逻辑删除-->
+	  <update id="deleteLogic" parameterType="${id.type}[]">
+			update `${tName}`
+			<set>
+			 `status` = -1  
+			</set>
+			where `${id.name}` in 
+			<foreach collection="array" index="index" item="item" open="(" separator="," close=")">
+					${sharp}{item}
+			</foreach>
+		</update>
+  <!--根据id修改数据,不判断空-->
+   <update id="update" parameterType="${pName}.${clsUpp}">
+        update `${tName}`
+        <set>
+		<trim   suffixOverrides=",">
+		 #foreach ($fi in $fList)
+			`${fi.name}` = ${sharp}{${fi.lower_camel},jdbcType=${fi.mb_db_type}},
+		#end    
+		 </trim>
+        </set>
+        where `${id.name}` = ${sharp}{${id.lower_camel},jdbcType=${id.mb_db_type}} 
+    </update>
+	<!--根据id修改数据,判断空-->
+	<update id="updateNotNull" parameterType="${pName}.${clsUpp}">
+        update `${tName}`
+        <set> 
+		<trim   suffixOverrides=",">
+		 #foreach ($fi in $fList)
+		
+			 <if test="${fi.lower_camel} != null">
+                `${fi.name}` = ${sharp}{${fi.lower_camel},jdbcType=${fi.mb_db_type}},
+            </if>	
+		 #end    
+	 </trim>
+        </set>
+        where `${id.name}` = ${sharp}{${id.lower_camel},jdbcType=${id.mb_db_type}} 
+    </update>
+ 
+<!--基础字段查询-->
+  <sql id="Base_Column_List" >
+     <trim   suffixOverrides=",">
+	 #foreach ($fi in $fList)
+	 t.`${fi.name}`,
+	 #end
+	 </trim>
+  </sql>
+	<!--列表查询-->
+	 <select id="queryList" resultMap="BaseResultMap" parameterType="${pName}.${clsUpp}Cond">
+	   select 
+		<include refid="Base_Column_List" />
+		from `${tName}` as t
+		where 1=1
+		<trim   suffixOverrides=",">
+		#foreach ($fi in $fList)
+			<if test="${fi.lower_camel} != null">
+				#if($fi.allTypeName == 'java.lang.String')
+					and t.`${fi.name}` like CONCAT('%',${sharp}{${fi.lower_camel},jdbcType=${fi.mb_db_type}},'%' ) ,
+				#else
+					and t.`${fi.name}` = ${sharp}{${fi.lower_camel},jdbcType=${fi.mb_db_type}},
+				#end
+			</if>
+		 #end  
+		 </trim>
+		 order by t.`${id.name}` desc
+    </select>
+	<!--单个查询-->
+	<select id="findOne" resultMap="BaseResultMap" parameterType="${pName}.${clsUpp}Cond">
+	   select 
+		<include refid="Base_Column_List" />
+		from `${tName}` as t
+		where 1=1
+		<trim   suffixOverrides=",">
+		#foreach ($fi in $fList)
+			<if test="${fi.lower_camel} != null">
+				#if($fi.allTypeName == 'java.lang.String')
+					and t.`${fi.name}` like CONCAT('%',${sharp}{${fi.lower_camel},jdbcType=${fi.mb_db_type}},'%' ) ,
+				#else
+					and t.`${fi.name}` = ${sharp}{${fi.lower_camel},jdbcType=${fi.mb_db_type}},
+				#end
+			</if>
+		 #end  
+		 </trim>
+		 order by t.`${id.name}` desc LIMIT 0,1
+    </select>
+	<!--根据主键查询-->
+	<select id="findById" resultMap="BaseResultMap" parameterType="${pName}.${clsUpp}Cond">
+	   select 
+		<include refid="Base_Column_List" />
+		from `${tName}` as t
+		where t.`${id.name}` =  ${sharp}{${id.lower_camel},jdbcType=${id.mb_db_type}} 
+    </select>
+	<!--查询返回数量-->
+	<select id="queryCount" resultType="java.lang.Long" parameterType="${pName}.${clsUpp}Cond">
+	   select count(t.`${id.name}`)
+		from `${tName}` as t
+		where 1=1
+		<trim   suffixOverrides=",">
+		#foreach ($fi in $fList)
+			<if test="${fi.lower_camel} != null">
+				#if($fi.allTypeName == 'java.lang.String')
+					and t.`${fi.name}` like CONCAT('%',${sharp}{${fi.lower_camel},jdbcType=${fi.mb_db_type}},'%' ) ,
+				#else
+					and t.`${fi.name}` = ${sharp}{${fi.lower_camel},jdbcType=${fi.mb_db_type}},
+				#end
+			</if>
+		 #end  
+		 </trim>
+    </select>
+ </mapper>

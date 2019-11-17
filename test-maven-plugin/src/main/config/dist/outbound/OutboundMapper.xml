@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.alvin.test.outbound.OutboundDao" >
+
+	<!--结果集映射-->
+  <resultMap id="BaseResultMap" type="org.alvin.test.outbound.Outbound" >
+       <id column="id" property="id" jdbcType="BIGINT" />
+	    <id column="cus_id" property="cusId" jdbcType="BIGINT" />
+	    <id column="status" property="status" jdbcType="VARCHAR" />
+	    <id column="remark" property="remark" jdbcType="VARCHAR" />
+	    <id column="date" property="date" jdbcType="DATE" />
+	  </resultMap>
+  
+   <!--保存对象,并生产主键-->
+  <insert id="save" parameterType="org.alvin.test.outbound.Outbound" useGeneratedKeys="true" keyProperty="id">
+        insert into `outbound`
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+         		 				 			<if test="cusId != null">
+                 `cus_id`,
+            </if>
+						 			<if test="status != null">
+                 `status`,
+            </if>
+						 			<if test="remark != null">
+                 `remark`,
+            </if>
+						 			<if test="date != null">
+                 `date`,
+            </if>
+				        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+							 						<if test="cusId != null">
+                 #{cusId,jdbcType=BIGINT},
+            </if>
+					 						<if test="status != null">
+                 #{status,jdbcType=VARCHAR},
+            </if>
+					 						<if test="remark != null">
+                 #{remark,jdbcType=VARCHAR},
+            </if>
+					 						<if test="date != null">
+                 #{date,jdbcType=DATE},
+            </if>
+					         </trim>
+    </insert>
+	
+	 <!--保存对象,并生产主键-->
+	<insert id="insertBatch" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="id">
+        insert into `outbound`
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            			  		  			  				`cus_id`,    
+			 		  			  				`status`,    
+			 		  			  				`remark`,    
+			 		  			  				`date`,    
+			 		          </trim>
+        <trim prefix="values " suffixOverrides=",">
+            <foreach collection="list" item="item" index="index" separator=",">
+                <trim prefix="(" suffix=")" suffixOverrides=",">
+                 									 										 #{item.cusId,jdbcType=BIGINT},
+									 										 #{item.status,jdbcType=VARCHAR},
+									 										 #{item.remark,jdbcType=VARCHAR},
+									 										 #{item.date,jdbcType=DATE},
+									                 </trim>
+            </foreach>
+        </trim>
+    </insert>
+  
+  <!--根据id列表删除对象-->
+   <delete id="delete" parameterType="Long[]">
+    delete from `outbound`
+    where `id` in 
+	<foreach collection="array" index="index" item="item" open="(" separator="," close=")">
+     #{item}
+    </foreach>
+  </delete>
+   <!--逻辑删除-->
+	  <update id="deleteLogic" parameterType="Long[]">
+			update `outbound`
+			<set>
+			 `status` = -1  
+			</set>
+			where `id` in 
+			<foreach collection="array" index="index" item="item" open="(" separator="," close=")">
+					#{item}
+			</foreach>
+		</update>
+  <!--根据id修改数据,不判断空-->
+   <update id="update" parameterType="org.alvin.test.outbound.Outbound">
+        update `outbound`
+        <set>
+		<trim   suffixOverrides=",">
+		 			`id` = #{id,jdbcType=BIGINT},
+					`cus_id` = #{cusId,jdbcType=BIGINT},
+					`status` = #{status,jdbcType=VARCHAR},
+					`remark` = #{remark,jdbcType=VARCHAR},
+					`date` = #{date,jdbcType=DATE},
+				 </trim>
+        </set>
+        where `id` = #{id,jdbcType=BIGINT} 
+    </update>
+	<!--根据id修改数据,判断空-->
+	<update id="updateNotNull" parameterType="org.alvin.test.outbound.Outbound">
+        update `outbound`
+        <set> 
+		<trim   suffixOverrides=",">
+		 		
+			 <if test="id != null">
+                `id` = #{id,jdbcType=BIGINT},
+            </if>	
+		 		
+			 <if test="cusId != null">
+                `cus_id` = #{cusId,jdbcType=BIGINT},
+            </if>	
+		 		
+			 <if test="status != null">
+                `status` = #{status,jdbcType=VARCHAR},
+            </if>	
+		 		
+			 <if test="remark != null">
+                `remark` = #{remark,jdbcType=VARCHAR},
+            </if>	
+		 		
+			 <if test="date != null">
+                `date` = #{date,jdbcType=DATE},
+            </if>	
+		 	 </trim>
+        </set>
+        where `id` = #{id,jdbcType=BIGINT} 
+    </update>
+ 
+<!--基础字段查询-->
+  <sql id="Base_Column_List" >
+     <trim   suffixOverrides=",">
+	 	 t.`id`,
+	 	 t.`cus_id`,
+	 	 t.`status`,
+	 	 t.`remark`,
+	 	 t.`date`,
+	 	 </trim>
+  </sql>
+	<!--列表查询-->
+	 <select id="queryList" resultMap="BaseResultMap" parameterType="org.alvin.test.outbound.OutboundCond">
+	   select 
+		<include refid="Base_Column_List" />
+		from `outbound` as t
+		where 1=1
+		<trim   suffixOverrides=",">
+					<if test="id != null">
+									and t.`id` = #{id,jdbcType=BIGINT},
+							</if>
+		 			<if test="cusId != null">
+									and t.`cus_id` = #{cusId,jdbcType=BIGINT},
+							</if>
+		 			<if test="status != null">
+									and t.`status` like CONCAT('%',#{status,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="remark != null">
+									and t.`remark` like CONCAT('%',#{remark,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="date != null">
+									and t.`date` = #{date,jdbcType=DATE},
+							</if>
+		 		 </trim>
+		 order by t.`id` desc
+    </select>
+	<!--单个查询-->
+	<select id="findOne" resultMap="BaseResultMap" parameterType="org.alvin.test.outbound.OutboundCond">
+	   select 
+		<include refid="Base_Column_List" />
+		from `outbound` as t
+		where 1=1
+		<trim   suffixOverrides=",">
+					<if test="id != null">
+									and t.`id` = #{id,jdbcType=BIGINT},
+							</if>
+		 			<if test="cusId != null">
+									and t.`cus_id` = #{cusId,jdbcType=BIGINT},
+							</if>
+		 			<if test="status != null">
+									and t.`status` like CONCAT('%',#{status,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="remark != null">
+									and t.`remark` like CONCAT('%',#{remark,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="date != null">
+									and t.`date` = #{date,jdbcType=DATE},
+							</if>
+		 		 </trim>
+		 order by t.`id` desc LIMIT 0,1
+    </select>
+	<!--根据主键查询-->
+	<select id="findById" resultMap="BaseResultMap" parameterType="org.alvin.test.outbound.OutboundCond">
+	   select 
+		<include refid="Base_Column_List" />
+		from `outbound` as t
+		where t.`id` =  #{id,jdbcType=BIGINT} 
+    </select>
+	<!--查询返回数量-->
+	<select id="queryCount" resultType="java.lang.Long" parameterType="org.alvin.test.outbound.OutboundCond">
+	   select count(t.`id`)
+		from `outbound` as t
+		where 1=1
+		<trim   suffixOverrides=",">
+					<if test="id != null">
+									and t.`id` = #{id,jdbcType=BIGINT},
+							</if>
+		 			<if test="cusId != null">
+									and t.`cus_id` = #{cusId,jdbcType=BIGINT},
+							</if>
+		 			<if test="status != null">
+									and t.`status` like CONCAT('%',#{status,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="remark != null">
+									and t.`remark` like CONCAT('%',#{remark,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="date != null">
+									and t.`date` = #{date,jdbcType=DATE},
+							</if>
+		 		 </trim>
+    </select>
+ </mapper>

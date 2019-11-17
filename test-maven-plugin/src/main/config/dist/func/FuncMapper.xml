@@ -1,0 +1,621 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.alvin.test.func.FuncDao" >
+
+	<!--结果集映射-->
+  <resultMap id="BaseResultMap" type="org.alvin.test.func.Func" >
+       <id column="func_id" property="funcId" jdbcType="INTEGER" />
+	    <id column="func_id" property="funcId" jdbcType="INTEGER" />
+	    <id column="type" property="type" jdbcType="TINYINT" />
+	    <id column="type" property="type" jdbcType="TINYINT" />
+	    <id column="color" property="color" jdbcType="VARCHAR" />
+	    <id column="color" property="color" jdbcType="VARCHAR" />
+	    <id column="icon" property="icon" jdbcType="VARCHAR" />
+	    <id column="icon" property="icon" jdbcType="VARCHAR" />
+	    <id column="name" property="name" jdbcType="VARCHAR" />
+	    <id column="name" property="name" jdbcType="VARCHAR" />
+	    <id column="parent_id" property="parentId" jdbcType="INTEGER" />
+	    <id column="parent_id" property="parentId" jdbcType="INTEGER" />
+	    <id column="tip" property="tip" jdbcType="VARCHAR" />
+	    <id column="tip" property="tip" jdbcType="VARCHAR" />
+	    <id column="remark" property="remark" jdbcType="VARCHAR" />
+	    <id column="remark" property="remark" jdbcType="VARCHAR" />
+	    <id column="status" property="status" jdbcType="TINYINT" />
+	    <id column="status" property="status" jdbcType="TINYINT" />
+	    <id column="url" property="url" jdbcType="VARCHAR" />
+	    <id column="url" property="url" jdbcType="VARCHAR" />
+	    <id column="order_num" property="orderNum" jdbcType="SMALLINT" />
+	    <id column="order_num" property="orderNum" jdbcType="SMALLINT" />
+	  </resultMap>
+  
+   <!--保存对象,并生产主键-->
+  <insert id="save" parameterType="org.alvin.test.func.Func" useGeneratedKeys="true" keyProperty="funcId">
+        insert into `admin_func`
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+         		 				 				 			<if test="type != null">
+                 `type`,
+            </if>
+						 			<if test="type != null">
+                 `type`,
+            </if>
+						 			<if test="color != null">
+                 `color`,
+            </if>
+						 			<if test="color != null">
+                 `color`,
+            </if>
+						 			<if test="icon != null">
+                 `icon`,
+            </if>
+						 			<if test="icon != null">
+                 `icon`,
+            </if>
+						 			<if test="name != null">
+                 `name`,
+            </if>
+						 			<if test="name != null">
+                 `name`,
+            </if>
+						 			<if test="parentId != null">
+                 `parent_id`,
+            </if>
+						 			<if test="parentId != null">
+                 `parent_id`,
+            </if>
+						 			<if test="tip != null">
+                 `tip`,
+            </if>
+						 			<if test="tip != null">
+                 `tip`,
+            </if>
+						 			<if test="remark != null">
+                 `remark`,
+            </if>
+						 			<if test="remark != null">
+                 `remark`,
+            </if>
+						 			<if test="status != null">
+                 `status`,
+            </if>
+						 			<if test="status != null">
+                 `status`,
+            </if>
+						 			<if test="url != null">
+                 `url`,
+            </if>
+						 			<if test="url != null">
+                 `url`,
+            </if>
+						 			<if test="orderNum != null">
+                 `order_num`,
+            </if>
+						 			<if test="orderNum != null">
+                 `order_num`,
+            </if>
+				        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+							 					 						<if test="type != null">
+                 #{type,jdbcType=TINYINT},
+            </if>
+					 						<if test="type != null">
+                 #{type,jdbcType=TINYINT},
+            </if>
+					 						<if test="color != null">
+                 #{color,jdbcType=VARCHAR},
+            </if>
+					 						<if test="color != null">
+                 #{color,jdbcType=VARCHAR},
+            </if>
+					 						<if test="icon != null">
+                 #{icon,jdbcType=VARCHAR},
+            </if>
+					 						<if test="icon != null">
+                 #{icon,jdbcType=VARCHAR},
+            </if>
+					 						<if test="name != null">
+                 #{name,jdbcType=VARCHAR},
+            </if>
+					 						<if test="name != null">
+                 #{name,jdbcType=VARCHAR},
+            </if>
+					 						<if test="parentId != null">
+                 #{parentId,jdbcType=INTEGER},
+            </if>
+					 						<if test="parentId != null">
+                 #{parentId,jdbcType=INTEGER},
+            </if>
+					 						<if test="tip != null">
+                 #{tip,jdbcType=VARCHAR},
+            </if>
+					 						<if test="tip != null">
+                 #{tip,jdbcType=VARCHAR},
+            </if>
+					 						<if test="remark != null">
+                 #{remark,jdbcType=VARCHAR},
+            </if>
+					 						<if test="remark != null">
+                 #{remark,jdbcType=VARCHAR},
+            </if>
+					 						<if test="status != null">
+                 #{status,jdbcType=TINYINT},
+            </if>
+					 						<if test="status != null">
+                 #{status,jdbcType=TINYINT},
+            </if>
+					 						<if test="url != null">
+                 #{url,jdbcType=VARCHAR},
+            </if>
+					 						<if test="url != null">
+                 #{url,jdbcType=VARCHAR},
+            </if>
+					 						<if test="orderNum != null">
+                 #{orderNum,jdbcType=SMALLINT},
+            </if>
+					 						<if test="orderNum != null">
+                 #{orderNum,jdbcType=SMALLINT},
+            </if>
+					         </trim>
+    </insert>
+	
+	 <!--保存对象,并生产主键-->
+	<insert id="insertBatch" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="funcId">
+        insert into `admin_func`
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            			  		  			  		  			  				`type`,    
+			 		  			  				`type`,    
+			 		  			  				`color`,    
+			 		  			  				`color`,    
+			 		  			  				`icon`,    
+			 		  			  				`icon`,    
+			 		  			  				`name`,    
+			 		  			  				`name`,    
+			 		  			  				`parent_id`,    
+			 		  			  				`parent_id`,    
+			 		  			  				`tip`,    
+			 		  			  				`tip`,    
+			 		  			  				`remark`,    
+			 		  			  				`remark`,    
+			 		  			  				`status`,    
+			 		  			  				`status`,    
+			 		  			  				`url`,    
+			 		  			  				`url`,    
+			 		  			  				`order_num`,    
+			 		  			  				`order_num`,    
+			 		          </trim>
+        <trim prefix="values " suffixOverrides=",">
+            <foreach collection="list" item="item" index="index" separator=",">
+                <trim prefix="(" suffix=")" suffixOverrides=",">
+                 									 									 										 #{item.type,jdbcType=TINYINT},
+									 										 #{item.type,jdbcType=TINYINT},
+									 										 #{item.color,jdbcType=VARCHAR},
+									 										 #{item.color,jdbcType=VARCHAR},
+									 										 #{item.icon,jdbcType=VARCHAR},
+									 										 #{item.icon,jdbcType=VARCHAR},
+									 										 #{item.name,jdbcType=VARCHAR},
+									 										 #{item.name,jdbcType=VARCHAR},
+									 										 #{item.parentId,jdbcType=INTEGER},
+									 										 #{item.parentId,jdbcType=INTEGER},
+									 										 #{item.tip,jdbcType=VARCHAR},
+									 										 #{item.tip,jdbcType=VARCHAR},
+									 										 #{item.remark,jdbcType=VARCHAR},
+									 										 #{item.remark,jdbcType=VARCHAR},
+									 										 #{item.status,jdbcType=TINYINT},
+									 										 #{item.status,jdbcType=TINYINT},
+									 										 #{item.url,jdbcType=VARCHAR},
+									 										 #{item.url,jdbcType=VARCHAR},
+									 										 #{item.orderNum,jdbcType=SMALLINT},
+									 										 #{item.orderNum,jdbcType=SMALLINT},
+									                 </trim>
+            </foreach>
+        </trim>
+    </insert>
+  
+  <!--根据id列表删除对象-->
+   <delete id="delete" parameterType="Integer[]">
+    delete from `admin_func`
+    where `func_id` in 
+	<foreach collection="array" index="index" item="item" open="(" separator="," close=")">
+     #{item}
+    </foreach>
+  </delete>
+   <!--逻辑删除-->
+	  <update id="deleteLogic" parameterType="Integer[]">
+			update `admin_func`
+			<set>
+			 `status` = -1  
+			</set>
+			where `func_id` in 
+			<foreach collection="array" index="index" item="item" open="(" separator="," close=")">
+					#{item}
+			</foreach>
+		</update>
+  <!--根据id修改数据,不判断空-->
+   <update id="update" parameterType="org.alvin.test.func.Func">
+        update `admin_func`
+        <set>
+		<trim   suffixOverrides=",">
+		 			`func_id` = #{funcId,jdbcType=INTEGER},
+					`func_id` = #{funcId,jdbcType=INTEGER},
+					`type` = #{type,jdbcType=TINYINT},
+					`type` = #{type,jdbcType=TINYINT},
+					`color` = #{color,jdbcType=VARCHAR},
+					`color` = #{color,jdbcType=VARCHAR},
+					`icon` = #{icon,jdbcType=VARCHAR},
+					`icon` = #{icon,jdbcType=VARCHAR},
+					`name` = #{name,jdbcType=VARCHAR},
+					`name` = #{name,jdbcType=VARCHAR},
+					`parent_id` = #{parentId,jdbcType=INTEGER},
+					`parent_id` = #{parentId,jdbcType=INTEGER},
+					`tip` = #{tip,jdbcType=VARCHAR},
+					`tip` = #{tip,jdbcType=VARCHAR},
+					`remark` = #{remark,jdbcType=VARCHAR},
+					`remark` = #{remark,jdbcType=VARCHAR},
+					`status` = #{status,jdbcType=TINYINT},
+					`status` = #{status,jdbcType=TINYINT},
+					`url` = #{url,jdbcType=VARCHAR},
+					`url` = #{url,jdbcType=VARCHAR},
+					`order_num` = #{orderNum,jdbcType=SMALLINT},
+					`order_num` = #{orderNum,jdbcType=SMALLINT},
+				 </trim>
+        </set>
+        where `func_id` = #{funcId,jdbcType=INTEGER} 
+    </update>
+	<!--根据id修改数据,判断空-->
+	<update id="updateNotNull" parameterType="org.alvin.test.func.Func">
+        update `admin_func`
+        <set> 
+		<trim   suffixOverrides=",">
+		 		
+			 <if test="funcId != null">
+                `func_id` = #{funcId,jdbcType=INTEGER},
+            </if>	
+		 		
+			 <if test="funcId != null">
+                `func_id` = #{funcId,jdbcType=INTEGER},
+            </if>	
+		 		
+			 <if test="type != null">
+                `type` = #{type,jdbcType=TINYINT},
+            </if>	
+		 		
+			 <if test="type != null">
+                `type` = #{type,jdbcType=TINYINT},
+            </if>	
+		 		
+			 <if test="color != null">
+                `color` = #{color,jdbcType=VARCHAR},
+            </if>	
+		 		
+			 <if test="color != null">
+                `color` = #{color,jdbcType=VARCHAR},
+            </if>	
+		 		
+			 <if test="icon != null">
+                `icon` = #{icon,jdbcType=VARCHAR},
+            </if>	
+		 		
+			 <if test="icon != null">
+                `icon` = #{icon,jdbcType=VARCHAR},
+            </if>	
+		 		
+			 <if test="name != null">
+                `name` = #{name,jdbcType=VARCHAR},
+            </if>	
+		 		
+			 <if test="name != null">
+                `name` = #{name,jdbcType=VARCHAR},
+            </if>	
+		 		
+			 <if test="parentId != null">
+                `parent_id` = #{parentId,jdbcType=INTEGER},
+            </if>	
+		 		
+			 <if test="parentId != null">
+                `parent_id` = #{parentId,jdbcType=INTEGER},
+            </if>	
+		 		
+			 <if test="tip != null">
+                `tip` = #{tip,jdbcType=VARCHAR},
+            </if>	
+		 		
+			 <if test="tip != null">
+                `tip` = #{tip,jdbcType=VARCHAR},
+            </if>	
+		 		
+			 <if test="remark != null">
+                `remark` = #{remark,jdbcType=VARCHAR},
+            </if>	
+		 		
+			 <if test="remark != null">
+                `remark` = #{remark,jdbcType=VARCHAR},
+            </if>	
+		 		
+			 <if test="status != null">
+                `status` = #{status,jdbcType=TINYINT},
+            </if>	
+		 		
+			 <if test="status != null">
+                `status` = #{status,jdbcType=TINYINT},
+            </if>	
+		 		
+			 <if test="url != null">
+                `url` = #{url,jdbcType=VARCHAR},
+            </if>	
+		 		
+			 <if test="url != null">
+                `url` = #{url,jdbcType=VARCHAR},
+            </if>	
+		 		
+			 <if test="orderNum != null">
+                `order_num` = #{orderNum,jdbcType=SMALLINT},
+            </if>	
+		 		
+			 <if test="orderNum != null">
+                `order_num` = #{orderNum,jdbcType=SMALLINT},
+            </if>	
+		 	 </trim>
+        </set>
+        where `func_id` = #{funcId,jdbcType=INTEGER} 
+    </update>
+ 
+<!--基础字段查询-->
+  <sql id="Base_Column_List" >
+     <trim   suffixOverrides=",">
+	 	 t.`func_id`,
+	 	 t.`func_id`,
+	 	 t.`type`,
+	 	 t.`type`,
+	 	 t.`color`,
+	 	 t.`color`,
+	 	 t.`icon`,
+	 	 t.`icon`,
+	 	 t.`name`,
+	 	 t.`name`,
+	 	 t.`parent_id`,
+	 	 t.`parent_id`,
+	 	 t.`tip`,
+	 	 t.`tip`,
+	 	 t.`remark`,
+	 	 t.`remark`,
+	 	 t.`status`,
+	 	 t.`status`,
+	 	 t.`url`,
+	 	 t.`url`,
+	 	 t.`order_num`,
+	 	 t.`order_num`,
+	 	 </trim>
+  </sql>
+	<!--列表查询-->
+	 <select id="queryList" resultMap="BaseResultMap" parameterType="org.alvin.test.func.FuncCond">
+	   select 
+		<include refid="Base_Column_List" />
+		from `admin_func` as t
+		where 1=1
+		<trim   suffixOverrides=",">
+					<if test="funcId != null">
+									and t.`func_id` = #{funcId,jdbcType=INTEGER},
+							</if>
+		 			<if test="funcId != null">
+									and t.`func_id` = #{funcId,jdbcType=INTEGER},
+							</if>
+		 			<if test="type != null">
+									and t.`type` = #{type,jdbcType=TINYINT},
+							</if>
+		 			<if test="type != null">
+									and t.`type` = #{type,jdbcType=TINYINT},
+							</if>
+		 			<if test="color != null">
+									and t.`color` like CONCAT('%',#{color,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="color != null">
+									and t.`color` like CONCAT('%',#{color,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="icon != null">
+									and t.`icon` like CONCAT('%',#{icon,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="icon != null">
+									and t.`icon` like CONCAT('%',#{icon,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="name != null">
+									and t.`name` like CONCAT('%',#{name,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="name != null">
+									and t.`name` like CONCAT('%',#{name,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="parentId != null">
+									and t.`parent_id` = #{parentId,jdbcType=INTEGER},
+							</if>
+		 			<if test="parentId != null">
+									and t.`parent_id` = #{parentId,jdbcType=INTEGER},
+							</if>
+		 			<if test="tip != null">
+									and t.`tip` like CONCAT('%',#{tip,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="tip != null">
+									and t.`tip` like CONCAT('%',#{tip,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="remark != null">
+									and t.`remark` like CONCAT('%',#{remark,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="remark != null">
+									and t.`remark` like CONCAT('%',#{remark,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="status != null">
+									and t.`status` = #{status,jdbcType=TINYINT},
+							</if>
+		 			<if test="status != null">
+									and t.`status` = #{status,jdbcType=TINYINT},
+							</if>
+		 			<if test="url != null">
+									and t.`url` like CONCAT('%',#{url,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="url != null">
+									and t.`url` like CONCAT('%',#{url,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="orderNum != null">
+									and t.`order_num` = #{orderNum,jdbcType=SMALLINT},
+							</if>
+		 			<if test="orderNum != null">
+									and t.`order_num` = #{orderNum,jdbcType=SMALLINT},
+							</if>
+		 		 </trim>
+		 order by t.`func_id` desc
+    </select>
+	<!--单个查询-->
+	<select id="findOne" resultMap="BaseResultMap" parameterType="org.alvin.test.func.FuncCond">
+	   select 
+		<include refid="Base_Column_List" />
+		from `admin_func` as t
+		where 1=1
+		<trim   suffixOverrides=",">
+					<if test="funcId != null">
+									and t.`func_id` = #{funcId,jdbcType=INTEGER},
+							</if>
+		 			<if test="funcId != null">
+									and t.`func_id` = #{funcId,jdbcType=INTEGER},
+							</if>
+		 			<if test="type != null">
+									and t.`type` = #{type,jdbcType=TINYINT},
+							</if>
+		 			<if test="type != null">
+									and t.`type` = #{type,jdbcType=TINYINT},
+							</if>
+		 			<if test="color != null">
+									and t.`color` like CONCAT('%',#{color,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="color != null">
+									and t.`color` like CONCAT('%',#{color,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="icon != null">
+									and t.`icon` like CONCAT('%',#{icon,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="icon != null">
+									and t.`icon` like CONCAT('%',#{icon,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="name != null">
+									and t.`name` like CONCAT('%',#{name,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="name != null">
+									and t.`name` like CONCAT('%',#{name,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="parentId != null">
+									and t.`parent_id` = #{parentId,jdbcType=INTEGER},
+							</if>
+		 			<if test="parentId != null">
+									and t.`parent_id` = #{parentId,jdbcType=INTEGER},
+							</if>
+		 			<if test="tip != null">
+									and t.`tip` like CONCAT('%',#{tip,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="tip != null">
+									and t.`tip` like CONCAT('%',#{tip,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="remark != null">
+									and t.`remark` like CONCAT('%',#{remark,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="remark != null">
+									and t.`remark` like CONCAT('%',#{remark,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="status != null">
+									and t.`status` = #{status,jdbcType=TINYINT},
+							</if>
+		 			<if test="status != null">
+									and t.`status` = #{status,jdbcType=TINYINT},
+							</if>
+		 			<if test="url != null">
+									and t.`url` like CONCAT('%',#{url,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="url != null">
+									and t.`url` like CONCAT('%',#{url,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="orderNum != null">
+									and t.`order_num` = #{orderNum,jdbcType=SMALLINT},
+							</if>
+		 			<if test="orderNum != null">
+									and t.`order_num` = #{orderNum,jdbcType=SMALLINT},
+							</if>
+		 		 </trim>
+		 order by t.`func_id` desc LIMIT 0,1
+    </select>
+	<!--根据主键查询-->
+	<select id="findById" resultMap="BaseResultMap" parameterType="org.alvin.test.func.FuncCond">
+	   select 
+		<include refid="Base_Column_List" />
+		from `admin_func` as t
+		where t.`func_id` =  #{funcId,jdbcType=INTEGER} 
+    </select>
+	<!--查询返回数量-->
+	<select id="queryCount" resultType="java.lang.Long" parameterType="org.alvin.test.func.FuncCond">
+	   select count(t.`func_id`)
+		from `admin_func` as t
+		where 1=1
+		<trim   suffixOverrides=",">
+					<if test="funcId != null">
+									and t.`func_id` = #{funcId,jdbcType=INTEGER},
+							</if>
+		 			<if test="funcId != null">
+									and t.`func_id` = #{funcId,jdbcType=INTEGER},
+							</if>
+		 			<if test="type != null">
+									and t.`type` = #{type,jdbcType=TINYINT},
+							</if>
+		 			<if test="type != null">
+									and t.`type` = #{type,jdbcType=TINYINT},
+							</if>
+		 			<if test="color != null">
+									and t.`color` like CONCAT('%',#{color,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="color != null">
+									and t.`color` like CONCAT('%',#{color,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="icon != null">
+									and t.`icon` like CONCAT('%',#{icon,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="icon != null">
+									and t.`icon` like CONCAT('%',#{icon,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="name != null">
+									and t.`name` like CONCAT('%',#{name,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="name != null">
+									and t.`name` like CONCAT('%',#{name,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="parentId != null">
+									and t.`parent_id` = #{parentId,jdbcType=INTEGER},
+							</if>
+		 			<if test="parentId != null">
+									and t.`parent_id` = #{parentId,jdbcType=INTEGER},
+							</if>
+		 			<if test="tip != null">
+									and t.`tip` like CONCAT('%',#{tip,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="tip != null">
+									and t.`tip` like CONCAT('%',#{tip,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="remark != null">
+									and t.`remark` like CONCAT('%',#{remark,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="remark != null">
+									and t.`remark` like CONCAT('%',#{remark,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="status != null">
+									and t.`status` = #{status,jdbcType=TINYINT},
+							</if>
+		 			<if test="status != null">
+									and t.`status` = #{status,jdbcType=TINYINT},
+							</if>
+		 			<if test="url != null">
+									and t.`url` like CONCAT('%',#{url,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="url != null">
+									and t.`url` like CONCAT('%',#{url,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="orderNum != null">
+									and t.`order_num` = #{orderNum,jdbcType=SMALLINT},
+							</if>
+		 			<if test="orderNum != null">
+									and t.`order_num` = #{orderNum,jdbcType=SMALLINT},
+							</if>
+		 		 </trim>
+    </select>
+ </mapper>

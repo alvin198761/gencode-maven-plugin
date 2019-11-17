@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.alvin.test.menurule.MenuRuleDao" >
+
+	<!--结果集映射-->
+  <resultMap id="BaseResultMap" type="org.alvin.test.menurule.MenuRule" >
+       <id column="id" property="id" jdbcType="BIGINT" />
+	    <id column="id" property="id" jdbcType="BIGINT" />
+	    <id column="did" property="did" jdbcType="BIGINT" />
+	    <id column="did" property="did" jdbcType="BIGINT" />
+	    <id column="mid" property="mid" jdbcType="BIGINT" />
+	    <id column="mid" property="mid" jdbcType="BIGINT" />
+	  </resultMap>
+  
+   <!--保存对象,并生产主键-->
+  <insert id="save" parameterType="org.alvin.test.menurule.MenuRule" useGeneratedKeys="true" keyProperty="id">
+        insert into `admin_menu_rule`
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+         		 				 				 			<if test="did != null">
+                 `did`,
+            </if>
+						 			<if test="did != null">
+                 `did`,
+            </if>
+						 			<if test="mid != null">
+                 `mid`,
+            </if>
+						 			<if test="mid != null">
+                 `mid`,
+            </if>
+				        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+							 					 						<if test="did != null">
+                 #{did,jdbcType=BIGINT},
+            </if>
+					 						<if test="did != null">
+                 #{did,jdbcType=BIGINT},
+            </if>
+					 						<if test="mid != null">
+                 #{mid,jdbcType=BIGINT},
+            </if>
+					 						<if test="mid != null">
+                 #{mid,jdbcType=BIGINT},
+            </if>
+					         </trim>
+    </insert>
+	
+	 <!--保存对象,并生产主键-->
+	<insert id="insertBatch" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="id">
+        insert into `admin_menu_rule`
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            			  		  			  		  			  				`did`,    
+			 		  			  				`did`,    
+			 		  			  				`mid`,    
+			 		  			  				`mid`,    
+			 		          </trim>
+        <trim prefix="values " suffixOverrides=",">
+            <foreach collection="list" item="item" index="index" separator=",">
+                <trim prefix="(" suffix=")" suffixOverrides=",">
+                 									 									 										 #{item.did,jdbcType=BIGINT},
+									 										 #{item.did,jdbcType=BIGINT},
+									 										 #{item.mid,jdbcType=BIGINT},
+									 										 #{item.mid,jdbcType=BIGINT},
+									                 </trim>
+            </foreach>
+        </trim>
+    </insert>
+  
+  <!--根据id列表删除对象-->
+   <delete id="delete" parameterType="Long[]">
+    delete from `admin_menu_rule`
+    where `id` in 
+	<foreach collection="array" index="index" item="item" open="(" separator="," close=")">
+     #{item}
+    </foreach>
+  </delete>
+   <!--逻辑删除-->
+	  <update id="deleteLogic" parameterType="Long[]">
+			update `admin_menu_rule`
+			<set>
+			 `status` = -1  
+			</set>
+			where `id` in 
+			<foreach collection="array" index="index" item="item" open="(" separator="," close=")">
+					#{item}
+			</foreach>
+		</update>
+  <!--根据id修改数据,不判断空-->
+   <update id="update" parameterType="org.alvin.test.menurule.MenuRule">
+        update `admin_menu_rule`
+        <set>
+		<trim   suffixOverrides=",">
+		 			`id` = #{id,jdbcType=BIGINT},
+					`id` = #{id,jdbcType=BIGINT},
+					`did` = #{did,jdbcType=BIGINT},
+					`did` = #{did,jdbcType=BIGINT},
+					`mid` = #{mid,jdbcType=BIGINT},
+					`mid` = #{mid,jdbcType=BIGINT},
+				 </trim>
+        </set>
+        where `id` = #{id,jdbcType=BIGINT} 
+    </update>
+	<!--根据id修改数据,判断空-->
+	<update id="updateNotNull" parameterType="org.alvin.test.menurule.MenuRule">
+        update `admin_menu_rule`
+        <set> 
+		<trim   suffixOverrides=",">
+		 		
+			 <if test="id != null">
+                `id` = #{id,jdbcType=BIGINT},
+            </if>	
+		 		
+			 <if test="id != null">
+                `id` = #{id,jdbcType=BIGINT},
+            </if>	
+		 		
+			 <if test="did != null">
+                `did` = #{did,jdbcType=BIGINT},
+            </if>	
+		 		
+			 <if test="did != null">
+                `did` = #{did,jdbcType=BIGINT},
+            </if>	
+		 		
+			 <if test="mid != null">
+                `mid` = #{mid,jdbcType=BIGINT},
+            </if>	
+		 		
+			 <if test="mid != null">
+                `mid` = #{mid,jdbcType=BIGINT},
+            </if>	
+		 	 </trim>
+        </set>
+        where `id` = #{id,jdbcType=BIGINT} 
+    </update>
+ 
+<!--基础字段查询-->
+  <sql id="Base_Column_List" >
+     <trim   suffixOverrides=",">
+	 	 t.`id`,
+	 	 t.`id`,
+	 	 t.`did`,
+	 	 t.`did`,
+	 	 t.`mid`,
+	 	 t.`mid`,
+	 	 </trim>
+  </sql>
+	<!--列表查询-->
+	 <select id="queryList" resultMap="BaseResultMap" parameterType="org.alvin.test.menurule.MenuRuleCond">
+	   select 
+		<include refid="Base_Column_List" />
+		from `admin_menu_rule` as t
+		where 1=1
+		<trim   suffixOverrides=",">
+					<if test="id != null">
+									and t.`id` = #{id,jdbcType=BIGINT},
+							</if>
+		 			<if test="id != null">
+									and t.`id` = #{id,jdbcType=BIGINT},
+							</if>
+		 			<if test="did != null">
+									and t.`did` = #{did,jdbcType=BIGINT},
+							</if>
+		 			<if test="did != null">
+									and t.`did` = #{did,jdbcType=BIGINT},
+							</if>
+		 			<if test="mid != null">
+									and t.`mid` = #{mid,jdbcType=BIGINT},
+							</if>
+		 			<if test="mid != null">
+									and t.`mid` = #{mid,jdbcType=BIGINT},
+							</if>
+		 		 </trim>
+		 order by t.`id` desc
+    </select>
+	<!--单个查询-->
+	<select id="findOne" resultMap="BaseResultMap" parameterType="org.alvin.test.menurule.MenuRuleCond">
+	   select 
+		<include refid="Base_Column_List" />
+		from `admin_menu_rule` as t
+		where 1=1
+		<trim   suffixOverrides=",">
+					<if test="id != null">
+									and t.`id` = #{id,jdbcType=BIGINT},
+							</if>
+		 			<if test="id != null">
+									and t.`id` = #{id,jdbcType=BIGINT},
+							</if>
+		 			<if test="did != null">
+									and t.`did` = #{did,jdbcType=BIGINT},
+							</if>
+		 			<if test="did != null">
+									and t.`did` = #{did,jdbcType=BIGINT},
+							</if>
+		 			<if test="mid != null">
+									and t.`mid` = #{mid,jdbcType=BIGINT},
+							</if>
+		 			<if test="mid != null">
+									and t.`mid` = #{mid,jdbcType=BIGINT},
+							</if>
+		 		 </trim>
+		 order by t.`id` desc LIMIT 0,1
+    </select>
+	<!--根据主键查询-->
+	<select id="findById" resultMap="BaseResultMap" parameterType="org.alvin.test.menurule.MenuRuleCond">
+	   select 
+		<include refid="Base_Column_List" />
+		from `admin_menu_rule` as t
+		where t.`id` =  #{id,jdbcType=BIGINT} 
+    </select>
+	<!--查询返回数量-->
+	<select id="queryCount" resultType="java.lang.Long" parameterType="org.alvin.test.menurule.MenuRuleCond">
+	   select count(t.`id`)
+		from `admin_menu_rule` as t
+		where 1=1
+		<trim   suffixOverrides=",">
+					<if test="id != null">
+									and t.`id` = #{id,jdbcType=BIGINT},
+							</if>
+		 			<if test="id != null">
+									and t.`id` = #{id,jdbcType=BIGINT},
+							</if>
+		 			<if test="did != null">
+									and t.`did` = #{did,jdbcType=BIGINT},
+							</if>
+		 			<if test="did != null">
+									and t.`did` = #{did,jdbcType=BIGINT},
+							</if>
+		 			<if test="mid != null">
+									and t.`mid` = #{mid,jdbcType=BIGINT},
+							</if>
+		 			<if test="mid != null">
+									and t.`mid` = #{mid,jdbcType=BIGINT},
+							</if>
+		 		 </trim>
+    </select>
+ </mapper>

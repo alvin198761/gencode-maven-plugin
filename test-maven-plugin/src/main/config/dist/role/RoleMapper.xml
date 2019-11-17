@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.alvin.test.role.RoleDao" >
+
+	<!--结果集映射-->
+  <resultMap id="BaseResultMap" type="org.alvin.test.role.Role" >
+       <id column="id" property="id" jdbcType="INTEGER" />
+	    <id column="id" property="id" jdbcType="INTEGER" />
+	    <id column="name" property="name" jdbcType="VARCHAR" />
+	    <id column="name" property="name" jdbcType="VARCHAR" />
+	    <id column="remark" property="remark" jdbcType="VARCHAR" />
+	    <id column="remark" property="remark" jdbcType="VARCHAR" />
+	  </resultMap>
+  
+   <!--保存对象,并生产主键-->
+  <insert id="save" parameterType="org.alvin.test.role.Role" useGeneratedKeys="true" keyProperty="id">
+        insert into `admin_role`
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+         		 				 				 			<if test="name != null">
+                 `name`,
+            </if>
+						 			<if test="name != null">
+                 `name`,
+            </if>
+						 			<if test="remark != null">
+                 `remark`,
+            </if>
+						 			<if test="remark != null">
+                 `remark`,
+            </if>
+				        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+							 					 						<if test="name != null">
+                 #{name,jdbcType=VARCHAR},
+            </if>
+					 						<if test="name != null">
+                 #{name,jdbcType=VARCHAR},
+            </if>
+					 						<if test="remark != null">
+                 #{remark,jdbcType=VARCHAR},
+            </if>
+					 						<if test="remark != null">
+                 #{remark,jdbcType=VARCHAR},
+            </if>
+					         </trim>
+    </insert>
+	
+	 <!--保存对象,并生产主键-->
+	<insert id="insertBatch" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="id">
+        insert into `admin_role`
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            			  		  			  		  			  				`name`,    
+			 		  			  				`name`,    
+			 		  			  				`remark`,    
+			 		  			  				`remark`,    
+			 		          </trim>
+        <trim prefix="values " suffixOverrides=",">
+            <foreach collection="list" item="item" index="index" separator=",">
+                <trim prefix="(" suffix=")" suffixOverrides=",">
+                 									 									 										 #{item.name,jdbcType=VARCHAR},
+									 										 #{item.name,jdbcType=VARCHAR},
+									 										 #{item.remark,jdbcType=VARCHAR},
+									 										 #{item.remark,jdbcType=VARCHAR},
+									                 </trim>
+            </foreach>
+        </trim>
+    </insert>
+  
+  <!--根据id列表删除对象-->
+   <delete id="delete" parameterType="Integer[]">
+    delete from `admin_role`
+    where `id` in 
+	<foreach collection="array" index="index" item="item" open="(" separator="," close=")">
+     #{item}
+    </foreach>
+  </delete>
+   <!--逻辑删除-->
+	  <update id="deleteLogic" parameterType="Integer[]">
+			update `admin_role`
+			<set>
+			 `status` = -1  
+			</set>
+			where `id` in 
+			<foreach collection="array" index="index" item="item" open="(" separator="," close=")">
+					#{item}
+			</foreach>
+		</update>
+  <!--根据id修改数据,不判断空-->
+   <update id="update" parameterType="org.alvin.test.role.Role">
+        update `admin_role`
+        <set>
+		<trim   suffixOverrides=",">
+		 			`id` = #{id,jdbcType=INTEGER},
+					`id` = #{id,jdbcType=INTEGER},
+					`name` = #{name,jdbcType=VARCHAR},
+					`name` = #{name,jdbcType=VARCHAR},
+					`remark` = #{remark,jdbcType=VARCHAR},
+					`remark` = #{remark,jdbcType=VARCHAR},
+				 </trim>
+        </set>
+        where `id` = #{id,jdbcType=INTEGER} 
+    </update>
+	<!--根据id修改数据,判断空-->
+	<update id="updateNotNull" parameterType="org.alvin.test.role.Role">
+        update `admin_role`
+        <set> 
+		<trim   suffixOverrides=",">
+		 		
+			 <if test="id != null">
+                `id` = #{id,jdbcType=INTEGER},
+            </if>	
+		 		
+			 <if test="id != null">
+                `id` = #{id,jdbcType=INTEGER},
+            </if>	
+		 		
+			 <if test="name != null">
+                `name` = #{name,jdbcType=VARCHAR},
+            </if>	
+		 		
+			 <if test="name != null">
+                `name` = #{name,jdbcType=VARCHAR},
+            </if>	
+		 		
+			 <if test="remark != null">
+                `remark` = #{remark,jdbcType=VARCHAR},
+            </if>	
+		 		
+			 <if test="remark != null">
+                `remark` = #{remark,jdbcType=VARCHAR},
+            </if>	
+		 	 </trim>
+        </set>
+        where `id` = #{id,jdbcType=INTEGER} 
+    </update>
+ 
+<!--基础字段查询-->
+  <sql id="Base_Column_List" >
+     <trim   suffixOverrides=",">
+	 	 t.`id`,
+	 	 t.`id`,
+	 	 t.`name`,
+	 	 t.`name`,
+	 	 t.`remark`,
+	 	 t.`remark`,
+	 	 </trim>
+  </sql>
+	<!--列表查询-->
+	 <select id="queryList" resultMap="BaseResultMap" parameterType="org.alvin.test.role.RoleCond">
+	   select 
+		<include refid="Base_Column_List" />
+		from `admin_role` as t
+		where 1=1
+		<trim   suffixOverrides=",">
+					<if test="id != null">
+									and t.`id` = #{id,jdbcType=INTEGER},
+							</if>
+		 			<if test="id != null">
+									and t.`id` = #{id,jdbcType=INTEGER},
+							</if>
+		 			<if test="name != null">
+									and t.`name` like CONCAT('%',#{name,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="name != null">
+									and t.`name` like CONCAT('%',#{name,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="remark != null">
+									and t.`remark` like CONCAT('%',#{remark,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="remark != null">
+									and t.`remark` like CONCAT('%',#{remark,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 		 </trim>
+		 order by t.`id` desc
+    </select>
+	<!--单个查询-->
+	<select id="findOne" resultMap="BaseResultMap" parameterType="org.alvin.test.role.RoleCond">
+	   select 
+		<include refid="Base_Column_List" />
+		from `admin_role` as t
+		where 1=1
+		<trim   suffixOverrides=",">
+					<if test="id != null">
+									and t.`id` = #{id,jdbcType=INTEGER},
+							</if>
+		 			<if test="id != null">
+									and t.`id` = #{id,jdbcType=INTEGER},
+							</if>
+		 			<if test="name != null">
+									and t.`name` like CONCAT('%',#{name,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="name != null">
+									and t.`name` like CONCAT('%',#{name,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="remark != null">
+									and t.`remark` like CONCAT('%',#{remark,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="remark != null">
+									and t.`remark` like CONCAT('%',#{remark,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 		 </trim>
+		 order by t.`id` desc LIMIT 0,1
+    </select>
+	<!--根据主键查询-->
+	<select id="findById" resultMap="BaseResultMap" parameterType="org.alvin.test.role.RoleCond">
+	   select 
+		<include refid="Base_Column_List" />
+		from `admin_role` as t
+		where t.`id` =  #{id,jdbcType=INTEGER} 
+    </select>
+	<!--查询返回数量-->
+	<select id="queryCount" resultType="java.lang.Long" parameterType="org.alvin.test.role.RoleCond">
+	   select count(t.`id`)
+		from `admin_role` as t
+		where 1=1
+		<trim   suffixOverrides=",">
+					<if test="id != null">
+									and t.`id` = #{id,jdbcType=INTEGER},
+							</if>
+		 			<if test="id != null">
+									and t.`id` = #{id,jdbcType=INTEGER},
+							</if>
+		 			<if test="name != null">
+									and t.`name` like CONCAT('%',#{name,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="name != null">
+									and t.`name` like CONCAT('%',#{name,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="remark != null">
+									and t.`remark` like CONCAT('%',#{remark,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="remark != null">
+									and t.`remark` like CONCAT('%',#{remark,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 		 </trim>
+    </select>
+ </mapper>

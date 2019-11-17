@@ -1,0 +1,525 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.alvin.test.sysuser.SysUserDao" >
+
+	<!--结果集映射-->
+  <resultMap id="BaseResultMap" type="org.alvin.test.sysuser.SysUser" >
+       <id column="user_id" property="userId" jdbcType="INTEGER" />
+	    <id column="user_id" property="userId" jdbcType="INTEGER" />
+	    <id column="name" property="name" jdbcType="VARCHAR" />
+	    <id column="name" property="name" jdbcType="VARCHAR" />
+	    <id column="password" property="password" jdbcType="VARCHAR" />
+	    <id column="password" property="password" jdbcType="VARCHAR" />
+	    <id column="phone" property="phone" jdbcType="VARCHAR" />
+	    <id column="phone" property="phone" jdbcType="VARCHAR" />
+	    <id column="gender" property="gender" jdbcType="TINYINT" />
+	    <id column="gender" property="gender" jdbcType="TINYINT" />
+	    <id column="status" property="status" jdbcType="TINYINT" />
+	    <id column="status" property="status" jdbcType="TINYINT" />
+	    <id column="department_id" property="departmentId" jdbcType="INTEGER" />
+	    <id column="department_id" property="departmentId" jdbcType="INTEGER" />
+	    <id column="wechat" property="wechat" jdbcType="VARCHAR" />
+	    <id column="wechat" property="wechat" jdbcType="VARCHAR" />
+	    <id column="remark" property="remark" jdbcType="VARCHAR" />
+	    <id column="remark" property="remark" jdbcType="VARCHAR" />
+	  </resultMap>
+  
+   <!--保存对象,并生产主键-->
+  <insert id="save" parameterType="org.alvin.test.sysuser.SysUser" useGeneratedKeys="true" keyProperty="userId">
+        insert into `admin_sys_user`
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+         		 				 				 			<if test="name != null">
+                 `name`,
+            </if>
+						 			<if test="name != null">
+                 `name`,
+            </if>
+						 			<if test="password != null">
+                 `password`,
+            </if>
+						 			<if test="password != null">
+                 `password`,
+            </if>
+						 			<if test="phone != null">
+                 `phone`,
+            </if>
+						 			<if test="phone != null">
+                 `phone`,
+            </if>
+						 			<if test="gender != null">
+                 `gender`,
+            </if>
+						 			<if test="gender != null">
+                 `gender`,
+            </if>
+						 			<if test="status != null">
+                 `status`,
+            </if>
+						 			<if test="status != null">
+                 `status`,
+            </if>
+						 			<if test="departmentId != null">
+                 `department_id`,
+            </if>
+						 			<if test="departmentId != null">
+                 `department_id`,
+            </if>
+						 			<if test="wechat != null">
+                 `wechat`,
+            </if>
+						 			<if test="wechat != null">
+                 `wechat`,
+            </if>
+						 			<if test="remark != null">
+                 `remark`,
+            </if>
+						 			<if test="remark != null">
+                 `remark`,
+            </if>
+				        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+							 					 						<if test="name != null">
+                 #{name,jdbcType=VARCHAR},
+            </if>
+					 						<if test="name != null">
+                 #{name,jdbcType=VARCHAR},
+            </if>
+					 						<if test="password != null">
+                 #{password,jdbcType=VARCHAR},
+            </if>
+					 						<if test="password != null">
+                 #{password,jdbcType=VARCHAR},
+            </if>
+					 						<if test="phone != null">
+                 #{phone,jdbcType=VARCHAR},
+            </if>
+					 						<if test="phone != null">
+                 #{phone,jdbcType=VARCHAR},
+            </if>
+					 						<if test="gender != null">
+                 #{gender,jdbcType=TINYINT},
+            </if>
+					 						<if test="gender != null">
+                 #{gender,jdbcType=TINYINT},
+            </if>
+					 						<if test="status != null">
+                 #{status,jdbcType=TINYINT},
+            </if>
+					 						<if test="status != null">
+                 #{status,jdbcType=TINYINT},
+            </if>
+					 						<if test="departmentId != null">
+                 #{departmentId,jdbcType=INTEGER},
+            </if>
+					 						<if test="departmentId != null">
+                 #{departmentId,jdbcType=INTEGER},
+            </if>
+					 						<if test="wechat != null">
+                 #{wechat,jdbcType=VARCHAR},
+            </if>
+					 						<if test="wechat != null">
+                 #{wechat,jdbcType=VARCHAR},
+            </if>
+					 						<if test="remark != null">
+                 #{remark,jdbcType=VARCHAR},
+            </if>
+					 						<if test="remark != null">
+                 #{remark,jdbcType=VARCHAR},
+            </if>
+					         </trim>
+    </insert>
+	
+	 <!--保存对象,并生产主键-->
+	<insert id="insertBatch" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="userId">
+        insert into `admin_sys_user`
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            			  		  			  		  			  				`name`,    
+			 		  			  				`name`,    
+			 		  			  				`password`,    
+			 		  			  				`password`,    
+			 		  			  				`phone`,    
+			 		  			  				`phone`,    
+			 		  			  				`gender`,    
+			 		  			  				`gender`,    
+			 		  			  				`status`,    
+			 		  			  				`status`,    
+			 		  			  				`department_id`,    
+			 		  			  				`department_id`,    
+			 		  			  				`wechat`,    
+			 		  			  				`wechat`,    
+			 		  			  				`remark`,    
+			 		  			  				`remark`,    
+			 		          </trim>
+        <trim prefix="values " suffixOverrides=",">
+            <foreach collection="list" item="item" index="index" separator=",">
+                <trim prefix="(" suffix=")" suffixOverrides=",">
+                 									 									 										 #{item.name,jdbcType=VARCHAR},
+									 										 #{item.name,jdbcType=VARCHAR},
+									 										 #{item.password,jdbcType=VARCHAR},
+									 										 #{item.password,jdbcType=VARCHAR},
+									 										 #{item.phone,jdbcType=VARCHAR},
+									 										 #{item.phone,jdbcType=VARCHAR},
+									 										 #{item.gender,jdbcType=TINYINT},
+									 										 #{item.gender,jdbcType=TINYINT},
+									 										 #{item.status,jdbcType=TINYINT},
+									 										 #{item.status,jdbcType=TINYINT},
+									 										 #{item.departmentId,jdbcType=INTEGER},
+									 										 #{item.departmentId,jdbcType=INTEGER},
+									 										 #{item.wechat,jdbcType=VARCHAR},
+									 										 #{item.wechat,jdbcType=VARCHAR},
+									 										 #{item.remark,jdbcType=VARCHAR},
+									 										 #{item.remark,jdbcType=VARCHAR},
+									                 </trim>
+            </foreach>
+        </trim>
+    </insert>
+  
+  <!--根据id列表删除对象-->
+   <delete id="delete" parameterType="Integer[]">
+    delete from `admin_sys_user`
+    where `user_id` in 
+	<foreach collection="array" index="index" item="item" open="(" separator="," close=")">
+     #{item}
+    </foreach>
+  </delete>
+   <!--逻辑删除-->
+	  <update id="deleteLogic" parameterType="Integer[]">
+			update `admin_sys_user`
+			<set>
+			 `status` = -1  
+			</set>
+			where `user_id` in 
+			<foreach collection="array" index="index" item="item" open="(" separator="," close=")">
+					#{item}
+			</foreach>
+		</update>
+  <!--根据id修改数据,不判断空-->
+   <update id="update" parameterType="org.alvin.test.sysuser.SysUser">
+        update `admin_sys_user`
+        <set>
+		<trim   suffixOverrides=",">
+		 			`user_id` = #{userId,jdbcType=INTEGER},
+					`user_id` = #{userId,jdbcType=INTEGER},
+					`name` = #{name,jdbcType=VARCHAR},
+					`name` = #{name,jdbcType=VARCHAR},
+					`password` = #{password,jdbcType=VARCHAR},
+					`password` = #{password,jdbcType=VARCHAR},
+					`phone` = #{phone,jdbcType=VARCHAR},
+					`phone` = #{phone,jdbcType=VARCHAR},
+					`gender` = #{gender,jdbcType=TINYINT},
+					`gender` = #{gender,jdbcType=TINYINT},
+					`status` = #{status,jdbcType=TINYINT},
+					`status` = #{status,jdbcType=TINYINT},
+					`department_id` = #{departmentId,jdbcType=INTEGER},
+					`department_id` = #{departmentId,jdbcType=INTEGER},
+					`wechat` = #{wechat,jdbcType=VARCHAR},
+					`wechat` = #{wechat,jdbcType=VARCHAR},
+					`remark` = #{remark,jdbcType=VARCHAR},
+					`remark` = #{remark,jdbcType=VARCHAR},
+				 </trim>
+        </set>
+        where `user_id` = #{userId,jdbcType=INTEGER} 
+    </update>
+	<!--根据id修改数据,判断空-->
+	<update id="updateNotNull" parameterType="org.alvin.test.sysuser.SysUser">
+        update `admin_sys_user`
+        <set> 
+		<trim   suffixOverrides=",">
+		 		
+			 <if test="userId != null">
+                `user_id` = #{userId,jdbcType=INTEGER},
+            </if>	
+		 		
+			 <if test="userId != null">
+                `user_id` = #{userId,jdbcType=INTEGER},
+            </if>	
+		 		
+			 <if test="name != null">
+                `name` = #{name,jdbcType=VARCHAR},
+            </if>	
+		 		
+			 <if test="name != null">
+                `name` = #{name,jdbcType=VARCHAR},
+            </if>	
+		 		
+			 <if test="password != null">
+                `password` = #{password,jdbcType=VARCHAR},
+            </if>	
+		 		
+			 <if test="password != null">
+                `password` = #{password,jdbcType=VARCHAR},
+            </if>	
+		 		
+			 <if test="phone != null">
+                `phone` = #{phone,jdbcType=VARCHAR},
+            </if>	
+		 		
+			 <if test="phone != null">
+                `phone` = #{phone,jdbcType=VARCHAR},
+            </if>	
+		 		
+			 <if test="gender != null">
+                `gender` = #{gender,jdbcType=TINYINT},
+            </if>	
+		 		
+			 <if test="gender != null">
+                `gender` = #{gender,jdbcType=TINYINT},
+            </if>	
+		 		
+			 <if test="status != null">
+                `status` = #{status,jdbcType=TINYINT},
+            </if>	
+		 		
+			 <if test="status != null">
+                `status` = #{status,jdbcType=TINYINT},
+            </if>	
+		 		
+			 <if test="departmentId != null">
+                `department_id` = #{departmentId,jdbcType=INTEGER},
+            </if>	
+		 		
+			 <if test="departmentId != null">
+                `department_id` = #{departmentId,jdbcType=INTEGER},
+            </if>	
+		 		
+			 <if test="wechat != null">
+                `wechat` = #{wechat,jdbcType=VARCHAR},
+            </if>	
+		 		
+			 <if test="wechat != null">
+                `wechat` = #{wechat,jdbcType=VARCHAR},
+            </if>	
+		 		
+			 <if test="remark != null">
+                `remark` = #{remark,jdbcType=VARCHAR},
+            </if>	
+		 		
+			 <if test="remark != null">
+                `remark` = #{remark,jdbcType=VARCHAR},
+            </if>	
+		 	 </trim>
+        </set>
+        where `user_id` = #{userId,jdbcType=INTEGER} 
+    </update>
+ 
+<!--基础字段查询-->
+  <sql id="Base_Column_List" >
+     <trim   suffixOverrides=",">
+	 	 t.`user_id`,
+	 	 t.`user_id`,
+	 	 t.`name`,
+	 	 t.`name`,
+	 	 t.`password`,
+	 	 t.`password`,
+	 	 t.`phone`,
+	 	 t.`phone`,
+	 	 t.`gender`,
+	 	 t.`gender`,
+	 	 t.`status`,
+	 	 t.`status`,
+	 	 t.`department_id`,
+	 	 t.`department_id`,
+	 	 t.`wechat`,
+	 	 t.`wechat`,
+	 	 t.`remark`,
+	 	 t.`remark`,
+	 	 </trim>
+  </sql>
+	<!--列表查询-->
+	 <select id="queryList" resultMap="BaseResultMap" parameterType="org.alvin.test.sysuser.SysUserCond">
+	   select 
+		<include refid="Base_Column_List" />
+		from `admin_sys_user` as t
+		where 1=1
+		<trim   suffixOverrides=",">
+					<if test="userId != null">
+									and t.`user_id` = #{userId,jdbcType=INTEGER},
+							</if>
+		 			<if test="userId != null">
+									and t.`user_id` = #{userId,jdbcType=INTEGER},
+							</if>
+		 			<if test="name != null">
+									and t.`name` like CONCAT('%',#{name,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="name != null">
+									and t.`name` like CONCAT('%',#{name,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="password != null">
+									and t.`password` like CONCAT('%',#{password,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="password != null">
+									and t.`password` like CONCAT('%',#{password,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="phone != null">
+									and t.`phone` like CONCAT('%',#{phone,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="phone != null">
+									and t.`phone` like CONCAT('%',#{phone,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="gender != null">
+									and t.`gender` = #{gender,jdbcType=TINYINT},
+							</if>
+		 			<if test="gender != null">
+									and t.`gender` = #{gender,jdbcType=TINYINT},
+							</if>
+		 			<if test="status != null">
+									and t.`status` = #{status,jdbcType=TINYINT},
+							</if>
+		 			<if test="status != null">
+									and t.`status` = #{status,jdbcType=TINYINT},
+							</if>
+		 			<if test="departmentId != null">
+									and t.`department_id` = #{departmentId,jdbcType=INTEGER},
+							</if>
+		 			<if test="departmentId != null">
+									and t.`department_id` = #{departmentId,jdbcType=INTEGER},
+							</if>
+		 			<if test="wechat != null">
+									and t.`wechat` like CONCAT('%',#{wechat,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="wechat != null">
+									and t.`wechat` like CONCAT('%',#{wechat,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="remark != null">
+									and t.`remark` like CONCAT('%',#{remark,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="remark != null">
+									and t.`remark` like CONCAT('%',#{remark,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 		 </trim>
+		 order by t.`user_id` desc
+    </select>
+	<!--单个查询-->
+	<select id="findOne" resultMap="BaseResultMap" parameterType="org.alvin.test.sysuser.SysUserCond">
+	   select 
+		<include refid="Base_Column_List" />
+		from `admin_sys_user` as t
+		where 1=1
+		<trim   suffixOverrides=",">
+					<if test="userId != null">
+									and t.`user_id` = #{userId,jdbcType=INTEGER},
+							</if>
+		 			<if test="userId != null">
+									and t.`user_id` = #{userId,jdbcType=INTEGER},
+							</if>
+		 			<if test="name != null">
+									and t.`name` like CONCAT('%',#{name,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="name != null">
+									and t.`name` like CONCAT('%',#{name,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="password != null">
+									and t.`password` like CONCAT('%',#{password,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="password != null">
+									and t.`password` like CONCAT('%',#{password,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="phone != null">
+									and t.`phone` like CONCAT('%',#{phone,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="phone != null">
+									and t.`phone` like CONCAT('%',#{phone,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="gender != null">
+									and t.`gender` = #{gender,jdbcType=TINYINT},
+							</if>
+		 			<if test="gender != null">
+									and t.`gender` = #{gender,jdbcType=TINYINT},
+							</if>
+		 			<if test="status != null">
+									and t.`status` = #{status,jdbcType=TINYINT},
+							</if>
+		 			<if test="status != null">
+									and t.`status` = #{status,jdbcType=TINYINT},
+							</if>
+		 			<if test="departmentId != null">
+									and t.`department_id` = #{departmentId,jdbcType=INTEGER},
+							</if>
+		 			<if test="departmentId != null">
+									and t.`department_id` = #{departmentId,jdbcType=INTEGER},
+							</if>
+		 			<if test="wechat != null">
+									and t.`wechat` like CONCAT('%',#{wechat,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="wechat != null">
+									and t.`wechat` like CONCAT('%',#{wechat,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="remark != null">
+									and t.`remark` like CONCAT('%',#{remark,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="remark != null">
+									and t.`remark` like CONCAT('%',#{remark,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 		 </trim>
+		 order by t.`user_id` desc LIMIT 0,1
+    </select>
+	<!--根据主键查询-->
+	<select id="findById" resultMap="BaseResultMap" parameterType="org.alvin.test.sysuser.SysUserCond">
+	   select 
+		<include refid="Base_Column_List" />
+		from `admin_sys_user` as t
+		where t.`user_id` =  #{userId,jdbcType=INTEGER} 
+    </select>
+	<!--查询返回数量-->
+	<select id="queryCount" resultType="java.lang.Long" parameterType="org.alvin.test.sysuser.SysUserCond">
+	   select count(t.`user_id`)
+		from `admin_sys_user` as t
+		where 1=1
+		<trim   suffixOverrides=",">
+					<if test="userId != null">
+									and t.`user_id` = #{userId,jdbcType=INTEGER},
+							</if>
+		 			<if test="userId != null">
+									and t.`user_id` = #{userId,jdbcType=INTEGER},
+							</if>
+		 			<if test="name != null">
+									and t.`name` like CONCAT('%',#{name,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="name != null">
+									and t.`name` like CONCAT('%',#{name,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="password != null">
+									and t.`password` like CONCAT('%',#{password,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="password != null">
+									and t.`password` like CONCAT('%',#{password,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="phone != null">
+									and t.`phone` like CONCAT('%',#{phone,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="phone != null">
+									and t.`phone` like CONCAT('%',#{phone,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="gender != null">
+									and t.`gender` = #{gender,jdbcType=TINYINT},
+							</if>
+		 			<if test="gender != null">
+									and t.`gender` = #{gender,jdbcType=TINYINT},
+							</if>
+		 			<if test="status != null">
+									and t.`status` = #{status,jdbcType=TINYINT},
+							</if>
+		 			<if test="status != null">
+									and t.`status` = #{status,jdbcType=TINYINT},
+							</if>
+		 			<if test="departmentId != null">
+									and t.`department_id` = #{departmentId,jdbcType=INTEGER},
+							</if>
+		 			<if test="departmentId != null">
+									and t.`department_id` = #{departmentId,jdbcType=INTEGER},
+							</if>
+		 			<if test="wechat != null">
+									and t.`wechat` like CONCAT('%',#{wechat,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="wechat != null">
+									and t.`wechat` like CONCAT('%',#{wechat,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="remark != null">
+									and t.`remark` like CONCAT('%',#{remark,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="remark != null">
+									and t.`remark` like CONCAT('%',#{remark,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 		 </trim>
+    </select>
+ </mapper>

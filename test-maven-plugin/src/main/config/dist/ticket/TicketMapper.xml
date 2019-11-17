@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.alvin.test.ticket.TicketDao" >
+
+	<!--结果集映射-->
+  <resultMap id="BaseResultMap" type="org.alvin.test.ticket.Ticket" >
+       <id column="id" property="id" jdbcType="BIGINT" />
+	    <id column="vendor_id" property="vendorId" jdbcType="BIGINT" />
+	    <id column="tax_type" property="taxType" jdbcType="VARCHAR" />
+	    <id column="target_name" property="targetName" jdbcType="VARCHAR" />
+	    <id column="target_id" property="targetId" jdbcType="BIGINT" />
+	    <id column="remark" property="remark" jdbcType="VARCHAR" />
+	    <id column="ticket_type" property="ticketType" jdbcType="VARCHAR" />
+	    <id column="rate" property="rate" jdbcType="DOUBLE" />
+	    <id column="type" property="type" jdbcType="VARCHAR" />
+	    <id column="cus_id" property="cusId" jdbcType="BIGINT" />
+	  </resultMap>
+  
+   <!--保存对象,并生产主键-->
+  <insert id="save" parameterType="org.alvin.test.ticket.Ticket" useGeneratedKeys="true" keyProperty="id">
+        insert into `ticket`
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+         		 				 			<if test="vendorId != null">
+                 `vendor_id`,
+            </if>
+						 			<if test="taxType != null">
+                 `tax_type`,
+            </if>
+						 			<if test="targetName != null">
+                 `target_name`,
+            </if>
+						 			<if test="targetId != null">
+                 `target_id`,
+            </if>
+						 			<if test="remark != null">
+                 `remark`,
+            </if>
+						 			<if test="ticketType != null">
+                 `ticket_type`,
+            </if>
+						 			<if test="rate != null">
+                 `rate`,
+            </if>
+						 			<if test="type != null">
+                 `type`,
+            </if>
+						 			<if test="cusId != null">
+                 `cus_id`,
+            </if>
+				        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+							 						<if test="vendorId != null">
+                 #{vendorId,jdbcType=BIGINT},
+            </if>
+					 						<if test="taxType != null">
+                 #{taxType,jdbcType=VARCHAR},
+            </if>
+					 						<if test="targetName != null">
+                 #{targetName,jdbcType=VARCHAR},
+            </if>
+					 						<if test="targetId != null">
+                 #{targetId,jdbcType=BIGINT},
+            </if>
+					 						<if test="remark != null">
+                 #{remark,jdbcType=VARCHAR},
+            </if>
+					 						<if test="ticketType != null">
+                 #{ticketType,jdbcType=VARCHAR},
+            </if>
+					 						<if test="rate != null">
+                 #{rate,jdbcType=DOUBLE},
+            </if>
+					 						<if test="type != null">
+                 #{type,jdbcType=VARCHAR},
+            </if>
+					 						<if test="cusId != null">
+                 #{cusId,jdbcType=BIGINT},
+            </if>
+					         </trim>
+    </insert>
+	
+	 <!--保存对象,并生产主键-->
+	<insert id="insertBatch" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="id">
+        insert into `ticket`
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            			  		  			  				`vendor_id`,    
+			 		  			  				`tax_type`,    
+			 		  			  				`target_name`,    
+			 		  			  				`target_id`,    
+			 		  			  				`remark`,    
+			 		  			  				`ticket_type`,    
+			 		  			  				`rate`,    
+			 		  			  				`type`,    
+			 		  			  				`cus_id`,    
+			 		          </trim>
+        <trim prefix="values " suffixOverrides=",">
+            <foreach collection="list" item="item" index="index" separator=",">
+                <trim prefix="(" suffix=")" suffixOverrides=",">
+                 									 										 #{item.vendorId,jdbcType=BIGINT},
+									 										 #{item.taxType,jdbcType=VARCHAR},
+									 										 #{item.targetName,jdbcType=VARCHAR},
+									 										 #{item.targetId,jdbcType=BIGINT},
+									 										 #{item.remark,jdbcType=VARCHAR},
+									 										 #{item.ticketType,jdbcType=VARCHAR},
+									 										 #{item.rate,jdbcType=DOUBLE},
+									 										 #{item.type,jdbcType=VARCHAR},
+									 										 #{item.cusId,jdbcType=BIGINT},
+									                 </trim>
+            </foreach>
+        </trim>
+    </insert>
+  
+  <!--根据id列表删除对象-->
+   <delete id="delete" parameterType="Long[]">
+    delete from `ticket`
+    where `id` in 
+	<foreach collection="array" index="index" item="item" open="(" separator="," close=")">
+     #{item}
+    </foreach>
+  </delete>
+   <!--逻辑删除-->
+	  <update id="deleteLogic" parameterType="Long[]">
+			update `ticket`
+			<set>
+			 `status` = -1  
+			</set>
+			where `id` in 
+			<foreach collection="array" index="index" item="item" open="(" separator="," close=")">
+					#{item}
+			</foreach>
+		</update>
+  <!--根据id修改数据,不判断空-->
+   <update id="update" parameterType="org.alvin.test.ticket.Ticket">
+        update `ticket`
+        <set>
+		<trim   suffixOverrides=",">
+		 			`id` = #{id,jdbcType=BIGINT},
+					`vendor_id` = #{vendorId,jdbcType=BIGINT},
+					`tax_type` = #{taxType,jdbcType=VARCHAR},
+					`target_name` = #{targetName,jdbcType=VARCHAR},
+					`target_id` = #{targetId,jdbcType=BIGINT},
+					`remark` = #{remark,jdbcType=VARCHAR},
+					`ticket_type` = #{ticketType,jdbcType=VARCHAR},
+					`rate` = #{rate,jdbcType=DOUBLE},
+					`type` = #{type,jdbcType=VARCHAR},
+					`cus_id` = #{cusId,jdbcType=BIGINT},
+				 </trim>
+        </set>
+        where `id` = #{id,jdbcType=BIGINT} 
+    </update>
+	<!--根据id修改数据,判断空-->
+	<update id="updateNotNull" parameterType="org.alvin.test.ticket.Ticket">
+        update `ticket`
+        <set> 
+		<trim   suffixOverrides=",">
+		 		
+			 <if test="id != null">
+                `id` = #{id,jdbcType=BIGINT},
+            </if>	
+		 		
+			 <if test="vendorId != null">
+                `vendor_id` = #{vendorId,jdbcType=BIGINT},
+            </if>	
+		 		
+			 <if test="taxType != null">
+                `tax_type` = #{taxType,jdbcType=VARCHAR},
+            </if>	
+		 		
+			 <if test="targetName != null">
+                `target_name` = #{targetName,jdbcType=VARCHAR},
+            </if>	
+		 		
+			 <if test="targetId != null">
+                `target_id` = #{targetId,jdbcType=BIGINT},
+            </if>	
+		 		
+			 <if test="remark != null">
+                `remark` = #{remark,jdbcType=VARCHAR},
+            </if>	
+		 		
+			 <if test="ticketType != null">
+                `ticket_type` = #{ticketType,jdbcType=VARCHAR},
+            </if>	
+		 		
+			 <if test="rate != null">
+                `rate` = #{rate,jdbcType=DOUBLE},
+            </if>	
+		 		
+			 <if test="type != null">
+                `type` = #{type,jdbcType=VARCHAR},
+            </if>	
+		 		
+			 <if test="cusId != null">
+                `cus_id` = #{cusId,jdbcType=BIGINT},
+            </if>	
+		 	 </trim>
+        </set>
+        where `id` = #{id,jdbcType=BIGINT} 
+    </update>
+ 
+<!--基础字段查询-->
+  <sql id="Base_Column_List" >
+     <trim   suffixOverrides=",">
+	 	 t.`id`,
+	 	 t.`vendor_id`,
+	 	 t.`tax_type`,
+	 	 t.`target_name`,
+	 	 t.`target_id`,
+	 	 t.`remark`,
+	 	 t.`ticket_type`,
+	 	 t.`rate`,
+	 	 t.`type`,
+	 	 t.`cus_id`,
+	 	 </trim>
+  </sql>
+	<!--列表查询-->
+	 <select id="queryList" resultMap="BaseResultMap" parameterType="org.alvin.test.ticket.TicketCond">
+	   select 
+		<include refid="Base_Column_List" />
+		from `ticket` as t
+		where 1=1
+		<trim   suffixOverrides=",">
+					<if test="id != null">
+									and t.`id` = #{id,jdbcType=BIGINT},
+							</if>
+		 			<if test="vendorId != null">
+									and t.`vendor_id` = #{vendorId,jdbcType=BIGINT},
+							</if>
+		 			<if test="taxType != null">
+									and t.`tax_type` like CONCAT('%',#{taxType,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="targetName != null">
+									and t.`target_name` like CONCAT('%',#{targetName,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="targetId != null">
+									and t.`target_id` = #{targetId,jdbcType=BIGINT},
+							</if>
+		 			<if test="remark != null">
+									and t.`remark` like CONCAT('%',#{remark,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="ticketType != null">
+									and t.`ticket_type` like CONCAT('%',#{ticketType,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="rate != null">
+									and t.`rate` = #{rate,jdbcType=DOUBLE},
+							</if>
+		 			<if test="type != null">
+									and t.`type` like CONCAT('%',#{type,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="cusId != null">
+									and t.`cus_id` = #{cusId,jdbcType=BIGINT},
+							</if>
+		 		 </trim>
+		 order by t.`id` desc
+    </select>
+	<!--单个查询-->
+	<select id="findOne" resultMap="BaseResultMap" parameterType="org.alvin.test.ticket.TicketCond">
+	   select 
+		<include refid="Base_Column_List" />
+		from `ticket` as t
+		where 1=1
+		<trim   suffixOverrides=",">
+					<if test="id != null">
+									and t.`id` = #{id,jdbcType=BIGINT},
+							</if>
+		 			<if test="vendorId != null">
+									and t.`vendor_id` = #{vendorId,jdbcType=BIGINT},
+							</if>
+		 			<if test="taxType != null">
+									and t.`tax_type` like CONCAT('%',#{taxType,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="targetName != null">
+									and t.`target_name` like CONCAT('%',#{targetName,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="targetId != null">
+									and t.`target_id` = #{targetId,jdbcType=BIGINT},
+							</if>
+		 			<if test="remark != null">
+									and t.`remark` like CONCAT('%',#{remark,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="ticketType != null">
+									and t.`ticket_type` like CONCAT('%',#{ticketType,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="rate != null">
+									and t.`rate` = #{rate,jdbcType=DOUBLE},
+							</if>
+		 			<if test="type != null">
+									and t.`type` like CONCAT('%',#{type,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="cusId != null">
+									and t.`cus_id` = #{cusId,jdbcType=BIGINT},
+							</if>
+		 		 </trim>
+		 order by t.`id` desc LIMIT 0,1
+    </select>
+	<!--根据主键查询-->
+	<select id="findById" resultMap="BaseResultMap" parameterType="org.alvin.test.ticket.TicketCond">
+	   select 
+		<include refid="Base_Column_List" />
+		from `ticket` as t
+		where t.`id` =  #{id,jdbcType=BIGINT} 
+    </select>
+	<!--查询返回数量-->
+	<select id="queryCount" resultType="java.lang.Long" parameterType="org.alvin.test.ticket.TicketCond">
+	   select count(t.`id`)
+		from `ticket` as t
+		where 1=1
+		<trim   suffixOverrides=",">
+					<if test="id != null">
+									and t.`id` = #{id,jdbcType=BIGINT},
+							</if>
+		 			<if test="vendorId != null">
+									and t.`vendor_id` = #{vendorId,jdbcType=BIGINT},
+							</if>
+		 			<if test="taxType != null">
+									and t.`tax_type` like CONCAT('%',#{taxType,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="targetName != null">
+									and t.`target_name` like CONCAT('%',#{targetName,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="targetId != null">
+									and t.`target_id` = #{targetId,jdbcType=BIGINT},
+							</if>
+		 			<if test="remark != null">
+									and t.`remark` like CONCAT('%',#{remark,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="ticketType != null">
+									and t.`ticket_type` like CONCAT('%',#{ticketType,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="rate != null">
+									and t.`rate` = #{rate,jdbcType=DOUBLE},
+							</if>
+		 			<if test="type != null">
+									and t.`type` like CONCAT('%',#{type,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="cusId != null">
+									and t.`cus_id` = #{cusId,jdbcType=BIGINT},
+							</if>
+		 		 </trim>
+    </select>
+ </mapper>

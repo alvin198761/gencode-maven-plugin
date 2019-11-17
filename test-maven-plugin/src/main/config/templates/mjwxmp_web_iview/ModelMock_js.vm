@@ -1,0 +1,90 @@
+/*${cName}模拟数据},作者:${auth},日期:${time}*/
+'use strict';
+var Mock = require('mockjs')
+var Random = Mock.Random;
+module.exports = {
+
+  'POST /api/${lowUpp}/queryPage': function (req, res, next) {
+    var data = Mock.mock({
+      'content|10': [{
+        #foreach($field in $fList)
+            #if (${field.type} == "String")
+                ${field.lower_camel} : "@word(5,10)",// ${field.comment}
+            #else
+                ${field.lower_camel}: "@integer(100,200)",//${field.comment}
+            #end
+        #end
+      }],
+      'number': '@integer(100,200)',
+      'size': 10,
+      'totalElements': 500,
+    });
+
+    var resp = {
+         "code": 200,
+         "errorMsg": "请求成功",
+         "data":data
+         };
+
+    setTimeout(function () {
+      res.json(resp);
+    }, 500);
+  },
+
+  'POST /api/${lowUpp}/update': function (req, res, next) {
+    var resp = {
+           "code": 200,
+           "errorMsg": "请求成功",
+           "data":1
+           };
+    setTimeout(function () {
+      res.json(resp);
+    }, 500);
+  },
+
+  'POST /api/${lowUpp}/save': function (req, res, next) {
+   var resp = {
+         "code": 200,
+         "errorMsg": "请求成功",
+         "data":1
+         };
+    setTimeout(function () {
+      res.json(resp);
+    }, 500);
+  },
+
+  'POST /api/${lowUpp}/queryList': function (req, res, next) {
+    var data = Mock.mock({
+      'content|10': [{
+        #foreach($field in $fList)
+            #if (${field.type} == "String")
+                ${field.lower_camel} : "@word(5,10)",// ${field.comment}
+            #else
+                ${field.lower_camel}: "@integer(100,200)",//${field.comment}
+            #end
+        #end
+      }]
+    });
+      var resp = {
+         "code": 200,
+         "errorMsg": "请求成功",
+         "data":data.content
+         };
+
+        setTimeout(function () {
+          res.json(resp);
+        }, 500);
+
+  },
+
+  'POST /api/${lowUpp}/delete': function (req, res, next) {
+     var resp = {
+       "code": 200,
+       "errorMsg": "请求成功",
+       "data":1
+       };
+    setTimeout(function () {
+      res.json(resp);
+    }, 500);
+  },
+}

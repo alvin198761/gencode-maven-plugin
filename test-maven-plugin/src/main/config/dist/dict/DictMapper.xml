@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.alvin.test.dict.DictDao" >
+
+	<!--结果集映射-->
+  <resultMap id="BaseResultMap" type="org.alvin.test.dict.Dict" >
+       <id column="id" property="id" jdbcType="BIGINT" />
+	    <id column="id" property="id" jdbcType="BIGINT" />
+	    <id column="type" property="type" jdbcType="INTEGER" />
+	    <id column="type" property="type" jdbcType="INTEGER" />
+	    <id column="name" property="name" jdbcType="VARCHAR" />
+	    <id column="name" property="name" jdbcType="VARCHAR" />
+	  </resultMap>
+  
+   <!--保存对象,并生产主键-->
+  <insert id="save" parameterType="org.alvin.test.dict.Dict" useGeneratedKeys="true" keyProperty="id">
+        insert into `type_dict`
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+         		 				 				 			<if test="type != null">
+                 `type`,
+            </if>
+						 			<if test="type != null">
+                 `type`,
+            </if>
+						 			<if test="name != null">
+                 `name`,
+            </if>
+						 			<if test="name != null">
+                 `name`,
+            </if>
+				        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+							 					 						<if test="type != null">
+                 #{type,jdbcType=INTEGER},
+            </if>
+					 						<if test="type != null">
+                 #{type,jdbcType=INTEGER},
+            </if>
+					 						<if test="name != null">
+                 #{name,jdbcType=VARCHAR},
+            </if>
+					 						<if test="name != null">
+                 #{name,jdbcType=VARCHAR},
+            </if>
+					         </trim>
+    </insert>
+	
+	 <!--保存对象,并生产主键-->
+	<insert id="insertBatch" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="id">
+        insert into `type_dict`
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            			  		  			  		  			  				`type`,    
+			 		  			  				`type`,    
+			 		  			  				`name`,    
+			 		  			  				`name`,    
+			 		          </trim>
+        <trim prefix="values " suffixOverrides=",">
+            <foreach collection="list" item="item" index="index" separator=",">
+                <trim prefix="(" suffix=")" suffixOverrides=",">
+                 									 									 										 #{item.type,jdbcType=INTEGER},
+									 										 #{item.type,jdbcType=INTEGER},
+									 										 #{item.name,jdbcType=VARCHAR},
+									 										 #{item.name,jdbcType=VARCHAR},
+									                 </trim>
+            </foreach>
+        </trim>
+    </insert>
+  
+  <!--根据id列表删除对象-->
+   <delete id="delete" parameterType="Long[]">
+    delete from `type_dict`
+    where `id` in 
+	<foreach collection="array" index="index" item="item" open="(" separator="," close=")">
+     #{item}
+    </foreach>
+  </delete>
+   <!--逻辑删除-->
+	  <update id="deleteLogic" parameterType="Long[]">
+			update `type_dict`
+			<set>
+			 `status` = -1  
+			</set>
+			where `id` in 
+			<foreach collection="array" index="index" item="item" open="(" separator="," close=")">
+					#{item}
+			</foreach>
+		</update>
+  <!--根据id修改数据,不判断空-->
+   <update id="update" parameterType="org.alvin.test.dict.Dict">
+        update `type_dict`
+        <set>
+		<trim   suffixOverrides=",">
+		 			`id` = #{id,jdbcType=BIGINT},
+					`id` = #{id,jdbcType=BIGINT},
+					`type` = #{type,jdbcType=INTEGER},
+					`type` = #{type,jdbcType=INTEGER},
+					`name` = #{name,jdbcType=VARCHAR},
+					`name` = #{name,jdbcType=VARCHAR},
+				 </trim>
+        </set>
+        where `id` = #{id,jdbcType=BIGINT} 
+    </update>
+	<!--根据id修改数据,判断空-->
+	<update id="updateNotNull" parameterType="org.alvin.test.dict.Dict">
+        update `type_dict`
+        <set> 
+		<trim   suffixOverrides=",">
+		 		
+			 <if test="id != null">
+                `id` = #{id,jdbcType=BIGINT},
+            </if>	
+		 		
+			 <if test="id != null">
+                `id` = #{id,jdbcType=BIGINT},
+            </if>	
+		 		
+			 <if test="type != null">
+                `type` = #{type,jdbcType=INTEGER},
+            </if>	
+		 		
+			 <if test="type != null">
+                `type` = #{type,jdbcType=INTEGER},
+            </if>	
+		 		
+			 <if test="name != null">
+                `name` = #{name,jdbcType=VARCHAR},
+            </if>	
+		 		
+			 <if test="name != null">
+                `name` = #{name,jdbcType=VARCHAR},
+            </if>	
+		 	 </trim>
+        </set>
+        where `id` = #{id,jdbcType=BIGINT} 
+    </update>
+ 
+<!--基础字段查询-->
+  <sql id="Base_Column_List" >
+     <trim   suffixOverrides=",">
+	 	 t.`id`,
+	 	 t.`id`,
+	 	 t.`type`,
+	 	 t.`type`,
+	 	 t.`name`,
+	 	 t.`name`,
+	 	 </trim>
+  </sql>
+	<!--列表查询-->
+	 <select id="queryList" resultMap="BaseResultMap" parameterType="org.alvin.test.dict.DictCond">
+	   select 
+		<include refid="Base_Column_List" />
+		from `type_dict` as t
+		where 1=1
+		<trim   suffixOverrides=",">
+					<if test="id != null">
+									and t.`id` = #{id,jdbcType=BIGINT},
+							</if>
+		 			<if test="id != null">
+									and t.`id` = #{id,jdbcType=BIGINT},
+							</if>
+		 			<if test="type != null">
+									and t.`type` = #{type,jdbcType=INTEGER},
+							</if>
+		 			<if test="type != null">
+									and t.`type` = #{type,jdbcType=INTEGER},
+							</if>
+		 			<if test="name != null">
+									and t.`name` like CONCAT('%',#{name,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="name != null">
+									and t.`name` like CONCAT('%',#{name,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 		 </trim>
+		 order by t.`id` desc
+    </select>
+	<!--单个查询-->
+	<select id="findOne" resultMap="BaseResultMap" parameterType="org.alvin.test.dict.DictCond">
+	   select 
+		<include refid="Base_Column_List" />
+		from `type_dict` as t
+		where 1=1
+		<trim   suffixOverrides=",">
+					<if test="id != null">
+									and t.`id` = #{id,jdbcType=BIGINT},
+							</if>
+		 			<if test="id != null">
+									and t.`id` = #{id,jdbcType=BIGINT},
+							</if>
+		 			<if test="type != null">
+									and t.`type` = #{type,jdbcType=INTEGER},
+							</if>
+		 			<if test="type != null">
+									and t.`type` = #{type,jdbcType=INTEGER},
+							</if>
+		 			<if test="name != null">
+									and t.`name` like CONCAT('%',#{name,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="name != null">
+									and t.`name` like CONCAT('%',#{name,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 		 </trim>
+		 order by t.`id` desc LIMIT 0,1
+    </select>
+	<!--根据主键查询-->
+	<select id="findById" resultMap="BaseResultMap" parameterType="org.alvin.test.dict.DictCond">
+	   select 
+		<include refid="Base_Column_List" />
+		from `type_dict` as t
+		where t.`id` =  #{id,jdbcType=BIGINT} 
+    </select>
+	<!--查询返回数量-->
+	<select id="queryCount" resultType="java.lang.Long" parameterType="org.alvin.test.dict.DictCond">
+	   select count(t.`id`)
+		from `type_dict` as t
+		where 1=1
+		<trim   suffixOverrides=",">
+					<if test="id != null">
+									and t.`id` = #{id,jdbcType=BIGINT},
+							</if>
+		 			<if test="id != null">
+									and t.`id` = #{id,jdbcType=BIGINT},
+							</if>
+		 			<if test="type != null">
+									and t.`type` = #{type,jdbcType=INTEGER},
+							</if>
+		 			<if test="type != null">
+									and t.`type` = #{type,jdbcType=INTEGER},
+							</if>
+		 			<if test="name != null">
+									and t.`name` like CONCAT('%',#{name,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="name != null">
+									and t.`name` like CONCAT('%',#{name,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 		 </trim>
+    </select>
+ </mapper>

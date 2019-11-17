@@ -1,0 +1,111 @@
+/*${cName}新增与修改},作者:${auth},日期:${time}*/
+<template>
+      <Modal :title="title" v-model="show" :scrollable="false" :mask-closable="false" width="600">
+            <Form :model="form" ref="form" :rules="rules" :label-width="100">
+                  <Row>
+                        <i-col>
+                            #foreach($field in $fList)
+                            #if($field.name != $id.name)
+                            <FormItem label="${field.comment}" prop="${field.lower_camel}">
+                            #if ($field.allTypeName == "java.util.Date")
+                            <DatePicker type="date" placeholder="${field.comment}" v-model="form.${field.lower_camel}" style="width: 100%" clearable></DatePicker>
+                             #elseif($field.allTypeName == "java.lang.Long")
+                            <InputNumber placeholder="${field.comment}" v-model="form.${field.lower_camel}"  style="width: 100%"  clearable></InputNumber>
+                            #elseif($field.allTypeName == "java.lang.Integer")
+                            <InputNumber placeholder="${field.comment}" v-model="form.${field.lower_camel}"  style="width: 100%"  clearable></InputNumber>
+                            #elseif($field.allTypeName == "java.lang.Integer")
+                            <InputNumber placeholder="${field.comment}" v-model="form.${field.lower_camel}"  style="width: 100%" clearable></InputNumber>
+                            #elseif($field.allTypeName == "java.lang.Double")
+                            <InputNumber placeholder="${field.comment}" v-model="form.${field.lower_camel}" style="width: 100%"  clearable></InputNumber>
+                            #elseif($field.allTypeName == "java.lang.Short")
+                            <InputNumber placeholder="${field.comment}" v-model="form.${field.lower_camel}" style="width: 100%" clearable></InputNumber>
+                            #elseif($field.allTypeName == "java.lang.Byte")
+                            <Select placeholder="${field.comment}" v-model="form.${field.lower_camel}" style="width: 100%"  clearable>
+                            <Option   value="-1"  >-请选择-</Option>
+                            </Select>
+                            #else
+                            <Input placeholder="${field.comment}" v-model="form.${field.lower_camel}" clearable/>
+                            #end
+                            </FormItem>
+                            #end
+                            #end
+                            </i-col>
+                      </Row>
+                </Form>
+            <div slot="footer" style="text-align: right">
+              <Button @click="show = false">取消</Button>
+              <Button type="primary" @click="save()">确定</Button>
+            </div>
+          </Modal>
+    </template>
+<script>
+  export default {
+    components: {},
+    props: ["refresh"],
+    data() {
+      return {
+        title: '',
+        form: this.initForm(),
+        dialogMode: "save",
+        show: false,
+        rules: {
+        #foreach($field in $fList)
+            ${field.lower_camel} : [
+             #if ($field.allTypeName == "java.util.Date")
+            {required: true, type:'date', message: '请输入${field.comment}', trigger: 'blur'},
+          //  {min: 1, max: 10, type:'date', message: '${field.comment}长度不正确', trigger: 'blur'},
+            #elseif($field.allTypeName == "java.lang.String")
+               {required: true,   message: '请输入${field.comment}', trigger: 'blur'},
+          //  {min: 1, max: 10,   message: '${field.comment}长度不正确', trigger: 'blur'},
+            #else
+           {required: true, type:'number', message: '请输入${field.comment}', trigger: 'blur'},
+          //  {min: 1, max: 10, type:'number', message: '${field.comment}长度不正确', trigger: 'blur'},
+            #end
+        ],
+        #end
+        }
+      }
+    },
+    methods: {
+      save() {//新增及修改记录
+        const that = this;
+        this.${dollar}refs['form'].validate((valid) => {
+          if (!valid) {
+            return;
+          }
+          that.${dollar}postBody("/api/${lowUpp}/" + that.dialogMode, that.form).then(res => {
+          that.show = false;
+            if (res.errcode != 0) {
+              that.${dollar}Message.error({content: res.errmsg ? res.errmsg : that.title+'失败'});
+              return ;
+            }
+            that.refresh();
+            that.${dollar}Message.success({ content: that.title+'成功'});
+          }).catch(res => {
+             that.${dollar}Message.error({ content: that.title+'失败' + res });
+          });
+        });
+      },
+      initForm() {//初始数据
+        return {
+          #foreach($field in $fList)
+              ${field.lower_camel} : null,// ${field.comment}
+          #end
+        }
+      },
+      addDialog() {//新增
+        this.title = "新增${cName}";
+        this.dialogMode = "save";
+        this.form = this.initForm();
+        this.show = true;
+      },
+      editDialog(row) {//修改
+        this.title = "修改${cName}";
+        this.dialogMode = "update";
+        this.form = {...row};
+        this.show = true;
+      },
+    }
+  }
+</script>
+<style></style>

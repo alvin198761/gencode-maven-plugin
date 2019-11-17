@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.alvin.test.category.CategoryDao" >
+
+	<!--结果集映射-->
+  <resultMap id="BaseResultMap" type="org.alvin.test.category.Category" >
+       <id column="id" property="id" jdbcType="BIGINT" />
+	    <id column="name" property="name" jdbcType="VARCHAR" />
+	    <id column="tax_code" property="taxCode" jdbcType="VARCHAR" />
+	  </resultMap>
+  
+   <!--保存对象,并生产主键-->
+  <insert id="save" parameterType="org.alvin.test.category.Category" useGeneratedKeys="true" keyProperty="id">
+        insert into `tax_category`
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+         		 				 			<if test="name != null">
+                 `name`,
+            </if>
+						 			<if test="taxCode != null">
+                 `tax_code`,
+            </if>
+				        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+							 						<if test="name != null">
+                 #{name,jdbcType=VARCHAR},
+            </if>
+					 						<if test="taxCode != null">
+                 #{taxCode,jdbcType=VARCHAR},
+            </if>
+					         </trim>
+    </insert>
+	
+	 <!--保存对象,并生产主键-->
+	<insert id="insertBatch" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="id">
+        insert into `tax_category`
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            			  		  			  				`name`,    
+			 		  			  				`tax_code`,    
+			 		          </trim>
+        <trim prefix="values " suffixOverrides=",">
+            <foreach collection="list" item="item" index="index" separator=",">
+                <trim prefix="(" suffix=")" suffixOverrides=",">
+                 									 										 #{item.name,jdbcType=VARCHAR},
+									 										 #{item.taxCode,jdbcType=VARCHAR},
+									                 </trim>
+            </foreach>
+        </trim>
+    </insert>
+  
+  <!--根据id列表删除对象-->
+   <delete id="delete" parameterType="Long[]">
+    delete from `tax_category`
+    where `id` in 
+	<foreach collection="array" index="index" item="item" open="(" separator="," close=")">
+     #{item}
+    </foreach>
+  </delete>
+   <!--逻辑删除-->
+	  <update id="deleteLogic" parameterType="Long[]">
+			update `tax_category`
+			<set>
+			 `status` = -1  
+			</set>
+			where `id` in 
+			<foreach collection="array" index="index" item="item" open="(" separator="," close=")">
+					#{item}
+			</foreach>
+		</update>
+  <!--根据id修改数据,不判断空-->
+   <update id="update" parameterType="org.alvin.test.category.Category">
+        update `tax_category`
+        <set>
+		<trim   suffixOverrides=",">
+		 			`id` = #{id,jdbcType=BIGINT},
+					`name` = #{name,jdbcType=VARCHAR},
+					`tax_code` = #{taxCode,jdbcType=VARCHAR},
+				 </trim>
+        </set>
+        where `id` = #{id,jdbcType=BIGINT} 
+    </update>
+	<!--根据id修改数据,判断空-->
+	<update id="updateNotNull" parameterType="org.alvin.test.category.Category">
+        update `tax_category`
+        <set> 
+		<trim   suffixOverrides=",">
+		 		
+			 <if test="id != null">
+                `id` = #{id,jdbcType=BIGINT},
+            </if>	
+		 		
+			 <if test="name != null">
+                `name` = #{name,jdbcType=VARCHAR},
+            </if>	
+		 		
+			 <if test="taxCode != null">
+                `tax_code` = #{taxCode,jdbcType=VARCHAR},
+            </if>	
+		 	 </trim>
+        </set>
+        where `id` = #{id,jdbcType=BIGINT} 
+    </update>
+ 
+<!--基础字段查询-->
+  <sql id="Base_Column_List" >
+     <trim   suffixOverrides=",">
+	 	 t.`id`,
+	 	 t.`name`,
+	 	 t.`tax_code`,
+	 	 </trim>
+  </sql>
+	<!--列表查询-->
+	 <select id="queryList" resultMap="BaseResultMap" parameterType="org.alvin.test.category.CategoryCond">
+	   select 
+		<include refid="Base_Column_List" />
+		from `tax_category` as t
+		where 1=1
+		<trim   suffixOverrides=",">
+					<if test="id != null">
+									and t.`id` = #{id,jdbcType=BIGINT},
+							</if>
+		 			<if test="name != null">
+									and t.`name` like CONCAT('%',#{name,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="taxCode != null">
+									and t.`tax_code` like CONCAT('%',#{taxCode,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 		 </trim>
+		 order by t.`id` desc
+    </select>
+	<!--单个查询-->
+	<select id="findOne" resultMap="BaseResultMap" parameterType="org.alvin.test.category.CategoryCond">
+	   select 
+		<include refid="Base_Column_List" />
+		from `tax_category` as t
+		where 1=1
+		<trim   suffixOverrides=",">
+					<if test="id != null">
+									and t.`id` = #{id,jdbcType=BIGINT},
+							</if>
+		 			<if test="name != null">
+									and t.`name` like CONCAT('%',#{name,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="taxCode != null">
+									and t.`tax_code` like CONCAT('%',#{taxCode,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 		 </trim>
+		 order by t.`id` desc LIMIT 0,1
+    </select>
+	<!--根据主键查询-->
+	<select id="findById" resultMap="BaseResultMap" parameterType="org.alvin.test.category.CategoryCond">
+	   select 
+		<include refid="Base_Column_List" />
+		from `tax_category` as t
+		where t.`id` =  #{id,jdbcType=BIGINT} 
+    </select>
+	<!--查询返回数量-->
+	<select id="queryCount" resultType="java.lang.Long" parameterType="org.alvin.test.category.CategoryCond">
+	   select count(t.`id`)
+		from `tax_category` as t
+		where 1=1
+		<trim   suffixOverrides=",">
+					<if test="id != null">
+									and t.`id` = #{id,jdbcType=BIGINT},
+							</if>
+		 			<if test="name != null">
+									and t.`name` like CONCAT('%',#{name,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 			<if test="taxCode != null">
+									and t.`tax_code` like CONCAT('%',#{taxCode,jdbcType=VARCHAR},'%' ) ,
+							</if>
+		 		 </trim>
+    </select>
+ </mapper>

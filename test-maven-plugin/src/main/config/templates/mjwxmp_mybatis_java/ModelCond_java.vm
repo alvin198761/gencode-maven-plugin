@@ -1,0 +1,104 @@
+package $pName ;
+
+#foreach($importItem in $importList)
+    $importItem
+#end
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import java.util.List;
+
+
+/**
+* @类说明: ${cName}--查询条件实体类
+* @author: ${auth}
+* @date : ${time}
+**/
+@ApiModel(value = "${clsUpp}Cond", description = "${cName}查询条件实体")
+public class ${clsUpp}Cond  {
+
+    //feilds
+    #foreach ($fie in $fList)
+    @ApiModelProperty(value = "${fie.comment}", dataType = "${fie.type}")
+    private  ${fie.type}  ${fie.lower_camel} ;//  ${fie.comment}
+    #end
+    //  通用变量
+    private List<${idType}> ids;// 主键列表
+    private Integer pageSize = 10; //每页条数
+    private Integer total; //总条数
+    private Integer pageNum; //当前页码
+
+
+    //getters and setters
+    #foreach ($fi in $fList)
+        /**
+        * @return ${fi.comment}
+        */
+        public ${fi.type} get${fi.upper_camel}(){
+            return this.${fi.lower_camel} ;
+        }
+
+        /**
+        * @param ${fi.comment}
+        */
+        public void set${fi.upper_camel}(${fi.type} ${fi.lower_camel}){
+            this.${fi.lower_camel} = ${fi.lower_camel};
+        }
+
+    #end
+    /**
+    * @return 主键列表
+    */
+    public List<${idType}> getIds(){
+        return this.ids;
+    }
+
+    /**
+    *@param 主键列表
+    */
+    public void setIds(${idType} ids){
+        this.ids = ids;
+    }
+
+    /**
+    * @return 每页条数
+    */
+    public Integer getPageSize(){
+        return this.pageSize;
+    }
+
+    /**
+    *@param 每页条数
+    */
+    public void setPageSize(Integer pageSize){
+        this.pageSize = pageSize;
+    }
+
+    /**
+    * @return 总条数
+    */
+    public Integer getTotal(){
+        return this.total;
+    }
+
+    /**
+    *@param 总条数
+    */
+    public void setTotal(Integer total){
+        this.total = total;
+    }
+
+        /**
+    * @return 当前页码
+    */
+    public Integer getPageNum(){
+        return this.pageNum;
+    }
+
+    /**
+    *@param 当前页码
+    */
+    public void setPageNum(Integer pageNum){
+        this.pageNum = pageNum;
+    }
+ 
+}
