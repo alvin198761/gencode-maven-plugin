@@ -130,29 +130,26 @@ public class VelocityUtil {
      * 实体类生成算法
      *
      * @param vms
-     * @param baseUrl
      * @param jsonObject
      * @param packageName
      * @param low
      * @param suffix
      * @throws IOException
      */
-    public static void parseEntityTemplate(List<String> vms, String baseUrl, String outDir, JSONObject jsonObject, String packageName, String low, String suffix, VelocityEngine engine) throws IOException {
+    public static void parseEntityTemplate(List<String> vms, String outDir, JSONObject jsonObject, String packageName, String low, String suffix, VelocityEngine engine) throws IOException {
         //循环模板，进行合并
         for (String vm : vms) {
             //获得文件名称
             log.info("template file :" + vm);
-            File baseDir = new File(baseUrl, vm);
             //计算包名
             String pName = packageName.concat(".").concat(low);
-            File fileName = new File(vm);
-            String vmName = fileName.getName().substring(0, fileName.getName().lastIndexOf(suffix));
+            File templateFile = new File(vm);
+            String vmName = templateFile.getName().substring(0, templateFile.getName().lastIndexOf(suffix));
             String fileType = vmName.substring(vmName.lastIndexOf("_")).replace('_', '.');
             String upp = vmName.replaceAll("Model", jsonObject.getString("clsUpp"));
             upp = upp.substring(0, upp.length() - fileType.length());
             jsonObject.put("upp", upp);
-            String path = outDir.concat(File.separator).concat(low).concat(File.separator).concat(upp);
-
+            String path = Paths.get(outDir, templateFile.getParentFile().getName(), low, upp).toFile().getAbsolutePath();
             log.info("target file :" + path + fileType);
             log.info("=================start VelocityEngine==================");
             jsonObject.put("pName", pName);

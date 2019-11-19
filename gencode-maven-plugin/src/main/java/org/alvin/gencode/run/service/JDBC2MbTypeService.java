@@ -1,4 +1,4 @@
-package org.alvin.gencode.service;
+package org.alvin.gencode.run.service;
 
 import org.alvin.mini_inject.annotations.MiniComponent;
 

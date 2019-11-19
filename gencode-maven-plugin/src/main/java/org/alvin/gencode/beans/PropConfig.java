@@ -1,4 +1,4 @@
-package org.alvin.gencode.config;
+package org.alvin.gencode.beans;
 
 import lombok.Data;
 
@@ -11,9 +11,14 @@ public class PropConfig {
     private String password;
 
     private String packageName;
-    private String mode;
     private String author;
     private String configDir;
     private String dbName;
+
+    private String swaggerUrl;
+    private String swaggerApiType;
+
+
+
 
 }

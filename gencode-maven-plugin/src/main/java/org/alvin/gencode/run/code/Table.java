@@ -1,8 +1,6 @@
-package org.alvin.gencode.system.code;
+package org.alvin.gencode.run.code;
 
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
 @Data
 public class Table {

@@ -1,15 +1,12 @@
-package org.alvin.gencode.system.code;
+package org.alvin.gencode.run.code;
 
 import com.google.common.base.CaseFormat;
 import lombok.extern.slf4j.Slf4j;
-import org.alvin.code.jdbc.ConnectionUtils;
 import org.alvin.code.jdbc.JDBCBaseDao;
 import org.alvin.code.jdbc.utils.SqlUtil;
 import org.alvin.gencode.utils.Utils;
 import org.alvin.mini_inject.annotations.MiniComponent;
 
-import java.sql.Connection;
-import java.sql.DatabaseMetaData;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.stream.Collectors;

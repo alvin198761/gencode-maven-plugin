@@ -1,9 +1,10 @@
-package org.alvin.gencode.config;
+package org.alvin.gencode.run.config;
 
 import lombok.extern.slf4j.Slf4j;
 import org.alvin.code.jdbc.ConnectionUtils;
-import org.alvin.gencode.service.ConfigService;
-import org.alvin.gencode.system.code.CodeService;
+import org.alvin.gencode.beans.PropConfig;
+import org.alvin.gencode.run.code.CodeService;
+import org.alvin.gencode.utils.ConfigUtil;
 import org.alvin.mini_inject.annotations.MiniComponent;
 import org.alvin.mini_inject.annotations.MiniInject;
 import org.alvin.mini_inject.annotations.MiniRun;
@@ -13,8 +14,7 @@ import java.io.IOException;
 @Slf4j
 @MiniComponent
 public class GenCodePluginConfig {
-    @MiniInject
-    private ConfigService configService;
+
     @MiniInject
     private CodeService codeService;
 
@@ -22,7 +22,7 @@ public class GenCodePluginConfig {
     public void start() {
         try {
             log.info("启动配置加载");
-            PropConfig propConfig = this.configService.initConfig();
+            PropConfig propConfig = ConfigUtil.initConfig();
             log.info("初始化数据库连接");
             this.initConnectionConfig(propConfig);
             log.info("生成代码");

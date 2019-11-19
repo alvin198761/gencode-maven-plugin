@@ -1,8 +1,7 @@
-package org.alvin.gencode.service;
+package org.alvin.gencode.utils;
 
 import lombok.extern.slf4j.Slf4j;
-import org.alvin.gencode.config.PropConfig;
-import org.alvin.mini_inject.annotations.MiniComponent;
+import org.alvin.gencode.beans.PropConfig;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -11,11 +10,14 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Properties;
 
+/**
+ * @author 唐植超
+ * @date 2019/11/19
+ */
 @Slf4j
-@MiniComponent
-public class ConfigService {
+public class ConfigUtil {
 
-    public PropConfig initConfig() throws IOException {
+    public static PropConfig initConfig() throws IOException {
         String path = System.getProperty("config");
         log.info("配置文件路径:" + path);
         try (InputStream is = Files.newInputStream(Paths.get(path))) {

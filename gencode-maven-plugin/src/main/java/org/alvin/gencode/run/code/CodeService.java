@@ -1,14 +1,12 @@
-package org.alvin.gencode.system.code;
+package org.alvin.gencode.run.code;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.base.CaseFormat;
 import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
-import org.alvin.gencode.config.PropConfig;
-import org.alvin.gencode.service.JDBC2MbTypeService;
-import org.alvin.gencode.service.VmFileService;
+import org.alvin.gencode.beans.PropConfig;
+import org.alvin.gencode.run.service.JDBC2MbTypeService;
+import org.alvin.gencode.run.service.VmFileService;
 import org.alvin.gencode.utils.Utils;
 import org.alvin.gencode.utils.VelocityUtil;
 import org.alvin.mini_inject.annotations.MiniComponent;
@@ -50,35 +48,24 @@ public class CodeService {
     public void genCode(PropConfig propConfig) {
         //读取配置确定需要生成的类
         Path path = Paths.get(propConfig.getConfigDir().concat(File.separator).concat("gcode.rmb"));
-        if (propConfig.getMode().equalsIgnoreCase("create")) {
-            log.info("创建模式,每次都更新所有");
+        List<String> list = Lists.newArrayList();
+        if (Files.exists(path)) {
             try {
-                if(Files.exists(path)) {
-                    Files.delete(path);
-                }
+                list = Files.readAllLines(path);
+                log.info("递增执行,过滤掉数据表:" + list);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-        JSONArray array = null;
-        if (!Files.exists(path)) {
-            array = new JSONArray();
-        } else {
-            try {
-                array = JSON.parseArray(new String(Files.readAllBytes(path), "utf-8"));
-                log.info("递增执行,过滤掉数据表:" + array.toJSONString());
-            } catch (Exception e) {
-                array = new JSONArray();
-            }
-        }
         CodeCond codeCond = new CodeCond();
-        codeCond.setTableNameNotIn(array.toJavaList(String.class));
+        codeCond.setTableNameNotIn(list);
         try {
             codeCond.setTable_schema(propConfig.getDbName());
             List<Table> tables = this.codeDao.queryTables(codeCond);
             this.doCreate(tables, propConfig);
-            array.addAll(tables.stream().map(Table::getT_name).collect(Collectors.toList()));
-            Files.write(path, array.toJSONString().getBytes("utf-8"));
+            list.addAll(tables.stream().map(Table::getT_name).collect(Collectors.toList()));
+            String lines = list.stream().collect(Collectors.joining(System.getProperty("line.separator")));
+            Files.write(path, lines.getBytes("utf-8"));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -115,7 +102,6 @@ public class CodeService {
             List<Field> fList = null;// 字段列表
             try {
                 fList = codeDao.queryFields(codeCond).stream().map(item -> {
-                    item.setBigName(Utils.firstUpper(item.getName()));
                     item.setLower_camel(CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, item.getName()));
                     item.setUpper_camel(CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, item.getName()));
                     if (item.getAllTypeName().indexOf(".") != -1) {
@@ -133,7 +119,6 @@ public class CodeService {
             String cName = table.getC_name();// 表注释中文名
             String upp = table.getCls_upp();// 驼峰类名(首字母大写)
             String low = upp.toLowerCase();// 类名小写(只用包路径)
-            String lowUpp = Utils.firstLower(upp);// 驼峰变量类名(首字母小写)
             String idType = Utils.keyType(fList);// 主键数据类型
             Field idField = fList.stream().filter(item -> item.getColumn_key().equals("PRI")).findFirst().get();
 
@@ -142,7 +127,7 @@ public class CodeService {
             jsonObject.put("fList", fList);
             jsonObject.put("auth", propConfig.getAuthor());
             jsonObject.put("cName", cName);
-            jsonObject.put("lowUpp", lowUpp);
+            jsonObject.put("lowUpp", CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_CAMEL, upp));
             jsonObject.put("idType", idType);
             jsonObject.put("id", idField);
             jsonObject.put("table", table);
@@ -159,9 +144,9 @@ public class CodeService {
             jsonObject.put("insertValuesFields", Utils.add(fList, ":", ",", true, "insert"));
             jsonObject.put("replaceFields", Utils.add(fList, "", ",", false, "sql"));
             jsonObject.put("replaceValuesFields", Utils.add(fList));
-            jsonObject.put("paramsFields", Utils.addV1(fList, "vo.get", "(),", false));
+//            jsonObject.put("paramsFields", Utils.addV1(fList, "vo.get", "(),", false));
             jsonObject.put("updateFields", Utils.add(fList, "", "=?,", true, "sql"));
-            jsonObject.put("updateParams", Utils.addV1(fList, "vo.get", "(),", true) + ",vo.get" + idField.getName() + "()");
+//            jsonObject.put("updateParams", Utils.addV1(fList, "vo.get", "(),", true) + ",vo.get" + idField.getName() + "()");
             jsonObject.put("selectItems", Utils.add(fList, "t.", ","));
             jsonObject.put("caseMapper", Utils.caseMapper(fList));
             //v2 需要兼容的东西
@@ -171,7 +156,7 @@ public class CodeService {
             jsonObject.put("dollar", "$");
             jsonObject.put("sharp", "#");
             //java 代码生成
-            VelocityUtil.parseEntityTemplate(vms, templateDir, outDir, jsonObject, propConfig.getPackageName(), low, suffix, fileEngine);
+            VelocityUtil.parseEntityTemplate(vms, outDir, jsonObject, propConfig.getPackageName(), low, suffix, fileEngine);
         }
 
     }

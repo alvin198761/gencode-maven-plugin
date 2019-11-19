@@ -1,4 +1,4 @@
-package org.alvin.gencode.system.code;
+package org.alvin.gencode.run.code;
 
 import lombok.Data;
 

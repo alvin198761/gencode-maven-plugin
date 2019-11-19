@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.google.common.base.CaseFormat;
 import com.google.common.base.Joiner;
 import lombok.extern.slf4j.Slf4j;
-import org.alvin.gencode.system.code.Field;
+import org.alvin.gencode.run.code.Field;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -42,12 +42,12 @@ public class Utils {
 		return noId ? sb.delete(0, sb.indexOf(",") + 1).delete(sb.length() - 1, sb.length()) : sb.delete(sb.length() - 1, sb.length());
 	}
 
-	public static StringBuilder addV1(List<Field> list, String prefix, String suffix, boolean noId) {
-		StringBuilder sb = new StringBuilder();
-		list.forEach(item -> sb.append(prefix.concat(Utils.firstUpper(item.getName())).concat(suffix)));
-		list.forEach(item -> sb.append(prefix.concat(item.getName()).concat(suffix)));
-		return noId ? sb.delete(0, sb.indexOf(",") + 1).delete(sb.length() - 1, sb.length()) : sb.delete(sb.length() - 1, sb.length());
-	}
+//	public static StringBuilder addV1(List<Field> list, String prefix, String suffix, boolean noId) {
+//		StringBuilder sb = new StringBuilder();
+//		list.forEach(item -> sb.append(prefix.concat(Utils.firstUpper(item.getName())).concat(suffix)));
+//		list.forEach(item -> sb.append(prefix.concat(item.getName()).concat(suffix)));
+//		return noId ? sb.delete(0, sb.indexOf(",") + 1).delete(sb.length() - 1, sb.length()) : sb.delete(sb.length() - 1, sb.length());
+//	}
 
 	public static StringBuilder addV2(List<Field> list, String prefix, String suffix, boolean noId) {
 		StringBuilder sb = new StringBuilder();
@@ -68,19 +68,19 @@ public class Utils {
 		return sb.delete(sb.length() - 1, sb.length()).append(")");
 	}
 
-	/**
-	 * @方法说明: 首字母大写
-	 */
-	public static String firstUpper(String word) {
-		return word.substring(0, 1).toUpperCase() + word.substring(1, word.length());
-	}
-
-	/**
-	 * @方法说明: 首字母小写
-	 */
-	public static String firstLower(String word) {
-		return word.substring(0, 1).toLowerCase() + word.substring(1, word.length());
-	}
+//	/**
+//	 * @方法说明: 首字母大写
+//	 */
+//	public static String firstUpper(String word) {
+//		return word.substring(0, 1).toUpperCase() + word.substring(1, word.length());
+//	}
+//
+//	/**
+//	 * @方法说明: 首字母小写
+//	 */
+//	public static String firstLower(String word) {
+//		return word.substring(0, 1).toLowerCase() + word.substring(1, word.length());
+//	}
 
 	/**
 	 * @方法说明: 写文件
