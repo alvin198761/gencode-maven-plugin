@@ -64,3 +64,4 @@ $RECYCLE.BIN/
 *.iml
 gencode-maven-plugin/.idea
 test-maven-plugin/.idea
+gencode-maven-plugin/target
