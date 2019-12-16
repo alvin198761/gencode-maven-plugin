@@ -20,6 +20,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -155,6 +156,7 @@ public class CodeService {
             //特殊字符
             jsonObject.put("dollar", "$");
             jsonObject.put("sharp", "#");
+            jsonObject.put("tShortName", Arrays.asList(table.getT_name().split("_")).stream().map(v -> v.substring(0,1)).collect(Collectors.joining("")));
             //java 代码生成
             VelocityUtil.parseEntityTemplate(vms, outDir, jsonObject, propConfig.getPackageName(), low, suffix, fileEngine);
         }
