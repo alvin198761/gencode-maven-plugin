@@ -222,4 +222,10 @@ public class Utils {
 		});
 		return mappper;
 	}
+
+	public static StringBuilder addV1(List<Field> list, String prefix, String suffix, boolean noId) {
+		StringBuilder sb = new StringBuilder();
+		list.forEach(item -> sb.append(prefix.concat(Utils.delFirWord(item.getName())).concat(suffix)));
+		return noId ? sb.delete(0, sb.indexOf(",") + 1).delete(sb.length() - 1, sb.length()) : sb.delete(sb.length() - 1, sb.length());
+	}
 }
