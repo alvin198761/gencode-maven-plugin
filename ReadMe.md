@@ -24,8 +24,8 @@
 > 不做赘述
 
 # 插件测试程序
-1.下载并安装
-2.配置插件
+* 1.下载并安装
+* 2.配置插件
 ```xml
 
 <plugin>
@@ -44,8 +44,8 @@
                 </executions>
             </plugin>
 ```
-3.配置好 config.properties 里面的内容 (见本项目样例文件)
-4.执行命令
+* 3.配置好 config.properties 里面的内容 (见本项目样例文件)
+* 4.执行命令
 ```sql
 mvn install  //安装项目
 mvn gencode:run //执行插件命令
